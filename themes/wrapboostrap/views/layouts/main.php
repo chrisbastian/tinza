@@ -291,16 +291,8 @@
             <div class="static-content-wrapper">
                 <div class="static-content">
                     <div class="page-content">
-
-                        <div class="page-heading">
-                            <!--
-                            <ul class="list-unstyled">
-                                <li><a><i class="fa @yield('class', 'clase') fa-2x"></i> Inicio</a></li>
-                            </ul>
-                            -->
-                        </div>
-
                         <div class="container-fluid">
+                            <br><br><br>
                             <?php echo $content; ?>
                         </div> <!-- .container-fluid -->
                     </div> <!-- #page-content -->
