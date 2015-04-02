@@ -1,0 +1,209 @@
+/*
+Theme Name: Master Class Chile.
+Theme URI: #
+Author: Eduardo Jorquera
+Author URI: http:eduardojorquera.cl.
+Description: Tema para la productora Master Class Chile diseñado a medida.
+Version: 1.0
+Tags: tag1, tag2, otro
+Text Domain: Texto Dominio
+*/
+
+/*==================================================
+GLOBALES
+==================================================*/
+.color1 {background-color: #e4d6ce} /*Cafe Claro*/
+.color2 {background-color: #dcbfa6} /*Cafe*/
+.color3 {background-color: #818b65} /*Verde*/
+.color4 {background-color: #ffcc6b} /*Amarillo*/
+.color5 {background-color: #bdd1d9} /*Celeste*/
+.color6 {background-color: #41210a} /*Cafe*/
+.blanco {background-color: rgba(255,255,255,0.5);}
+
+body {
+	letter-spacing: 1px;
+	-webkit-transition: all 0.5s ease-out;  /* Chrome 1-25, Safari 3.2+ */
+	-moz-transition: all 0.5s ease-out;  /* Firefox 4-15 */
+	-o-transition: all 0.5s ease-out;  /* Opera 10.50–12.00 */
+	transition: all 0.5s ease-out; 
+}
+
+p {}
+
+h1,h2,h3,h4,h6,h6 {
+ margin-top: 10px;
+ font-weight: 300;
+}
+
+a {
+
+}
+
+.mt {
+	margin-top: 15px;
+}
+/*==================================================
+LANDING
+==================================================*/
+#la-wrap-perfil {
+	background-color: yellow;
+	height: 600px;
+}
+
+#la-perfil {
+	background: url(img/perfil-bg.png) center top repeat-x;
+	height: 440px;
+}
+
+#la-perfil h3 {
+	color: #fff;
+	text-transform:capitalize;
+}
+
+#la-wrap-perfil {
+	background: url(http://www.eclipsesoluciones.es/blog/wp-content/uploads/personas-felices.jpg) center;
+	background-size: cover;
+}
+
+#la-perfil p {
+	color: #fff;
+	font-weight: 100;
+	text-transform:capitalize;
+}
+
+.la-wrap-img {
+	border: 5px solid #fff ;
+	border-radius: 50%;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	-ms-border-radius: 50%;
+	-o-border-radius: 50%;
+	max-width: 250px;
+	padding: 5px;s
+}
+
+#la-perfil-hr {
+	background: url(img/perfil-hr-bg.jpg) center top repeat-x;
+	height: 80px;
+	text-align: center;
+}
+
+#la-perfil-hr h3{
+	color: #fff;
+	margin-top: 25px;
+	text-transform: uppercase;
+}
+
+#la-video article {
+	border: 5px solid #6c8dc4;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	max-width: 700px;
+	padding: 10px;
+}
+
+#la-video-p {
+	color: #32425d;
+	border-top: 1px solid #6c8dc4;
+	border-bottom: 1px solid #6c8dc4;
+	margin-bottom: 15px;
+	padding: 10px 0;
+	max-width: 700px;
+	text-align: center;
+}
+
+#la-video-bg {
+	background: url(img/perfil-video-bg.png) center center no-repeat;
+	background-size: cover;
+}
+
+#la-form {
+	background: url(img/perfil-form-bg.jpg) center center;
+	height: 450px;
+}
+
+#la-form article {
+	margin-top: 30px;
+}
+
+#la-form article img {
+	margin: 0 10px;
+}
+
+#la-form form {
+	max-width: 500px;
+}
+
+.form-control {
+	margin-top: 50px;
+}
+
+input[type="text"],[type="email"] {
+	height: 70px;
+	border: 0;
+	border-bottom: 8px solid #32425d;
+	border-radius: 0;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	-ms-border-radius: 0;
+	-o-border-radius: 0;
+	color: #6c8dc4;
+	font-size: 25px;
+}
+
+input[type="text"]::-webkit-input-placeholder , input[type="email"]::-webkit-input-placeholder{
+  color: #e7e7e7;
+}
+input[type="text"]:-moz-placeholder, input[type="email"]::-webkit-input-placeholder {
+  color: #e7e7e7; 
+}
+input[type="text"]:-ms-input-placeholder, input[type="email"]::-webkit-input-placeholder { 
+  color: #e7e7e7; 
+}
+
+button[type="submit"] {
+	background-color: #32425d;
+	border: 0;
+	border-radius: 0;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	-ms-border-radius: 0;
+	-o-border-radius: 0;
+	color: #e7e7e7;
+	font-size: 20px;
+	font-weight: 200;
+	height: 70px;
+	width: 270px;
+}
+
+/*==================================================
+MÓVIL RESPONSIVE
+==================================================*/
+
+/* Escritorio grande */
+@media (min-width: 1200px) {
+
+
+}
+
+/* Escritorio medianos */
+@media (min-width: 992px) and (max-width: 1199px) {
+
+}
+
+/* Escritorio pequeños*/
+@media (min-width: 768px) and (max-width: 991px) {
+
+}
+
+/* Tablets */
+@media (max-width: 767px) {
+
+}
+
+/* Moviles */
+@media (max-width: 480px) {
+button[type="submit"] {
+	width: 100%;
+}
+}

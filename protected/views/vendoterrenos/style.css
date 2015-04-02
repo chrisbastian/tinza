@@ -1,0 +1,180 @@
+/*
+Theme Name: Cristopher Carvajal.
+Theme URI: #
+Author: Eduardo Jorquera
+Author URI: http:eduardojorquera.cl.
+Description: Tema construído a medida para Cristopher Carvajal. Emprendedor Chileno.
+Version: 1.0
+Tags: Networker, Network Marketing, Redes, Mercadeo, Multinivel
+Text Domain: Texto Dominio
+*/
+
+/*==================================================
+GLOBALES
+==================================================*/
+.color1 {background-color: #e4d6ce} /*Cafe Claro*/
+.color2 {background-color: #dcbfa6} /*Cafe*/
+.color3 {background-color: #818b65} /*Verde*/
+.color4 {background-color: #ffcc6b} /*Amarillo*/
+.color5 {background-color: #bdd1d9} /*Celeste*/
+.color6 {background-color: #41210a} /*Cafe*/
+.blanco {background-color: rgba(255,255,255,0.5);}
+
+body {
+	background-image: url(img/bg.png);
+	font-family: 'Roboto';
+}
+li {
+	list-style: none;
+}
+
+p {}
+
+h3 {
+	font-size: 20px;
+	font-family: 'Roboto';
+	font-weight: 300;
+	padding: 10px 0;
+	margin: 5px 0;
+}
+
+hr {
+	margin: 5px 0;
+}
+
+a {}
+
+.mb {
+
+}
+
+.hr1 {
+	margin: 0;
+	border: 1px solid #9d9300;
+	margin-bottom: 15px;
+}
+
+.wrap-sidebar {
+	background-color: rgba(255,255,255,0.7);
+	border: 2px solid #9d9300;
+	padding: 10px;
+	margin-bottom: 15px;
+}
+
+.btn-primary {
+	background-color: #7a7300;
+	border: 1px solid #7a7300;
+}
+
+.bloques article {
+	background-color: rgba(255,255,255,1);
+	border: 1px solid #9d9300;
+	margin-bottom: 15px;
+}
+
+.bloques h3 {
+	font-size: 20px;
+	font-family: 'Roboto';
+	font-weight: 300;
+	padding: 10px;
+	margin: 5px 0;
+}
+
+.bloques p {
+	padding: 10px;
+}
+
+/*==================================================
+INDEX
+==================================================*/
+
+#area-top {
+	background: url(img/area-top-bg.png) center center repeat-x;
+	height: 330px;
+	position: relative;
+}
+
+#area-top-navegacion {
+	padding: 10px;
+	text-align: right;
+}
+
+#area-top-navegacion a {
+	color: #7a7300;
+}
+
+#area-top-logo img{
+	margin-top: 30px;
+}
+
+#area-publicar {
+	background-color: #fff;
+	padding: 10px;
+}
+
+#area-publicar h2 {
+	color: #7a7300;
+	font-family: 'Roboto';
+	font-weight: 300;
+	margin: 0 auto;
+	text-align: center;
+	text-transform: uppercase;
+	margin-top: 10px;
+}
+
+#area-publicar article {
+	margin-top: 15px;
+}
+
+#area-publicar button {
+	background-color: #7a7300;
+	border: 1px solid #7a7300;
+	font-family: 'Roboto';
+	font-weight: 300;
+	font-size: 15px;
+	height: 70px;
+	width: 270px;
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+#area-publicar button:hover {
+	background-color: #9d9300;
+}
+
+
+footer {
+	background-color: #751e00;
+	color: #fff;
+	height: 100px;
+	padding: 20px;
+}
+/*==================================================
+MÓVIL RESPONSIVE
+==================================================*/
+
+/* Escritorio grande */
+@media (min-width: 1200px) {
+
+}
+
+/* Escritorio medianos */
+@media (min-width: 992px) and (max-width: 1199px) {
+
+}
+
+/* Escritorio pequeños*/
+@media (min-width: 768px) and (max-width: 991px) {
+
+}
+
+/* Tablets */
+@media (max-width: 767px) {
+
+
+}
+
+/* Moviles */
+@media (max-width: 480px) {
+
+}

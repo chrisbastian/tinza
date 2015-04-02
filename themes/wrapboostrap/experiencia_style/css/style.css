@@ -1,0 +1,224 @@
+/*==================================================
+COLORES
+==================================================*/
+.color1 {background-color: #cad16d} /* Verde claro*/
+.color2 {background-color: #a2bd67} /* Verde medio*/
+.color3 {background-color: #4d9b74} /* Verde oscuro*/
+.color4 {background-color: #397056} /* Verde dark*/
+.color5 {background-color: #333333} /* Gris oscuro*/
+
+/* Globales */
+body {
+	background-image: url(../img/bg.png);
+	font-family: 'Roboto';
+}
+
+a {
+	color: #333;
+	-webkit-transition: all 0.2s ease-out;  /* Chrome 1-25, Safari 3.2+ */
+	-moz-transition: all 0.2s ease-out;  /* Firefox 4-15 */
+	-o-transition: all 0.2s ease-out;  /* Opera 10.50–12.00 */
+	transition: all 0.2s ease-out; 
+	text-decoration: none;
+}
+
+a:hover {
+	color: #cad16d;
+	text-decoration: none;
+}
+
+ul, li {
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	color: #397056;
+	font-weight: 200;
+}
+
+h1 {font-size: 50px}
+h2 {font-weight: 200}
+h3 {font-weight: 200}
+
+.hr2 {
+	background: url(../img/gb-hr-up.png) center;
+	background-color: #fff;
+	height: 70px;
+	width: 100%;
+}
+
+.hr1 {
+	width: 100%;
+}
+
+.hr1 div {
+	display: inline-block;
+	width: 50%;
+	height: 25px;
+}
+
+.separadores {
+	margin: 10px 0 15px 0;
+	position: relative;
+	text-align: center;
+	width: 100%;
+}
+
+.separadores div {
+	color: #fff;
+	font-size: 25px;
+	font-weight: 200;
+	display: inline-block;
+	height: 55px;
+	padding-top: 7px;
+	position: relative;
+	vertical-align: top;
+	z-index: 2;
+}
+
+.separadores hr {
+	border: 1px #4d9b74 dotted;
+	margin: 0 17%;
+	padding: 0;
+	position: relative;
+	top: -28px;
+	z-index: 1;
+}
+
+.videoYoutube {
+	border: 5px solid #4d9b74;
+	max-width: 600px;
+	padding: 10px;
+}
+/*==================================================
+HOME
+==================================================*/
+
+/* Top Menú*/
+nav {
+	background: url(../img/gb-hr-down.png) center;
+	background-color: #fff;
+	height: 70px;
+	padding: 10px;
+	text-align: center;
+	width: 100%;
+}
+
+nav li {
+	display: inline-block;
+	padding: 0 10px;
+}
+
+nav li a {
+	color: #fff;
+	letter-spacing: 1px;
+	font-weight: 200;
+}
+
+nav li a:hover {
+	color: #397056;
+}
+
+#logo {
+	background-color: #fff;
+	padding: 10px 5px;
+	width: 100%;
+}
+
+.wrap-iconos {
+	margin-top: 25px;
+	position:relative;
+	text-align: center;
+}
+
+.wrap-iconos h3 {
+	color: #fff;
+}
+
+.wrap-iconos p {
+	color: rgba(255,255,255,0.6);
+	font-weight: 100;
+	font-size: 15px;
+	padding: 0 15px;
+}
+
+.wrap-iconos div.triangulo {
+	width: 0;
+	height: 0;
+	border-left: 70px solid transparent;
+	border-right: 70px solid transparent;
+	border-top: 30px solid;
+	border-image-source: url('../img/bg.png');
+    border-image-slice: 30;
+
+}
+
+.wrap-iconos-circle {
+	background-color: #fff;
+	width: 200px;
+	height: 200px;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	-ms-border-radius: 50%;
+	-o-border-radius: 50%;
+	border-radius: 50%;
+	padding-top: 50px;
+	text-align: center;
+}
+
+.wrap-iconos-circle i {
+	color: #4d9b74;
+	font-size: 100px;
+}
+
+/*==================================================
+MÓVIL RESPONSIVE
+==================================================*/
+
+/* Large desktops and laptops */
+@media (min-width: 1200px) {
+
+
+}
+
+/* Portrait tablets and medium desktops */
+@media (min-width: 992px) and (max-width: 1199px) {
+
+}
+
+/* Portrait tablets and small desktops */
+@media (min-width: 768px) and (max-width: 991px) {
+
+}
+
+/* Landscape phones and portrait tablets */
+@media (max-width: 767px) {
+
+}
+
+/* Landscape phones and smaller */
+@media (max-width: 480px) {
+	/* Globales*/
+	h1 {font-size: 25px}
+
+	.hr1 div {
+		height: 15px;
+	}
+
+	.separadores div {
+		font-size: 18px;
+		padding-top: 14px;
+	}
+
+	.separadores hr {
+		border: 1px #4d9b74 dotted;
+		margin: 0 10%;
+		padding: 0;
+		position: relative;
+		top: -28px;
+		z-index: 1;
+	}
+
+}
