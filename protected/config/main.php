@@ -8,7 +8,7 @@
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'language'=>'es_Es',
-	'name'=>'VendoTerrenos',
+	'name'=>'Tinza',
 	'theme'=>'wrapboostrap',
 	'language'=>'es',
 	'defaultController'=>'usuarios/login',
