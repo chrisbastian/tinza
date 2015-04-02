@@ -277,7 +277,6 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle username" data-toggle="dropdown">
                     <span class="hidden-xs"><?php echo Yii::app()->session['nombre']; ?></span>
-                    <img class="img-circle" src="{{ asset('assets/demo/avatar/avatar_06.png') }}" alt="Dangerfield" />
                 </a>
                 <ul class="dropdown-menu userinfo">
                     <li><a href="#"><span class="pull-left">Edit Profile</span> <i class="pull-right fa fa-pencil"></i></a></li>
