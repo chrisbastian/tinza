@@ -87,7 +87,7 @@ body {
                 <br><br><br><br><br><br><br><br><br>
 
                <center>
-                    <img width="100%"  src="<?php echo Yii::app()->theme->baseUrl; ?>/tinza_style/img/tinza-logo2.png" alt="" class="img-responsive">
+                    <img width="100%"  src="<?php echo Yii::app()->theme->baseUrl; ?>/tinza_style/img/tinza-logo.png" alt="" class="img-responsive">
                </center>
 
                <h3>Admin Tinza</h3>

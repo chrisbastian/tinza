@@ -231,7 +231,6 @@
 
      <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl.'/js/plugins/summernote/summernote.min.js'); ?>  
 
-    <body class="infobar-offcanvas">
     
     <script type="text/javascript">
 
@@ -249,9 +248,51 @@
 
     </script>
 
-    <header id="topnav" class="navbar navbar-default navbar-fixed-top clearfix" role="banner">
-        <a class="navbar-brand" href="#"></a>
+    <style type="text/css">
 
+    .navbar-brand
+    {
+        background: url("<?php echo Yii::app()->theme->baseUrl; ?>/tinza_style/img/tinza-logo.png") no-repeat -35px top;
+    }
+
+    </style>
+
+    <body class="infobar-offcanvas">
+
+    <header id="topnav" class="navbar navbar-default navbar-fixed-top clearfix" role="banner">
+
+        <nav class="navbar navbar-default">
+
+          <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">Brand</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+            <ul class="nav navbar-nav" style="background-color:#f1840f">
+              <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/terrenos/admin');?>"><i class="fa fa-home"></i> Inicio</a></li>
+              <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/usuarios/admin');?>"><i class="fa fa-user"></i> Usuarios</a></li>
+              <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/terrenos/admin');?>"><i class="fa fa-key"></i> Propiedades</a></li>
+              <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/terrenos/admin');?>"><i class="fa fa-search"></i> Búsqueda avanzada</a></li>
+              <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/terrenos/admin');?>"><i class="fa fa-envelope-o"></i> Correos masivos</a></li>
+            </ul>
+         
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+        
+        <!--
         <ul class="nav navbar-nav">
           <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/terrenos/admin');?>"><i class="fa fa-home"></i> Inicio</a></li>
           <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/usuarios/admin');?>"><i class="fa fa-user"></i> Usuarios</a></li>
@@ -279,20 +320,31 @@
                     <span class="hidden-xs"><?php echo Yii::app()->session['nombre']; ?></span>
                 </a>
                 <ul class="dropdown-menu userinfo">
-                    <li><a href="#"><span class="pull-left">Edit Profile</span> <i class="pull-right fa fa-pencil"></i></a></li>
-                    <li><a href="#"><span class="pull-left">Sign Out</span> <i class="pull-right fa fa-sign-out"></i></a></li>
+                    <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/usuarios/update/'.Yii::app()->session['id_usuario']);?>"><span class="pull-left">Edit Profile</span> <i class="pull-right fa fa-pencil"></i></a></li>
+                    <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/usuarios/logout');?>"><span class="pull-left">Salir</span> <i class="pull-right fa fa-sign-out"></i></a></li>
                 </ul>
             </li>
         </ul>
+    -->
+
     </header>
+
+    <?php $actual_fa="key"; ?>
+    <?php $actual_nombre="Propiedades"; ?>
 
     <div id="wrapper">
         <div id="layout-static">            
             <div class="static-content-wrapper">
                 <div class="static-content">
                     <div class="page-content">
+
+                        <div class="page-heading">
+                            <ul class="list-unstyled">
+                                <li><a><i class="fa fa-<?php echo $actual_fa;  ?> fa-2x"></i><?php echo $actual_nombre; ?></a></li>
+                            </ul>
+                        </div><br>
+
                         <div class="container-fluid">
-                            <br><br><br>
                             <?php echo $content; ?>
                         </div> <!-- .container-fluid -->
                     </div> <!-- #page-content -->

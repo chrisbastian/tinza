@@ -8,20 +8,25 @@ html, body { height: 95%; }
 .navbar-default {
 	background-color: #F1840F;
 	border-color: #f1840f;
+	height: 60px;
 }
 .navbar-brand {
-	background: url("../img/tinza-logo.png") no-repeat -35px top;
 	background-size: 193px 44px;
 	margin-top: 5px;
 	margin-left: 18px;
 	width: 196px;
+}
+.avatar {
+  width: 40px;
+  margin-bottom: -11px;
+  margin-top: -14px;
 }
 
 /* Lista de menu */
 .navbar-default .navbar-nav>li>a, .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
 	background-color: transparent;
 	color: #FFF;
-	font-size: 16px;	
+	font-size: 16px;
 }
 
 
@@ -38,6 +43,16 @@ html, body { height: 95%; }
 .btn-img {
 	width: 140px;
 }
+.btn-search {
+	margin-bottom: -11px;
+	margin-top: -11px;
+	width: 112px;
+}
+.input-group-addon {
+  padding: 0px 12px;
+  background-color: #FFF;
+  border: #FFF;
+}
 .container-btn {
 	margin-bottom: 10px;
   	margin-right: 30px;
@@ -48,6 +63,7 @@ html, body { height: 95%; }
 	color: #FFF;
 	font-size: 28px;
 	text-decoration: none;
+	margin-left: 10px;
 }
 
 /* Panel de contenido */
@@ -77,6 +93,23 @@ html, body { height: 95%; }
 	text-align:center;
 }
 
+#tb_propiedades thead td > a {
+	text-align:center;
+	background-color: red;
+}
+ .list-unstyled>li> a, .list-unstyled>li> a:focus, .list-unstyled>li>a:hover {
+	background-color: transparent;
+	color: #fff;
+	font-size: 28px;
+	text-decoration: none;
+	margin-left: 10px;
+}
+
+/* Elementos de la tabla */
+.icon-table {
+	width: 16px;
+}
+
 /* Panel footer*/
 .panel-footer {
 	background-color: #FFF;	
@@ -95,6 +128,30 @@ footer a, footer a:focus, footer a:hover, footer a:focus {
 	color: #FFFFFF;
 	font-size: 13px;
 	height: 22px;
+}
+.link-table > {
+	background-color: transparent;
+	color: rgb(241, 132, 15);
+	font-size: 14px;
+	text-decoration: none;
+}
+.link-table:hover, .link-table:focus {
+	background-color: transparent;
+	color: rgb(241, 132, 15);
+	font-size: 14px;
+	text-decoration: none;
+    margin-left: 0px;
+
+}
+/*Controles*/
+a:focus {
+	margin-left: 0px;
+}
+.form-control:focus {
+  border-color: #F1840F;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(228, 44, 51, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 0px rgba(102,175,233,.6);
 }
 
 h1, .h2, .h3, h1, h2, h3 {

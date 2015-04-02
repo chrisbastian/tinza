@@ -2,6 +2,7 @@
 
 
 <?php
+
 /* @var $this InstitucionController */
 /* @var $model INSTITUCION */
 ?>
@@ -58,14 +59,10 @@ $('#network').on('hidden', function() {
 
 </script>
 
-
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-lg-12">
         <div class="ibox float-e-margins">
-            <div class="ibox-title">
-                <h5><i class="fa fa-key"></i> Administrar Propiedades</h5>
-            </div>
             <div class="ibox-content">
 
             <section class="">
