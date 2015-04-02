@@ -64,7 +64,7 @@ $('#network').on('hidden', function() {
         <div class="col-lg-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5><i class="fa fa-globe"></i> Administrar Terrenos</h5>
+                <h5><i class="fa fa-key"></i> Administrar Propiedades</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
                         <i class="fa fa-chevron-up"></i>

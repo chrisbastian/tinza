@@ -7,6 +7,11 @@
 
        <title><?php echo CHtml::encode($this->pageTitle); ?></title>
 
+       <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+       <meta name="apple-mobile-web-app-capable" content="yes">
+       <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,700' rel='stylesheet' type='text/css'>
+
        <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/bootstrap.min.css" rel="stylesheet">
        <link href="<?php echo Yii::app()->theme->baseUrl; ?>/font-awesome/css/font-awesome.css" rel="stylesheet">
 
@@ -17,7 +22,9 @@
        <link href="<?php echo Yii::app()->theme->baseUrl; ?>/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
        
        <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/animate.css" rel="stylesheet">
-       <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/style.css" rel="stylesheet">
+       <link href="<?php echo Yii::app()->theme->baseUrl; ?>/tinza_style/css/styles2.css" rel="stylesheet">
+       <link href="<?php echo Yii::app()->theme->baseUrl; ?>/tinza_style/css/jquery-ui.css" rel="stylesheet">
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.2/css/smoothness/jquery-ui-1.10.2.custom.min.css">
 
        <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/plugins/chosen/chosen.css" rel="stylesheet">
 
@@ -224,7 +231,7 @@
 
      <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl.'/js/plugins/summernote/summernote.min.js'); ?>  
 
-     <body class="pace-done skin-3 fixed-sidebar" >
+    <body class="infobar-offcanvas">
     
     <script type="text/javascript">
 
@@ -242,103 +249,73 @@
 
     </script>
 
-    <div id="wrapper">
-        <nav class="navbar-default navbar-static-side" role="navigation">
-            <div class="sidebar-collapse">
-                <ul class="nav" id="side-menu">
-                            <li class="nav-header">
-                                <div class="dropdown profile-element"> <span>
-                                    <img width="50%"  src="<?php echo Yii::app()->theme->baseUrl; ?>/vendoterrenos_style/img/logo.png" alt="" class="img-responsive">
-                                     </span>
-                                    <a data-toggle="dropdown" class="dropdown-toggle">
-                                    <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"><?php echo Yii::app()->session['nombre']; ?></strong>
-                                     </span> <span class="text-muted text-xs block">Bienvenido <b class="caret"></b></span> </span> </a>
-                                    
-                                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                                            <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/usuarios/update/'.Yii::app()->session['id_usuario']);?>">Perfil</a></li>
-                                            <li>
-                                                <?php if(Yii::app()->session['rol']=="Administrador"): ?>
+    <header id="topnav" class="navbar navbar-default navbar-fixed-top clearfix" role="banner">
+        <a class="navbar-brand" href="#"></a>
 
-                                                <a href="<?php echo Yii::app()->createAbsoluteUrl('/usuarios/logout');?>">
-                                                    <i class="fa fa-sign-out"></i> Salir
-                                                </a>
+        <ul class="nav navbar-nav">
+          <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/terrenos/admin');?>"><i class="fa fa-home"></i> Inicio</a></li>
+          <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/usuarios/admin');?>"><i class="fa fa-user"></i> Usuarios</a></li>
+          <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/terrenos/admin');?>"><i class="fa fa-key"></i> Propiedades</a></li>
+          <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/terrenos/admin');?>"><i class="fa fa-search"></i> Búsqueda avanzada</a></li>
+          <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/terrenos/admin');?>"><i class="fa fa-envelope-o"></i> Correos masivos</a></li>
+        </ul>
 
-                                                <?php endif; ?>
-                                            </li>
-                                    </ul>
-                                    
-                                </div>
-                                <div class="logo-element">
-                                    IN+
-                                </div>
-                            </li>
+        <ul class="nav navbar-nav toolbar pull-right">
+            <li class="dropdown toolbar-icon-bg">
+                <a href="#" class="hasnotifications dropdown-toggle" data-toggle='dropdown'><span class="icon-bg"><i class="fa fa-fw fa-bell"></i></span><span class="badge badge-alizarin">5</span></a>
+                <div class="dropdown-menu notifications arrow">
+                    <div class="dd-header">
+                        <span>Notifications</span>
+                        <span><a href="#">Settings</a></span>
+                    </div>
+                    <div class="dd-footer">
+                        <a href="#">View all notifications</a>
+                    </div>
+                </div>
+            </li>
 
-                            <li class="active">
-                                <a href="<?php echo Yii::app()->createAbsoluteUrl('/usuarios/update/'.Yii::app()->session['id_usuario']);?>"><i class="fa fa-user"></i> <span class="nav-label">Perfil</span></a>
-                            </li>
-
-                            <?php if(Yii::app()->session['rol']=="Administrador"): ?>
-
-                                <li>
-                                    <a><i class="fa fa-users"></i> <span class="nav-label">Usuarios</span> <span class="fa arrow"></span></a>
-                                    <ul class="nav nav-second-level">
-                                        <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/usuarios/admin');?>">Administrar Usuarios</a></li>
-                                        <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/usuarios/create');?>">Ingresar Usuarios</a></li>
-
-                                    </ul>
-                                </li>
-
-                            <?php endif; ?>
-
-                            <li>
-                                <a><i class="fa fa-globe"></i> <span class="nav-label">Terrenos</span> <span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-                                    <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/terrenos/create');?>">Ingresar Terreno</a></li>
-                                </ul>
-                                <ul class="nav nav-second-level">
-                                    <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/terrenos/admin');?>">Administrar Terrenos</a></li>
-                                </ul>
-                            </li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle username" data-toggle="dropdown">
+                    <span class="hidden-xs"><?php echo Yii::app()->session['nombre']; ?></span>
+                    <img class="img-circle" src="{{ asset('assets/demo/avatar/avatar_06.png') }}" alt="Dangerfield" />
+                </a>
+                <ul class="dropdown-menu userinfo">
+                    <li><a href="#"><span class="pull-left">Edit Profile</span> <i class="pull-right fa fa-pencil"></i></a></li>
+                    <li><a href="#"><span class="pull-left">Sign Out</span> <i class="pull-right fa fa-sign-out"></i></a></li>
                 </ul>
+            </li>
+        </ul>
+    </header>
+
+    <div id="wrapper">
+        <div id="layout-static">            
+            <div class="static-content-wrapper">
+                <div class="static-content">
+                    <div class="page-content">
+
+                        <div class="page-heading">
+                            <!--
+                            <ul class="list-unstyled">
+                                <li><a><i class="fa @yield('class', 'clase') fa-2x"></i> Inicio</a></li>
+                            </ul>
+                            -->
+                        </div>
+
+                        <div class="container-fluid">
+                            <?php echo $content; ?>
+                        </div> <!-- .container-fluid -->
+                    </div> <!-- #page-content -->
+                </div>                   
             </div>
-        </nav>
-
-        <div id="page-wrapper" class="gray-bg dashbard-1">
-        <div class="row border-bottom">
-        <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-        <div class="navbar-header">
-            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
         </div>
-            <ul class="nav navbar-top-links navbar-right">
-    
-                <li>
-                    <?php if(Yii::app()->session['rol']=="Empresa"): ?>
+    </div>
 
-                    <a href="<?php echo Yii::app()->createAbsoluteUrl('/usuarios/logout');?>">
-                        <i class="fa fa-sign-out"></i>Salir
-                    </a>
-
-                    <?php endif; ?>
-
-                    <?php if(Yii::app()->session['rol']!="Empresa"): ?>
-
-                    <a href="<?php echo Yii::app()->createAbsoluteUrl('/usuarios/logout');?>">
-                        <i class="fa fa-sign-out"></i>Salir
-                    </a>
-
-                    <?php endif; ?>
-                </li>
-            </ul>
-
-        </nav>
+     <footer role="contentinfo">
+        <div class="clearfix">
+            <h6 style="margin: 0;"> &copy; 2015. Tinza/Zarate Abogados. Todos los derechos reservados. Desarrolado por <a href="../../www.innomobs.com">Innomobs</a></h6>
         </div>
-            <div class="row">
-                <?php echo $content; ?>
-            </div>      
-     </div>
-
-</div>
-
+    </footer>
+          
 </body>
 </html>
 
