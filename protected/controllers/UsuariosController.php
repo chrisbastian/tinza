@@ -576,6 +576,7 @@ class UsuariosController extends Controller
 		if(isset($_GET['Usuarios']))
 			$model->attributes=$_GET['Usuarios'];
 
+
 		$this->render('admin',array(
 			'model'=>$model,
 		));

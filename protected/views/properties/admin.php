@@ -55,10 +55,14 @@ $('#network').on('hidden', function() {
 
 </script>
 
+
+<button style="float:right" type="button" onclick= " window.location='<?php echo Yii::app()->createAbsoluteUrl('/properties/create');?>' " class="btn btn-default"><i class="fa fa-key"></i>  Agregar Propiedad</button>
+<br><br>
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-lg-12">
         <div class="ibox float-e-margins">
+                
             <div class="ibox-content">
 
             <section class="">
@@ -68,28 +72,33 @@ $('#network').on('hidden', function() {
             <thead>
                 <tr>
                     <th>
-                        <input type="text" class="form-control" placeholder="Filtrar por Titulo" />
+                        <input type="text" class="form-control" placeholder="EMPRESA O CLIENTE" />
                     </th>
 
                     <th>
-                        <input type="text" class="form-control" placeholder="Filtrar por Precio" />
+                        <input type="text" class="form-control" placeholder="CATASTRAL" />
                     </th>
 
                    <th>
-                    <input type="text" class="form-control" placeholder="Filtrar por Región" />
+                    <input type="text" class="form-control" placeholder="DIRECCIÓN" />
                    </th>
 
                     <th>
-                        <input type="text" class="form-control" placeholder="Filtrar por Ciudad" />
+                        <input type="text" class="form-control" placeholder="ESTADO" />
                     </th>
 
                     <th>
-                        <input type="text" class="form-control" placeholder="Filtrar por Comúna" />
+                        <input type="text" class="form-control" placeholder="MUNICIPIO" />
                     </th>
 
                     <th>
-                        <input type="text" class="form-control" placeholder="Filtrar por Vendedor" />
+                        <input type="text" class="form-control" placeholder="USO DE SUELO" />
                     </th>
+
+                    <th>
+                        <input type="text" class="form-control" placeholder="CONSTRUCCIÓN" />
+                    </th>
+
 
                     <?php if(Yii::app()->session['rol']=="Administrador"): ?>
 
@@ -110,13 +119,14 @@ $('#network').on('hidden', function() {
                     
                 </tr>
                 <tr>
-                    <th data-class="expand">Titulo</th>
+                    <th data-class="expand">EMPRESA O CLIENTE</th>
 
-                    <th data-class="expand">Precio</th>
-                    <th>Región</th>
-                    <th data-hide="phone,tablet">Ciudad</th>
-                    <th data-hide="phone,tablet">Comuna</th>
-                    <th data-hide="phone,tablet">Vendedor</th>
+                    <th data-class="expand">CATASTRAL</th>
+                    <th>DIRECCIÓN</th>
+                    <th data-hide="phone,tablet">ESTADO</th>
+                    <th data-hide="phone,tablet">MUNICIPIO</th>
+                    <th data-hide="phone,tablet">USO DE SUELO</th>
+                    <th data-hide="phone,tablet">CONSTRUCCIÓN</th>
 
                     <?php if(Yii::app()->session['rol']=="Administrador"): ?>
                         <th data-hide="phone,tablet">Acciones</th>
@@ -132,56 +142,64 @@ $('#network').on('hidden', function() {
 
             <?php if(Yii::app()->session['rol']=="Administrador"): ?>
 
-                <?php $model=Terrenos::model()->findAll(); ?>
+                <?php $model=Properties::model()->findAll(); ?>
 
             <?php endif; ?>
 
-            <?php if(Yii::app()->session['rol']=="Inscrito"): ?>
+            <?php if(Yii::app()->session['rol']=="Empleado"): ?>
 
-                <?php $model=Terrenos::model()->findAllByAttributes(array('id_vendedor'=>Yii::app()->session['usuario'])); ?>
+                <?php 
+
+                /*$model=Properties::model()->findAllByAttributes(array('id_vendedor'=>Yii::app()->session['usuario'])); 
+                */
+
+                $model=Properties::model()->findAll(); 
+
+                ?>
 
             <?php endif; ?>
             
-                    <?php foreach ($model as $terrenos):?>
+                    <?php foreach ($model as $properties):?>
                     <tr>
-                        <td><?php echo $terrenos->titulo; ?></td>
-                        <td><?php echo $terrenos->precio; ?></td>
-                        <td><?php echo $terrenos->region; ?></td>
-                        <td><?php echo $terrenos->ciudad; ?></td>
-                        <td><?php echo $terrenos->comuna; ?></td>
-                        <td><?php echo $terrenos->id_vendedor; ?></td>
+                        <td><?php echo $properties->titulo; ?></td>
+                        <td><?php echo $properties->catastral; ?></td>
+                        <td><?php echo $properties->street; ?></td>
+                        <td><?php echo $properties->id_state; ?></td>
+                        <td><?php echo $properties->id_city; ?></td>
+                        <td><?php echo $properties->id_identification; ?></td>
+                        <td><?php echo $properties->building; ?></td>
 
                         <?php if(Yii::app()->session['rol']=="Inscrito"): ?>
                             <td>
-                                <a href="<?php echo Yii::app()->createAbsoluteUrl('/terrenos/update/'.$terrenos->id_terreno);?>"><i class="fa fa-edit text-navy"></i></a>
+                                <a href="<?php echo Yii::app()->createAbsoluteUrl('/properties/update/'.$properties->id_terreno);?>"><i class="fa fa-edit text-navy"></i></a>
                             </td>
                         <?php endif; ?>
 
 
                         <?php if(Yii::app()->session['rol']=="Administrador"): ?>
                         <td>
-                            <a href="<?php echo Yii::app()->createAbsoluteUrl('/terrenos/update/'.$terrenos->id_terreno);?>"><i class="fa fa-edit text-navy"></i></a>
+                            <a href="<?php echo Yii::app()->createAbsoluteUrl('/properties/update/'.$properties->id_terreno);?>"><i class="fa fa-edit text-navy"></i></a>
 
-                            <?php if($terrenos->bloqueado==0): ?>
+                            <?php if($properties->bloqueado==0): ?>
                             <a 
                             onclick="
                             var r=confirm('¿Estas seguro de pausar la publicación de este Terreno?');
                             if(r==true)
                             {
-                                window.location.href='<?php echo Yii::app()->createAbsoluteUrl('/terrenos/bloquear/'.$terrenos->id_terreno);?>'
+                                window.location.href='<?php echo Yii::app()->createAbsoluteUrl('/properties/bloquear/'.$properties->id_terreno);?>'
                             }
 
                             "><i class="fa fa-stop text-navy"></i></a>
 
                             <?php endif; ?>
 
-                            <?php if($terrenos->bloqueado==1): ?>
+                            <?php if($properties->bloqueado==1): ?>
                             <a 
                             onclick="
                             var r=confirm('¿Estas seguro de continuar la publicación de este Terreno?');
                             if(r==true)
                             {
-                                window.location.href='<?php echo Yii::app()->createAbsoluteUrl('/terrenos/desbloquear/'.$terrenos->id_terreno);?>'
+                                window.location.href='<?php echo Yii::app()->createAbsoluteUrl('/properties/desbloquear/'.$properties->id_terreno);?>'
                             }
 
                             "><i class="fa fa-check text-navy"></i></a>
@@ -193,7 +211,7 @@ $('#network').on('hidden', function() {
                             var r=confirm('¿Estas seguro de eliminar este Terreno?');
                             if(r==true)
                             {
-                                window.location.href='<?php echo Yii::app()->createAbsoluteUrl('/terrenos/eliminar/'.$terrenos->id_terreno);?>'
+                                window.location.href='<?php echo Yii::app()->createAbsoluteUrl('/properties/eliminar/'.$properties->id_terreno);?>'
                             }
 
                             "><i class="fa fa-times text-navy"></i></a>

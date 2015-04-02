@@ -285,7 +285,7 @@ class TerrenosController extends Controller
 			$model->attributes=$_GET['Terrenos'];
 
 		$this->render('admin',array(
-			'model'=>$model,
+			'model'=>$model
 		));
 	}
 
