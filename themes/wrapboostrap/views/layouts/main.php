@@ -30,6 +30,8 @@
 
        <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/plugins/summernote/summernote.css" rel="stylesheet">
        <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/plugins/summernote/summernote-bs3.css" rel="stylesheet">
+       <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
 </head>
 
 
@@ -230,7 +232,6 @@
      <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl.'/js/plugins/summernote/summernote.min.js'); ?>  
 
      <?php Yii::app()->clientScript->registerScriptFile(Yii::app()->theme->baseUrl.'/js/plugins/summernote/summernote.min.js'); ?>  
-
     
     <script type="text/javascript">
 
@@ -279,11 +280,16 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
             <ul class="nav navbar-nav" style="background-color:#f1840f">
-              <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/terrenos/admin');?>"><i class="fa fa-home"></i> Inicio</a></li>
-              <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/usuarios/admin');?>"><i class="fa fa-user"></i> Usuarios</a></li>
+              <li><a href="#"><i class="fa fa-home"></i> Inicio</a></li>
+
+              <?php if(Yii::app()->session['rol']!="Cliente"): ?>
+                <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/usuarios/admin');?>"><i class="fa fa-user"></i> Usuarios</a></li>
+              <?php endif; ?>
+
+
               <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/properties/admin');?>"><i class="fa fa-key"></i> Propiedades</a></li>
-              <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/terrenos/admin');?>"><i class="fa fa-search"></i> Búsqueda avanzada</a></li>
-              <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/terrenos/admin');?>"><i class="fa fa-envelope-o"></i> Correos masivos</a></li>
+              <li><a href="#"><i class="fa fa-search"></i> Búsqueda avanzada</a></li>
+              <li><a href="#"><i class="fa fa-envelope-o"></i> Correos masivos</a></li>
             </ul>
          
         </li>
@@ -311,7 +317,7 @@
                   <span class="hidden-xs"><?php echo Yii::app()->session['nombre']; ?></span>
               </a>
               <ul class="dropdown-menu userinfo">
-                  <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/usuarios/update/'.Yii::app()->session['id_usuario']);?>"><span class="pull-left">Edit Profile</span> <i class="pull-right fa fa-pencil"></i></a></li>
+                  <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/usuarios/update/'.Yii::app()->session['id_usuario']);?>"><span class="pull-left">Perfil</span> <i class="pull-right fa fa-pencil"></i></a></li>
                   <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/usuarios/logout');?>"><span class="pull-left">Salir</span> <i class="pull-right fa fa-sign-out"></i></a></li>
               </ul>
           </li>
@@ -364,11 +370,14 @@
                 <div class="static-content">
                     <div class="page-content">
 
+                        <?php /* ?>
                         <div class="page-heading">
                             <ul class="list-unstyled">
-                                <li><a><i class="fa fa-key fa-2x"></i><?php echo "Propiedad"; ?></a></li>
+                                <li><a><i class="fa fa-user fa-2x"></i><?php echo "Usuarios"; ?></a></li>
                             </ul>
-                        </div><br>
+                        </div>
+                        */?>
+                        <br><br><br><br>
 
                         <div class="container-fluid">
                             <?php echo $content; ?>

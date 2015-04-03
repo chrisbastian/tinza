@@ -58,15 +58,14 @@ $('#network').on('hidden', function() {
 
 </script>
 
+<button style="float:right" type="button" onclick= " window.location='<?php echo Yii::app()->createAbsoluteUrl('/usuarios/create');?>' " class="btn btn-default"><i class="fa fa-key"></i>  Agregar Usuario</button>
+<br><br>
 
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-lg-12">
         <div class="ibox float-e-margins">
-            <div class="ibox-title">
-                <h5><i class="fa fa-users"></i> Administrar Usuarios</h5>
-                
-            </div>
+    
             <div class="ibox-content">
 
             <section class="">
@@ -76,23 +75,23 @@ $('#network').on('hidden', function() {
             <thead>
                 <tr>
                     <th>
-                        <input type="text" class="form-control" placeholder="Filtrar por Pais" />
+                        <input type="text" class="form-control" placeholder="CONTACTO ADMIN O CLIENTE" />
                     </th>
 
                     <th>
-                        <input type="text" class="form-control" placeholder="Filtrar por Nombre" />
+                        <input type="text" class="form-control" placeholder="CORREO ELECTRONICO" />
                     </th>
 
                    <th>
-                    <input type="text" class="form-control" placeholder="Filtrar por Ciudad" />
+                    <input type="text" class="form-control" placeholder="FECHA DE REGISTRO" />
                    </th>
 
                     <th>
-                        <input type="text" class="form-control" placeholder="Filtrar por Correo" />
+                        <input type="text" class="form-control" placeholder="STATUS" />
                     </th>
 
                     <th>
-                        <input type="text" class="form-control" placeholder="Filtrar por Rol" />
+                        <input type="text" class="form-control" placeholder="FUENTE" />
                     </th>
 
                     <?php if(Yii::app()->session['rol']=="Administrador"): ?>
@@ -106,12 +105,12 @@ $('#network').on('hidden', function() {
                     
                 </tr>
                 <tr>
-                    <th data-class="expand">Pais</th>
+                    <th data-class="expand">CONTACTO ADMIN O CLIENTE</th>
 
-                    <th data-class="expand">Nombre</th>
-                    <th>Ciudad</th>
-                    <th data-hide="phone,tablet">Correo</th>
-                    <th data-hide="phone,tablet">Rol</th>
+                    <th data-class="expand">CORREO ELECTRONICO</th>
+                    <th>FECHA DE REGISTRO</th>
+                    <th data-hide="phone,tablet">STATUS</th>
+                    <th data-hide="phone,tablet">FUENTE</th>
 
                     <?php if(Yii::app()->session['rol']=="Administrador"): ?>
                         <th data-hide="phone,tablet">Acciones</th>
@@ -124,11 +123,22 @@ $('#network').on('hidden', function() {
             
                     <?php foreach ($model as $usuarios):?>
                     <tr>
-                        <td><?php echo $usuarios->pais; ?></td>
                         <td><?php echo $usuarios->nombre; ?></td>
-                        <td><?php echo $usuarios->ciudad; ?></td>
                         <td><?php echo $usuarios->email; ?></td>
-                        <td><?php echo $usuarios->rol; ?></td>
+                        <td><?php echo $usuarios->fecha_registro; ?></td>
+                        <td><?php echo $usuarios->status; ?></td>
+
+                        <?php $model=Usuarios::model()->findAllByAttributes(array('id_usuario'=>$usuarios->id_fuente)); ?>
+
+                        <?php foreach ($model as $us): ?>
+                            <td><?php echo $us->nombre; ?></td>
+                        <?php endforeach ?>
+
+                        <?php if(empty($model)): ?>
+                            <td>No Registra</td>
+                        <?php endif; ?>
+
+
                         <?php if(Yii::app()->session['rol']=="Administrador"): ?>
                         <td>
                             <a href="<?php echo Yii::app()->createAbsoluteUrl('/usuarios/update/'.$usuarios->id_usuario);?>"><i class="fa fa-edit text-navy"></i></a>

@@ -68,7 +68,7 @@ class UsuariosController extends Controller
 
 				$password_nueva = substr( md5(microtime()), 1, 8);
 
-				$model_usuario->password=md5(1);
+				$model_usuario->password=md5($password_nueva);
 
 				if($model_usuario->save())
 				{
@@ -311,35 +311,32 @@ class UsuariosController extends Controller
 
 			$password=md5($model->password);
 			$email=$model->email;
+			$status="Activo";
 
 			$datos = Yii::app()->db->createCommand()
 			   ->select('u.*')
 			   ->from('usuarios u')
-			   ->where('u.email=:email AND u.password=:password', array(':email'=>$email,':password'=>$password)) 
+			   ->where('u.status=:status AND u.email=:email AND u.password=:password', array(':email'=>$email,':password'=>$password,':status'=>$status)) 
 			   ->queryAll();
 
 			if(!empty($datos))
 			{
 				foreach ($datos as $u) {
 					Yii::app()->session['id_usuario'] = $u['id_usuario'];
-					Yii::app()->session['usuario'] = $u['usuario'];
 					Yii::app()->session['nombre'] = $u['nombre'];
-					Yii::app()->session['estado'] = $u['estado'];
-					Yii::app()->session['pais'] = $u['pais'];
-					Yii::app()->session['dirección'] = $u['dirección'];
 					Yii::app()->session['email'] = $u['email'];
 					Yii::app()->session['password'] = $u['password'];
 					Yii::app()->session['rol'] = $u['rol'];
 
 				}
 
-				$this->redirect(array('usuarios/update/'.$u['id_usuario']));
+				$this->redirect(array('properties/admin'));
 
 			}
 
 			if(empty($datos))
 			{
-				Yii::app()->user->setFlash('error', "Verfique su Usuario y/o Contraseña");
+				Yii::app()->user->setFlash('error', "Verfique su Usuario y/o Contraseña y/o Status");
 
 				$this->redirect(array('Login'));
 			}
@@ -359,29 +356,48 @@ class UsuariosController extends Controller
 
 		$model=new Usuarios;
 
-
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
 		if(isset($_POST['Usuarios']))
 		{
 			$model->setAttributes($_POST['Usuarios']);
-			
 
-			$model->password=md5($model->password);
+			if($model->rol!="Cliente")
+			{
+				$model->id_fuente="";
+			}
+
+			$password_nueva = substr( md5(microtime()), 1, 8);
+
+			$model->password=md5($password_nueva);
 
 			if($model->save())
 			{
+				Yii::import('application.extensions.phpmailer.JPhpMailer');
 
-				if(Yii::app()->session['rol']!="Empresa" OR Yii::app()->session['rol']!="Administrador" )
-				{
-					$this->redirect(array('usuarios/admin/'));
+				$mail = new JPhpMailer;
+				$mail->IsSMTP();
+				$mail->SMTPSecure = "ssl";
+				$mail->Host = 'smtp.gmail.com'; 
+				$mail->Port = '465'; 
+				$mail->Username = 'chcampos@alumnos.ubiobio.cl';
+				$mail->Password = 'sovino123';
+				$mail->Mailer = "smtp"; 
+				$mail->SMTPAuth = true;
+				$mail->CharSet = 'utf-8';  
+				$mail->SMTPDebug = 1;
+				$mail->SetFrom('chcampos@alumnos.ubiobio.cl', 'TINZA');
+				$mail->Subject = 'Esta es tu contraseña de acceso para ingresar a Tinza.';
+				$mail->AltBody = '';
+				$mail->MsgHTML('<h2>Contraseña: '.$password_nueva.'</h2>');
+				$mail->AddAddress($model->email, 'Cliente');
+				$mail->Send();
+			}
 
-				}else
-				{
-					$this->redirect(array('usuarios/admin/'));
-
-				}
+			if($model->save())
+			{	
+					$this->redirect(array('usuarios/admin/'));	
 			}
 
 		}
@@ -500,7 +516,6 @@ class UsuariosController extends Controller
 
 			if($model->save())
 			{
-
 				if(Yii::app()->session['rol']=="Administrador" )
 				{
 					$this->redirect(array('usuarios/admin/'));

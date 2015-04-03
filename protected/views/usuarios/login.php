@@ -104,7 +104,7 @@ body {
             )); ?>
 
                 <div id="error" class="alert alert-danger">
-                    Sus datos son invalidos verifique su <a class="alert-link">Contraseña y/o Usuario</a>.
+                    Sus datos son invalidos verifique su <a class="alert-link">Contraseña y/o Usuario y/o Status</a>.
                 </div>
 
                 <div id="error_recovery" class="alert alert-danger">

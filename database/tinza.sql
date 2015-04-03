@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 02-04-2015 a las 03:36:24
+-- Tiempo de generación: 03-04-2015 a las 20:32:28
 -- Versión del servidor: 5.6.21
 -- Versión de PHP: 5.6.3
 
@@ -23,45 +23,238 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `terrenos`
+-- Estructura de tabla para la tabla `city`
 --
 
-CREATE TABLE IF NOT EXISTS `terrenos` (
-`id_terreno` int(11) NOT NULL,
-  `titulo` varchar(100) NOT NULL,
-  `imagen1` varchar(500) NOT NULL,
-  `imagen2` varchar(500) NOT NULL,
-  `imagen3` varchar(500) NOT NULL,
-  `imagen4` varchar(500) NOT NULL,
-  `imagen5` varchar(500) NOT NULL,
-  `imagen6` varchar(500) NOT NULL,
-  `precio` varchar(100) NOT NULL,
-  `metros_cuadrados` varchar(100) NOT NULL,
-  `region` varchar(100) NOT NULL,
-  `ciudad` varchar(100) NOT NULL,
-  `comuna` varchar(100) NOT NULL,
-  `descripcion` varchar(1000) NOT NULL,
-  `id_vendedor` varchar(100) NOT NULL,
-  `pais` varchar(100) NOT NULL,
-  `direccion` varchar(500) NOT NULL,
-  `bloqueado` int(11) NOT NULL,
-  `telefono` varchar(100) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+CREATE TABLE IF NOT EXISTS `city` (
+  `id` int(11) NOT NULL,
+  `city` varchar(500) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `terrenos`
+-- Volcado de datos para la tabla `city`
 --
 
-INSERT INTO `terrenos` (`id_terreno`, `titulo`, `imagen1`, `imagen2`, `imagen3`, `imagen4`, `imagen5`, `imagen6`, `precio`, `metros_cuadrados`, `region`, `ciudad`, `comuna`, `descripcion`, `id_vendedor`, `pais`, `direccion`, `bloqueado`, `telefono`) VALUES
-(1, 'Mi Terreno', 'jf7okf5kpt0vqgsjgj5ca9qjb6_20141011041633543990217a9c2.jpg', '', '', '', '', '', '1.200.000', '200', 'Biobío', 'Concepción', 'Concepción', 'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas "Letraset", las cuales contenian pasajes de Lorem Ipsum, y más recientemente con software de autoedición, como por ejemplo Aldus PageMaker, el cual incluye versiones de Lorem Ipsum.\r\n', 'chrisbastian21', 'Chile', 'Santa Sabina', 0, '42564003'),
-(2, 'Mi Terreno', 'Captura de pantalla 2015-01-23 a las 16.13.30.png', '', '', '', '', '', '100.000', '100', 'Región del Bío-Bío', 'Talcahuano', 'Talcahuano', 'Mi descripción', 'chrisbastian21', 'Chile', 'Andalue', 0, '42564003'),
-(3, 'Mi terreno', 'Captura de pantalla 2015-01-23 a las 16.13.30.png', '', '', '', '', '', '100.000', '100', 'Región del Bío-Bío', 'Concepción', 'Concepción', 'Mi descripción.', 'chrisbastian23', 'Chile', 'Av.Andalue 2737', 0, '42564003'),
-(4, 'Terreno en Chillan', 'jf7okf5kpt0vqgsjgj5ca9qjb6_20141011041633543990217a9c2.jpg', 'jf7okf5kpt0vqgsjgj5ca9qjb6_20141011041633543990217a9c2.jpg', 'jf7okf5kpt0vqgsjgj5ca9qjb6_20141011041633543990217a9c2.jpg', 'jf7okf5kpt0vqgsjgj5ca9qjb6_20141011041633543990217a9c2.jpg', 'jf7okf5kpt0vqgsjgj5ca9qjb6_20141011041633543990217a9c2.jpg', 'jf7okf5kpt0vqgsjgj5ca9qjb6_20141011041633543990217a9c2.jpg', '100.000', '250', 'Región del Bío-Bío', 'San Pedro de la Paz', 'San Pedro de La Paz', 'Descripción.', 'camila', 'Chile', 'Av. Andalue 2737', 0, '42564003'),
-(5, 'Terreno en Concepción', 'jf7okf5kpt0vqgsjgj5ca9qjb6_20141011041633543990217a9c2.jpg', '', '', '', '', '', '1.000.000', '250', 'Biobío', 'Concepción', 'Concepción', 'Descripción', 'Camila2', 'Chile', 'Santa Sabina', 0, '42564003'),
-(6, 'Terreno en la Reina', 'images.jpg', '', '', '', '', '', '10.000.000', '250', 'Región Metropolitana de Santiago', 'La Reina', 'La Reina', 'Mi Terreno!!', 'camila3', 'Chile', 'La reina', 0, '42564003'),
-(7, 'Mi terreno de venta', 'Piedras-Blancas2.jpg', '', '', '', '', '', '400.000', '250', 'Región de Antofagasta', 'San Pedro de Atacama', 'San Pedro de Atacama', 'Compra de Terreno', 'Chris5', 'Chile', 'Av. San pedro de atacama', 0, '42564003'),
-(8, 'Terreno en Dehesa', 'jf7okf5kpt0vqgsjgj5ca9qjb6_20141011041633543990217a9c2.jpg', '', '', '', '', '', '100.000', '100', 'Región del Bío-Bío', 'San Pedro de la Paz', 'San Pedro de La Paz', 'Mi Descripción de mi terreno...', 'chrisbastian20', 'Chile', 'Av. Andalue 2737', 0, '42564003'),
-(9, 'terreno 300m2 avenida principal', 'jf7okf5kpt0vqgsjgj5ca9qjb6_20141011041633543990217a9c2.jpg', '', '', '', '', '', '3.200.000', '300', 'Región del Bío-Bío', 'Santa Juana', 'Santa Juana', 'dasdadasda', 'aquijadac', 'Chile', 'dasdada', 0, '84949494');
+INSERT INTO `city` (`id`, `city`) VALUES
+(1, 'Abasolo'),
+(2, 'Agualeguas'),
+(3, 'Los Aldamas'),
+(4, 'Allende'),
+(5, 'Anahuac'),
+(6, 'Apodaca'),
+(7, 'Aramberri'),
+(8, 'Bustamante'),
+(9, 'Cadereyta Jimenez'),
+(10, 'Carmen'),
+(11, 'Cerralvo'),
+(12, 'Cienega de Flores'),
+(13, 'China'),
+(14, 'Dr. Arroyo'),
+(15, 'Dr. Coss'),
+(16, 'Dr. Gonzalez'),
+(17, 'Galeana'),
+(18, 'Garcia'),
+(19, 'San Pedro Garza Garcia'),
+(20, 'Gral. Bravo'),
+(21, 'Gral. Escobedo'),
+(22, 'Gral. Teran'),
+(23, 'Gral. Trevi'),
+(24, 'Gral. Zaragoza'),
+(25, 'Gral. Zuazua'),
+(26, 'Guadalupe'),
+(27, 'Los Herreras'),
+(28, 'Higueras'),
+(29, 'Hualahuises'),
+(30, 'Iturbide'),
+(31, 'Juarez'),
+(32, 'Lampazos de Naranjo'),
+(33, 'Linares'),
+(34, 'Marin'),
+(35, 'Melchor Ocampo'),
+(36, 'Mier y Noriega'),
+(37, 'Mina'),
+(38, 'Montemorelos'),
+(39, 'Monterrey'),
+(40, 'Paras'),
+(41, 'Pesqueria'),
+(42, 'Los Ramones'),
+(43, 'Rayones'),
+(44, 'Sabinas Hidalgo'),
+(45, 'Salinas Victoria'),
+(46, 'San Nicolas de los Garza'),
+(47, 'Hidalgo'),
+(48, 'Santa Catarina'),
+(49, 'Santiago'),
+(50, 'Vallecillo'),
+(51, 'Villaldama');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `extra_properties`
+--
+
+CREATE TABLE IF NOT EXISTS `extra_properties` (
+`id_extra` int(11) NOT NULL,
+  `title` varchar(250) NOT NULL,
+  `description` varchar(500) NOT NULL,
+  `id_property` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `extra_properties`
+--
+
+INSERT INTO `extra_properties` (`id_extra`, `title`, `description`, `id_property`) VALUES
+(52, 'jejej3', 'jejeje3d', 50);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `identification`
+--
+
+CREATE TABLE IF NOT EXISTS `identification` (
+`id` int(10) unsigned NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `id_propertie` int(10) unsigned NOT NULL,
+  `id_use_ground` int(11) NOT NULL,
+  `soil_date_expedition` date NOT NULL,
+  `soil_date_expiration` date NOT NULL,
+  `document_identification` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
+  `catastral` varchar(100) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `identification`
+--
+
+INSERT INTO `identification` (`id`, `created_at`, `updated_at`, `id_propertie`, `id_use_ground`, `soil_date_expedition`, `soil_date_expiration`, `document_identification`, `catastral`) VALUES
+(51, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 50, 1, '1991-12-27', '1991-12-27', '16_PromoEmprenderOnline4.jpg', '123-123-123'),
+(52, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 50, 1, '1991-12-27', '1991-12-27', '1912_223347757810079_552525007_n.jpg', '123-123-123');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `licenses`
+--
+
+CREATE TABLE IF NOT EXISTS `licenses` (
+  `id_propertie` int(10) unsigned NOT NULL,
+  `type_license` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `lic_date_expedition` date NOT NULL,
+  `lic_date_expiration` date NOT NULL,
+  `id_document` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+`id` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `licenses`
+--
+
+INSERT INTO `licenses` (`id_propertie`, `type_license`, `lic_date_expedition`, `lic_date_expiration`, `id_document`, `created_at`, `updated_at`, `id`) VALUES
+(50, '1', '1991-12-28', '1991-12-28', '3080_1155516446917_4227558_n-2.jpg', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 18),
+(50, '1', '1991-12-28', '1991-12-28', '3080_1155516446917_4227558_n.jpg', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 19);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `license_type`
+--
+
+CREATE TABLE IF NOT EXISTS `license_type` (
+  `id` int(11) NOT NULL,
+  `license_type` varchar(500) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `license_type`
+--
+
+INSERT INTO `license_type` (`id`, `license_type`) VALUES
+(1, 'Uso de suelo'),
+(2, 'Licencia de construcción'),
+(3, 'Licencia de uso de edificación'),
+(4, 'Certificado de libertad de gravámen');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `properties`
+--
+
+CREATE TABLE IF NOT EXISTS `properties` (
+`id` int(10) unsigned NOT NULL,
+  `id_profile` int(11) NOT NULL,
+  `catastral` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `is_building` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `street` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
+  `number_ext` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
+  `number_int` varchar(12) COLLATE utf8_unicode_ci NOT NULL,
+  `neighborhood` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
+  `zip_code` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `id_state` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `id_city` int(11) NOT NULL,
+  `latitude` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `longitude` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `cos` decimal(8,2) NOT NULL,
+  `cus` decimal(8,2) NOT NULL,
+  `cas` decimal(8,2) NOT NULL,
+  `slope` decimal(8,2) NOT NULL,
+  `surface` int(11) NOT NULL,
+  `remetimiento_forntal` decimal(8,2) NOT NULL,
+  `remetimiento_posterior` decimal(8,2) NOT NULL,
+  `remetimiento_izquierdo` decimal(8,2) NOT NULL,
+  `remetimiento_derecho` decimal(8,2) NOT NULL,
+  `has_parking` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `parking_description` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
+  `id_parking_document` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `has_urban_incorporation` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `urban_incorporation_description` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `urban_height_limit` decimal(8,2) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `building` varchar(100) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `properties`
+--
+
+INSERT INTO `properties` (`id`, `id_profile`, `catastral`, `is_building`, `street`, `number_ext`, `number_int`, `neighborhood`, `zip_code`, `id_state`, `id_city`, `latitude`, `longitude`, `cos`, `cus`, `cas`, `slope`, `surface`, `remetimiento_forntal`, `remetimiento_posterior`, `remetimiento_izquierdo`, `remetimiento_derecho`, `has_parking`, `parking_description`, `id_parking_document`, `has_urban_incorporation`, `urban_incorporation_description`, `urban_height_limit`, `created_at`, `updated_at`, `building`) VALUES
+(50, 18, '123-123-123', 'Construcción', 'Calle 2', '123', '123', 'Colonia', 'C.P', 'Aguascalientes', 11, '', '', '13.00', '13.00', '13.00', '12.00', 10, '12.00', '12.00', '12.00', '12.00', 'Si', 'jejjee', '10805634_10205697855664486_5606781561864417845_n.jpg', 'Si', '12', '12.00', '2015-04-03 14:04:54', '0000-00-00 00:00:00', '');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `use_soil_type`
+--
+
+CREATE TABLE IF NOT EXISTS `use_soil_type` (
+  `id` int(11) NOT NULL,
+  `use_soil_type` varchar(500) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `use_soil_type`
+--
+
+INSERT INTO `use_soil_type` (`id`, `use_soil_type`) VALUES
+(1, 'Unifamiliar'),
+(2, 'Multifamiliar'),
+(3, 'Servicios'),
+(4, 'Equipamiento privado'),
+(5, 'Equipamiento público'),
+(6, 'Comercial'),
+(7, 'Habitacional'),
+(8, 'Industrial'),
+(9, 'Agropecuario'),
+(10, 'Forestal'),
+(11, 'Áreas verdes'),
+(12, 'No tiene uso de suelo');
 
 -- --------------------------------------------------------
 
@@ -72,40 +265,88 @@ INSERT INTO `terrenos` (`id_terreno`, `titulo`, `imagen1`, `imagen2`, `imagen3`,
 CREATE TABLE IF NOT EXISTS `usuarios` (
 `id_usuario` int(11) NOT NULL,
   `nombre` varchar(500) NOT NULL,
-  `ciudad` varchar(500) NOT NULL,
-  `estado` varchar(500) NOT NULL,
-  `pais` varchar(500) NOT NULL,
-  `dirección` varchar(500) NOT NULL,
   `email` varchar(500) NOT NULL,
   `password` varchar(500) NOT NULL,
   `rol` varchar(500) NOT NULL DEFAULT 'Inscrito',
-  `telefono` varchar(100) DEFAULT NULL,
-  `usuario` varchar(500) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+  `empresa` varchar(500) NOT NULL,
+  `apellido_paterno` varchar(500) NOT NULL,
+  `apellido_materno` varchar(500) NOT NULL,
+  `rfc` varchar(500) NOT NULL,
+  `telefono` varchar(500) NOT NULL,
+  `celular` varchar(500) NOT NULL,
+  `calle_domicilio` varchar(500) NOT NULL,
+  `num_ext_domicilio` varchar(500) NOT NULL,
+  `num_int_domicilio` varchar(500) NOT NULL,
+  `colonia_domicilio` varchar(500) NOT NULL,
+  `estado_domicilio` varchar(500) NOT NULL,
+  `municipio_domicilio` varchar(500) NOT NULL,
+  `cp_domicilio` varchar(500) NOT NULL,
+  `calle_fiscal` varchar(500) NOT NULL,
+  `num_ext_fiscal` varchar(500) NOT NULL,
+  `num_int_fiscal` varchar(500) NOT NULL,
+  `colonia_fiscal` varchar(500) NOT NULL,
+  `estado_fiscal` varchar(500) NOT NULL,
+  `municipio_fiscal` varchar(500) NOT NULL,
+  `cp_fiscal` varchar(500) NOT NULL,
+  `id_fuente` int(10) NOT NULL,
+  `fecha_registro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` varchar(100) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id_usuario`, `nombre`, `ciudad`, `estado`, `pais`, `dirección`, `email`, `password`, `rol`, `telefono`, `usuario`) VALUES
-(16, 'Christopher Campos', 'Concepción ', 'BioBio', 'Chile', 'Santa Sabina', 'chris.bastian@hotmail.es', '3c6e6c7db470ea1f84292991a6591501', 'Administrador', '56 (9) 901-750-59', 'chrisbastian21'),
-(18, 'Christopher Campos', 'San Pedro de la Paz', 'Región del Bío-Bío', 'Chile', 'Av.ndalue 2737', 'chcris@gmail.com', '3c6e6c7db470ea1f84292991a6591501', 'Inscrito', '56 (9) 901-750-59', 'chrisbastian23'),
-(20, '', '', '', '', '', 'camila@gmail.com', '3c6e6c7db470ea1f84292991a6591501', 'Inscrito', NULL, 'camila'),
-(21, '', '', '', '', '', 'cami@gmail.com', '3c6e6c7db470ea1f84292991a6591501', 'Inscrito', NULL, 'Camila2'),
-(22, '', '', '', '', '', 'cami3@gmail.com', '3c6e6c7db470ea1f84292991a6591501', 'Inscrito', NULL, 'camila3'),
-(23, '', '', '', '', '', 'ch@gmail.com', '3c6e6c7db470ea1f84292991a6591501', 'Inscrito', NULL, 'Chris5'),
-(24, '', '', '', '', '', 'chris.bastian21@gmail.com', '3c6e6c7db470ea1f84292991a6591501', 'Inscrito', NULL, 'chrisbastian20'),
-(25, '', '', '', '', '', 'aquijadac@udd.cl', 'dc483e80a7a0bd9ef71d8cf973673924', 'Inscrito', NULL, 'aquijadac');
+INSERT INTO `usuarios` (`id_usuario`, `nombre`, `email`, `password`, `rol`, `empresa`, `apellido_paterno`, `apellido_materno`, `rfc`, `telefono`, `celular`, `calle_domicilio`, `num_ext_domicilio`, `num_int_domicilio`, `colonia_domicilio`, `estado_domicilio`, `municipio_domicilio`, `cp_domicilio`, `calle_fiscal`, `num_ext_fiscal`, `num_int_fiscal`, `colonia_fiscal`, `estado_fiscal`, `municipio_fiscal`, `cp_fiscal`, `id_fuente`, `fecha_registro`, `status`) VALUES
+(16, 'Christopher Campos', 'chris.bastian@hotmail.es', '3c6e6c7db470ea1f84292991a6591501', 'Administrador', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '2015-04-03 16:52:06', 'Activo'),
+(18, 'Christopher Campos', 'chcris@gmail.com', '3c6e6c7db470ea1f84292991a6591501', 'Cliente', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '2015-04-03 16:52:06', 'Inactivo'),
+(26, 'TINZA', 'tinza@gmail.com', '3c6e6c7db470ea1f84292991a6591501', 'Cliente', 'TINZA', 'TINZA', 'TINZA', 'TINZA', 'TINZA', 'TINZA', 'TINZA', 'TINZA', 'TINZA', 'TINZA', 'Nuevo León', '1', 'TINZA', 'TINZA', 'TINZA', 'TINZA', 'TINZA', 'Nuevo León', '1', 'TINZA', 16, '2015-04-03 17:57:58', 'Activo');
 
 --
 -- Índices para tablas volcadas
 --
 
 --
--- Indices de la tabla `terrenos`
+-- Indices de la tabla `city`
 --
-ALTER TABLE `terrenos`
- ADD PRIMARY KEY (`id_terreno`);
+ALTER TABLE `city`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `extra_properties`
+--
+ALTER TABLE `extra_properties`
+ ADD PRIMARY KEY (`id_extra`);
+
+--
+-- Indices de la tabla `identification`
+--
+ALTER TABLE `identification`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `licenses`
+--
+ALTER TABLE `licenses`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `license_type`
+--
+ALTER TABLE `license_type`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `properties`
+--
+ALTER TABLE `properties`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `use_soil_type`
+--
+ALTER TABLE `use_soil_type`
+ ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `usuarios`
@@ -118,15 +359,30 @@ ALTER TABLE `usuarios`
 --
 
 --
--- AUTO_INCREMENT de la tabla `terrenos`
+-- AUTO_INCREMENT de la tabla `extra_properties`
 --
-ALTER TABLE `terrenos`
-MODIFY `id_terreno` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=10;
+ALTER TABLE `extra_properties`
+MODIFY `id_extra` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=53;
+--
+-- AUTO_INCREMENT de la tabla `identification`
+--
+ALTER TABLE `identification`
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=53;
+--
+-- AUTO_INCREMENT de la tabla `licenses`
+--
+ALTER TABLE `licenses`
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
+--
+-- AUTO_INCREMENT de la tabla `properties`
+--
+ALTER TABLE `properties`
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=51;
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=26;
+MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=27;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

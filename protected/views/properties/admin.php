@@ -55,9 +55,13 @@ $('#network').on('hidden', function() {
 
 </script>
 
+<?php if(Yii::app()->session['rol']!="Cliente"): ?>
 
-<button style="float:right" type="button" onclick= " window.location='<?php echo Yii::app()->createAbsoluteUrl('/properties/create');?>' " class="btn btn-default"><i class="fa fa-key"></i>  Agregar Propiedad</button>
+    <button style="float:right" type="button" onclick= " window.location='<?php echo Yii::app()->createAbsoluteUrl('/properties/create');?>' " class="btn btn-default"><i class="fa fa-key"></i>  Agregar Propiedad</button>
+
+<?php endif; ?>
 <br><br>
+
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-lg-12">
@@ -132,7 +136,7 @@ $('#network').on('hidden', function() {
                         <th data-hide="phone,tablet">Acciones</th>
                     <?php endif; ?>
 
-                    <?php if(Yii::app()->session['rol']=="Inscrito"): ?>
+                    <?php if(Yii::app()->session['rol']=="Empleado"): ?>
                         <th data-hide="phone,tablet">Acciones</th>
                     <?php endif; ?>
                 </tr>
@@ -146,47 +150,74 @@ $('#network').on('hidden', function() {
 
             <?php endif; ?>
 
-            <?php if(Yii::app()->session['rol']=="Empleado"): ?>
+            <?php if(Yii::app()->session['rol']=="Cliente"): ?>
 
                 <?php 
 
-                /*$model=Properties::model()->findAllByAttributes(array('id_vendedor'=>Yii::app()->session['usuario'])); 
-                */
-
-                $model=Properties::model()->findAll(); 
-
+                $model=Properties::model()->findAllByAttributes(array('id_profile'=>Yii::app()->session['id_usuario'])); 
                 ?>
 
             <?php endif; ?>
-            
+
+            <?php if(Yii::app()->session['rol']=="Empleado"): ?>
+
+                <?php 
+                    $model=Properties::model()->findAllByAttributes(array('id_profile'=>Yii::app()->session['id_usuario'])); 
+                ?>
+
+            <?php endif; ?>
+                    
                     <?php foreach ($model as $properties):?>
                     <tr>
-                        <td><?php echo $properties->titulo; ?></td>
+                        <?php $model_usuario=Usuarios::model()->findAllByAttributes(array('id_usuario'=>$properties->id_profile)); ?>
+
+                        <?php foreach ($model_usuario as $usuario): ?>
+                            <td><?php echo $usuario->nombre; ?></td>
+                        <?php endforeach ?>
+
                         <td><?php echo $properties->catastral; ?></td>
                         <td><?php echo $properties->street; ?></td>
-                        <td><?php echo $properties->id_state; ?></td>
-                        <td><?php echo $properties->id_city; ?></td>
-                        <td><?php echo $properties->id_identification; ?></td>
-                        <td><?php echo $properties->building; ?></td>
+                        <td>Nueva León</td>
 
-                        <?php if(Yii::app()->session['rol']=="Inscrito"): ?>
+                        <?php $model=City::model()->findAllByAttributes(array('id'=>$properties->id_city)); ?>
+
+                        <?php foreach ($model as $city): ?>
+                            <td><?php echo $city->city; ?></td>
+                        <?php endforeach ?>
+
+                        <?php $model=Identification::model()->findAllByAttributes(array('id_propertie'=>$properties->id)); ?>
+                        <td>
+                        <?php foreach ($model as $identifications): ?>
+
+                            <?php $model=UseSoilType::model()->findAllByAttributes(array('id'=>$identifications->id_use_ground)); ?>
+                                <?php foreach ($model as $use_soil): ?>
+                                    <?php echo $use_soil->use_soil_type." - "; ?>
+                                <?php endforeach; ?>
+                        <?php endforeach ?>
+                        </td>
+
+
+                        <td><?php echo $properties->is_building; ?></td>
+
+                        <?php if(Yii::app()->session['rol']=="Empleado"): ?>
                             <td>
-                                <a href="<?php echo Yii::app()->createAbsoluteUrl('/properties/update/'.$properties->id_terreno);?>"><i class="fa fa-edit text-navy"></i></a>
+                                <a href="<?php echo Yii::app()->createAbsoluteUrl('/properties/update/'.$properties->id);?>"><i class="fa fa-edit text-navy"></i></a>
                             </td>
                         <?php endif; ?>
 
 
                         <?php if(Yii::app()->session['rol']=="Administrador"): ?>
                         <td>
-                            <a href="<?php echo Yii::app()->createAbsoluteUrl('/properties/update/'.$properties->id_terreno);?>"><i class="fa fa-edit text-navy"></i></a>
+                            <a href="<?php echo Yii::app()->createAbsoluteUrl('/properties/update/'.$properties->id);?>"><i class="fa fa-edit text-navy"></i></a>
 
+                            <?php /* ?>
                             <?php if($properties->bloqueado==0): ?>
                             <a 
                             onclick="
                             var r=confirm('¿Estas seguro de pausar la publicación de este Terreno?');
                             if(r==true)
                             {
-                                window.location.href='<?php echo Yii::app()->createAbsoluteUrl('/properties/bloquear/'.$properties->id_terreno);?>'
+                                window.location.href='<?php echo Yii::app()->createAbsoluteUrl('/properties/bloquear/'.$properties->id);?>'
                             }
 
                             "><i class="fa fa-stop text-navy"></i></a>
@@ -199,24 +230,26 @@ $('#network').on('hidden', function() {
                             var r=confirm('¿Estas seguro de continuar la publicación de este Terreno?');
                             if(r==true)
                             {
-                                window.location.href='<?php echo Yii::app()->createAbsoluteUrl('/properties/desbloquear/'.$properties->id_terreno);?>'
+                                window.location.href='<?php echo Yii::app()->createAbsoluteUrl('/properties/desbloquear/'.$properties->id);?>'
                             }
 
                             "><i class="fa fa-check text-navy"></i></a>
 
                             <?php endif; ?>
+                            */?>
 
                             <a 
                             onclick="
-                            var r=confirm('¿Estas seguro de eliminar este Terreno?');
+                            var r=confirm('¿Estas seguro de eliminar esta Propiedad?');
                             if(r==true)
                             {
-                                window.location.href='<?php echo Yii::app()->createAbsoluteUrl('/properties/eliminar/'.$properties->id_terreno);?>'
+                                window.location.href='<?php echo Yii::app()->createAbsoluteUrl('/properties/eliminar/'.$properties->id);?>'
                             }
 
                             "><i class="fa fa-times text-navy"></i></a>
 
-                            <a>   
+                            <a>  
+                        
                         </td>                            
                         <?php endif; ?>
 

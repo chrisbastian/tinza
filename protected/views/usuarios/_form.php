@@ -1,142 +1,509 @@
-<?php
-/* @var $this UsuariosController */
-/* @var $model Usuarios */
-/* @var $form CActiveForm */
-?>
 
 
+<!--Bootstrap-->
+<script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl; ?>/js/bootstrap.min.js"></script>
 
-<?php $this->renderPartial('../script2'); ?>
-
-<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/jquery-2.1.1.js"></script>
-
+<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/plugins/toastr/toastr.min.js"></script>
 
 <div class="form-horizontal">
 
-	<div class="form-group" id="locationField">
-	  <input id="autocomplete" class="form-control" placeholder="¿Necesitas ayuda con tu ubicación?, Prueba buscandola en este campo." onFocus="geolocate()" type="text"></input>
-	</div>
+    <?php $form=$this->beginWidget('CActiveForm', array(
+        'id'=>'usuarios-form',
+        // Please note: When you enable ajax validation, make sure the corresponding
+        // controller action is handling ajax validation correctly.
+        // There is a call to performAjaxValidation() commented in generated controller code.
+        // See class documentation of CActiveForm for details on this.
+        'enableAjaxValidation'=>false,
+        'htmlOptions' => array('enctype' => 'multipart/form-data'),
 
-<?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'usuarios-form',
-	// Please note: When you enable ajax validation, make sure the corresponding
-	// controller action is handling ajax validation correctly.
-	// There is a call to performAjaxValidation() commented in generated controller code.
-	// See class documentation of CActiveForm for details on this.
-	'enableAjaxValidation'=>false,
-	'htmlOptions' => array('enctype' => 'multipart/form-data'),
+    )); ?>
 
-)); ?>
-<style type="text/css">
+    <?php if($form->errorSummary($model)): ?>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <?php endif; ?>
 
-.errorMessage *{
-color: red !important;
-}
+    <script type="text/javascript">
 
-</style>	
+    function showFuente()
+    {
+        if($('#rol').val()=="Cliente")
+        {
+            $('.fuente_user').show();        
+        }else
+        {
+            $('.fuente_user').hide();        
 
-<body onload="initialize()">
-		<!--No eliminar, necesario para api de google-->
-	  	<input type="hidden" class="field" id="street_number" disabled="true"></input>
-	    <input type="hidden" class="field" id="postal_code" disabled="true"></input>
+        }
 
-	<p class="note">Campos con <span class="required">*</span> son requeridos.</p>
+    }
 
-	<div class="form-group">
-		<?php echo $form->labelEx($model,'usuario',array('class'=>"col-sm-4 control-label")); ?>
-		<div class="col-sm-5">
-			<?php echo $form->textField($model,'usuario',array('size'=>60,'maxlength'=>500,'class'=>"form-control")); ?>
-		</div>
-		<?php echo $form->error($model,'usuario'); ?>
-	</div>
+    </script>
 
-	<div class="form-group" id="locationField">
-		<?php echo $form->labelEx($model,'dirección',array('class'=>"col-sm-4 control-label")); ?>
-		<div class="col-sm-5">
-			<?php echo $form->textField($model,'dirección',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'id'=>"route")); ?>
-		</div>
-		<?php echo $form->error($model,'dirección'); ?>
-	</div>
+    <?php echo $form->errorSummary($model); ?>
+    
+    <div class="row">
+        <div class="col-md-12">
+            <h4 class="text-center">Usuario</h4>
+        </div>
+    </div>
 
-	<div class="form-group">
-		<?php echo $form->labelEx($model,'nombre',array('class'=>"col-sm-4 control-label")); ?>
-			<div class="col-sm-5">
-				<input size="60" maxlength="500" class="form-control" name="Usuarios[nombre]" id="Usuarios_nombre" type="text" value="<?php echo $model->nombre; ?>">
-			</div>
-		<?php echo $form->error($model,'nombre'); ?>
-	</div>
+    <div class="form-group">   
+        <label for="id_user_type" class="col-sm-2 control-label">Tipo de Usuario</label>
+        <div class="col-sm-2">
+            <?php echo $form->dropDownList($model,'rol',array('Cliente'=>'Cliente','Empleado'=>'Empleado','Administrador'=>'Administrador'),array('class'=>"form-control",'placeholder'=>"Llene Este Campo...",'onchange'=>"showFuente()",'id'=>"rol")); ?>
+        </div>
 
-	<div class="form-group">
-		<?php echo $form->labelEx($model,'ciudad',array('class'=>"col-sm-4 control-label")); ?>
-		<div class="col-sm-5">
-			<?php echo $form->textField($model,'ciudad',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'id'=>"locality")); ?>
-		</div>
-		<?php echo $form->error($model,'ciudad'); ?>
-	</div>
+        <div class="col-sm-2">
+            <div class="fuente_user">
+                <?php echo $form->dropDownList($model,'id_fuente',
+                    CHtml::listData(Usuarios::model()->findAll(),'id_usuario','nombre'),array('class'=>"chosen-select")
+                ); ?>            
+            </div>
+        </div>
 
-	<div class="form-group">
-		<?php echo $form->labelEx($model,'telefono',array('class'=>"col-sm-4 control-label")); ?>
-		<div class="col-sm-5">
-			<input type="text" class="form-control" data-mask="56 (9) 999-999-99" name="Usuarios[telefono]" id="Usuarios_telefono" placeholder="" value="<?php echo $model->telefono; ?>">                      
-		</div>
-		<?php echo $form->error($model,'telefono'); ?>
-	</div>
+        <label for="company" class="col-sm-2 control-label">Empresa</label>
+        <div class="col-sm-4">
+            <?php echo $form->textField($model,'empresa',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'placeholder'=>"Llene Este Campo...")); ?>
+            <?php if($form->error($model,'empresa')): ?>
 
-	<div class="form-group">
-		<?php echo $form->labelEx($model,'estado',array('class'=>"col-sm-4 control-label")); ?>
-		<div class="col-sm-5">
-			<?php echo $form->textField($model,'estado',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'id'=>"administrative_area_level_1")); ?>
-		</div>
-		<?php echo $form->error($model,'estado'); ?>
-	</div>
+                <script type="text/javascript">
+                    
+                    $(document).ready(function(){
 
-	<div class="form-group">
-		<?php echo $form->labelEx($model,'pais',array('class'=>"col-sm-4 control-label")); ?>
-		<div class="col-sm-5">
-			<?php echo $form->textField($model,'pais',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'id'=>"country")); ?>
-		</div>
-		<?php echo $form->error($model,'pais'); ?>
-	</div>
+                        toastr.error('<?php echo $form->error($model,"empresa"); ?>')
 
-	<div class="form-group">
-		<?php echo $form->labelEx($model,'email',array('class'=>"col-sm-4 control-label")); ?>
-		<div class="col-sm-5">
-			<?php echo $form->textField($model,'email',array('size'=>60,'maxlength'=>500,'class'=>"form-control")); ?>
-		</div>
-		<?php echo $form->error($model,'email'); ?>
-	</div>
+                    });
+                    
+                </script>
 
-	<?php if(Yii::app()->session['rol']=="Administrador"): ?>
-		<div class="form-group">
-			<?php echo $form->labelEx($model,'rol',array('class'=>"col-sm-4 control-label")); ?>
-			<div class="col-sm-5">
-				<?php echo $form->dropDownList($model,'rol',array('Administrador'=>'Administrador','Inscrito'=>'Inscrito'),array('class'=>"form-control")); ?>
-			</div>
-			<?php echo $form->error($model,'rol'); ?>
-		</div>
+            <?php endif; ?>
+        </div>
 
-	<?php endif; ?>
+    </div>
 
-	<?php if($model->isNewRecord): ?>
+    <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">Nombre</label>
+        <div class="col-sm-4">
+            <?php echo $form->textField($model,'nombre',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'placeholder'=>"Llene Este Campo...")); ?>
+            <?php if($form->error($model,'nombre')): ?>
 
-		<div class="form-group">
-			<?php echo $form->labelEx($model,'password',array('class'=>"col-sm-4 control-label")); ?>
+                <script type="text/javascript">
+                    
+                    $(document).ready(function(){
 
-		    <div class="col-sm-5">
-		    	<input size="60" maxlength="500" class="form-control" placeholder="Contraseña" name="Usuarios[password]" id="Usuarios_password" type="password" value="">
-		    </div>
-		    <?php echo $form->error($model,'password'); ?>
-		</div>
+                        toastr.error('<?php echo $form->error($model,"nombre"); ?>')
 
-	<?php endif; ?>
+                    });
+                    
+                </script>
 
-	<div class="form-group">
-		<div class="col-sm-4 col-sm-offset-4">
-		<?php echo CHtml::submitButton($model->isNewRecord ? 'Ingresar' : 'Guardar',array('class'=>'btn btn-primary')); ?>
-		</div>
-	</div>	
-</body>
+            <?php endif; ?>
+        </div>
+
+        <label for="first_name" class="col-sm-2 control-label">Apellido Paterno</label>
+        <div class="col-sm-4">
+            <?php echo $form->textField($model,'apellido_paterno',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'placeholder'=>"Llene Este Campo...")); ?>
+            <?php if($form->error($model,'apellido_paterno')): ?>
+
+                <script type="text/javascript">
+                    
+                    $(document).ready(function(){
+
+                        toastr.error('<?php echo $form->error($model,"apellido_paterno"); ?>')
+
+                    });
+                    
+                </script>
+
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="last_name" class="col-sm-2 control-label">Apellido Materno</label>
+        <div class="col-sm-4">
+            <?php echo $form->textField($model,'apellido_materno',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'placeholder'=>"Llene Este Campo...")); ?>
+            <?php if($form->error($model,'apellido_materno')): ?>
+
+                <script type="text/javascript">
+                    
+                    $(document).ready(function(){
+
+                        toastr.error('<?php echo $form->error($model,"apellido_materno"); ?>')
+
+                    });
+                    
+                </script>
+
+            <?php endif; ?>
+        </div>
+
+        <label for="email" class="col-sm-2 control-label">Correo Electrónico</label>
+        <div class="col-sm-4">
+            <?php echo $form->textField($model,'email',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'placeholder'=>"Llene Este Campo...")); ?>
+            <?php if($form->error($model,'email')): ?>
+
+                <script type="text/javascript">
+                    
+                    $(document).ready(function(){
+
+                        toastr.error('<?php echo $form->error($model,"email"); ?>')
+
+                    });
+                    
+                </script>
+
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="rfc" class="col-sm-2 control-label">RFC</label>
+        <div class="col-sm-4">
+            <?php echo $form->textField($model,'rfc',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'placeholder'=>"Llene Este Campo...")); ?>
+            <?php if($form->error($model,'rfc')): ?>
+
+                <script type="text/javascript">
+                    
+                    $(document).ready(function(){
+
+                        toastr.error('<?php echo $form->error($model,"rfc"); ?>')
+
+                    });
+                    
+                </script>
+
+            <?php endif; ?>
+        </div>
+
+        <label for="phone" class="col-sm-2 control-label">Teléfonos</label>
+        <div class="col-sm-2">
+            <?php echo $form->textField($model,'telefono',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'placeholder'=>"Llene Este Campo...")); ?>
+            <?php if($form->error($model,'telefono')): ?>
+
+                <script type="text/javascript">
+                    
+                    $(document).ready(function(){
+
+                        toastr.error('<?php echo $form->error($model,"telefono"); ?>')
+
+                    });
+                    
+                </script>
+
+            <?php endif; ?>
+        </div>
+
+        <div class="col-sm-2">
+            <?php echo $form->textField($model,'celular',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'placeholder'=>"Llene Este Campo...")); ?>
+            <?php if($form->error($model,'celular')): ?>
+
+                <script type="text/javascript">
+                    
+                    $(document).ready(function(){
+
+                        toastr.error('<?php echo $form->error($model,"celular"); ?>')
+
+                    });
+                    
+                </script>
+
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h4 class="text-center">Domicilio</h4>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="street" class="col-sm-2 control-label">Calle</label>
+        <div class="col-sm-4">
+            <?php echo $form->textField($model,'calle_domicilio',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'placeholder'=>"Llene Este Campo...")); ?>
+            <?php if($form->error($model,'calle_domicilio')): ?>
+
+                <script type="text/javascript">
+                    
+                    $(document).ready(function(){
+
+                        toastr.error('<?php echo $form->error($model,"calle_domicilio"); ?>')
+
+                    });
+                    
+                </script>
+
+            <?php endif; ?>
+        </div>
+
+        <label for="ext_number" class="col-sm-1 control-label">Número Ext.</label>
+        <div class="col-sm-2">
+            <?php echo $form->textField($model,'num_ext_domicilio',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'placeholder'=>"Llene Este Campo...")); ?>
+            <?php if($form->error($model,'num_ext_domicilio')): ?>
+
+                <script type="text/javascript">
+                    
+                    $(document).ready(function(){
+
+                        toastr.error('<?php echo $form->error($model,"num_ext_domicilio"); ?>')
+
+                    });
+                    
+                </script>
+
+            <?php endif; ?>
+        </div>
+
+        <label for="int_number" class="col-sm-1 control-label">Número Int.</label>
+        <div class="col-sm-2">
+            <?php echo $form->textField($model,'num_int_domicilio',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'placeholder'=>"Llene Este Campo...")); ?>
+            <?php if($form->error($model,'num_int_domicilio')): ?>
+
+                <script type="text/javascript">
+                    
+                    $(document).ready(function(){
+
+                        toastr.error('<?php echo $form->error($model,"num_int_domicilio"); ?>')
+
+                    });
+                    
+                </script>
+
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="neighborhood" class="col-sm-2 control-label">Colonia</label>
+        <div class="col-sm-2">
+            <?php echo $form->textField($model,'colonia_domicilio',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'placeholder'=>"Llene Este Campo...")); ?>
+            <?php if($form->error($model,'colonia_domicilio')): ?>
+
+                <script type="text/javascript">
+                    
+                    $(document).ready(function(){
+
+                        toastr.error('<?php echo $form->error($model,"colonia_domicilio"); ?>')
+
+                    });
+                    
+                </script>
+
+            <?php endif; ?>
+        </div>
+
+        <label for="state" class="col-sm-1 control-label">Estado</label>
+        <div class="col-sm-2">
+            <?php echo $form->dropDownList($model,'estado_domicilio',array('Nuevo León'=>'Nuevo León'),array('class'=>"form-control",'placeholder'=>"Llene Este Campo...")); ?>
+            <?php if($form->error($model,'estado_domicilio')): ?>
+
+                <script type="text/javascript">
+                    
+                    $(document).ready(function(){
+
+                        toastr.error('<?php echo $form->error($model,"estado_domicilio"); ?>')
+
+                    });
+                    
+                </script>
+
+            <?php endif; ?>
+        </div>
+
+        <label for="city" class="col-sm-1 control-label">Municipio</label>
+        <div class="col-sm-2">
+            <?php echo $form->dropDownList($model,'municipio_domicilio',
+                CHtml::listData(City::model()->findAll(),'id','city'),array('class'=>"chosen-select")
+            ); ?>
+
+            <?php if($form->error($model,'municipio_domicilio')): ?>
+
+                <script type="text/javascript">
+                    
+                    $(document).ready(function(){
+
+                        toastr.error('<?php echo $form->error($model,"municipio_domicilio"); ?>')
+
+                    });
+                    
+                </script>
+
+            <?php endif; ?>
+
+        </div>
+
+        <label for="zip_code" class="col-sm-1 control-label">C.P.</label>
+        <div class="col-sm-1">
+            <?php echo $form->textField($model,'cp_domicilio',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'placeholder'=>"Llene Este Campo...")); ?>
+            <?php if($form->error($model,'cp_domicilio')): ?>
+
+                <script type="text/javascript">
+                    
+                    $(document).ready(function(){
+
+                        toastr.error('<?php echo $form->error($model,"cp_domicilio"); ?>')
+
+                    });
+                    
+                </script>
+
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <h4 class="text-center">Domicilio Fiscal <span>(opcional)</span></h4>  
+        </div>
+    </div> 
+
+    <div class="fiscal">
+        <div class="form-group">
+            <label for="fiscal_street" class="col-sm-2 control-label">Calle</label>
+            <div class="col-sm-4">
+                <?php echo $form->textField($model,'calle_fiscal',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'placeholder'=>"Llene Este Campo...")); ?>
+                <?php if($form->error($model,'calle_fiscal')): ?>
+
+                    <script type="text/javascript">
+                        
+                        $(document).ready(function(){
+
+                            toastr.error('<?php echo $form->error($model,"calle_fiscal"); ?>')
+
+                        });
+                        
+                    </script>
+
+                <?php endif; ?>
+            </div>
+
+            <label for="fiscal_ext_number" class="col-sm-1 control-label">Número Ext.</label>
+            <div class="col-sm-2">
+                <?php echo $form->textField($model,'num_ext_fiscal',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'placeholder'=>"Llene Este Campo...")); ?>
+                <?php if($form->error($model,'num_ext_fiscal')): ?>
+
+                    <script type="text/javascript">
+                        
+                        $(document).ready(function(){
+
+                            toastr.error('<?php echo $form->error($model,"num_ext_fiscal"); ?>')
+
+                        });
+                        
+                    </script>
+
+                <?php endif; ?>
+             </div>
+
+            <label for="fiscal_int_number" class="col-sm-1 control-label">Número Int.</label>
+            <div class="col-sm-2">
+                <?php echo $form->textField($model,'num_int_fiscal',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'placeholder'=>"Llene Este Campo...")); ?>
+                <?php if($form->error($model,'num_int_fiscal')): ?>
+
+                    <script type="text/javascript">
+                        
+                        $(document).ready(function(){
+
+                            toastr.error('<?php echo $form->error($model,"num_int_fiscal"); ?>')
+
+                        });
+                        
+                    </script>
+
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="fiscal_eighborhood" class="col-sm-2 control-label">Colonia</label>
+            <div class="col-sm-2">
+                <?php echo $form->textField($model,'colonia_fiscal',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'placeholder'=>"Llene Este Campo...")); ?>
+                <?php if($form->error($model,'colonia_fiscal')): ?>
+
+                    <script type="text/javascript">
+                        
+                        $(document).ready(function(){
+
+                            toastr.error('<?php echo $form->error($model,"colonia_fiscal"); ?>')
+
+                        });
+                        
+                    </script>
+
+                <?php endif; ?>
+            </div>
+
+            <label for="fiscal_state" class="col-sm-1 control-label">Estado</label>
+            <div class="col-sm-2">
+                <?php echo $form->dropDownList($model,'estado_fiscal',array('Nuevo León'=>'Nuevo León'),array('class'=>"form-control",'placeholder'=>"Llene Este Campo...")); ?>
+                <?php if($form->error($model,'estado_fiscal')): ?>
+
+                    <script type="text/javascript">
+                        
+                        $(document).ready(function(){
+
+                            toastr.error('<?php echo $form->error($model,"estado_fiscal"); ?>')
+
+                        });
+                        
+                    </script>
+
+                <?php endif; ?>
+            </div>
+
+            <label for="fiscal_city" class="col-sm-1 control-label">Municipio</label>
+            <div class="col-sm-2">
+                <?php echo $form->dropDownList($model,'municipio_fiscal',
+                    CHtml::listData(City::model()->findAll(),'id','city'),array('class'=>"chosen-select")
+                ); ?>
+            </div>
+
+            <label for="fiscal_zip_code" class="col-sm-1 control-label">C.P.</label>
+            <div class="col-sm-1">
+                <?php echo $form->textField($model,'cp_fiscal',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'placeholder'=>"Llene Este Campo...")); ?>
+                <?php if($form->error($model,'cp_fiscal')): ?>
+
+                    <script type="text/javascript">
+                        
+                        $(document).ready(function(){
+
+                            toastr.error('<?php echo $form->error($model,"cp_fiscal"); ?>')
+
+                        });
+                        
+                    </script>
+
+                <?php endif; ?>
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <label for="id_user_type" class="col-sm-2 control-label">Status</label>
+            <div class="col-sm-2">
+                <?php echo $form->dropDownList($model,'status',array('Activo'=>'Activo','Inactivo'=>'Inactivo'),array('class'=>"form-control",'placeholder'=>"Llene Este Campo...",'onchange'=>"showFuente()",'id'=>"rol")); ?>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="panel-footer">
+        <div class="row">
+            <div class="col-sm-12">
+                <?php echo CHtml::submitButton($model->isNewRecord ? 'Ingresar' : 'Guardar',array('class'=>'btn btn-default pull-right')); ?>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+</div>
+</div>
+</div>
 
 <?php $this->endWidget(); ?>
 
-</div><!-- form -->
+
+

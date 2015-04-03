@@ -30,10 +30,7 @@
   <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl; ?>/js/bootstrap.min.js"></script>
 
   <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/plugins/toastr/toastr.min.js"></script>
-
   <link href="<?php echo Yii::app()->theme->baseUrl; ?>/css/plugins/toastr/toastr.min.css" rel="stylesheet">
-
-
 
 </head>
 <body>

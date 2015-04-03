@@ -53,9 +53,8 @@ class Properties extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_profile, catastral, is_building, street, number_ext, number_int, neighborhood, zip_code, id_state, id_city, cos, cus, cas, slope, surface, remetimiento_forntal, remetimiento_posterior, remetimiento_izquierdo, remetimiento_derecho, has_parking, parking_description, id_parking_document, has_urban_incorporation, urban_incorporation_description, urban_height_limit', 'required'),
-			array('id_profile, is_building, id_state, id_city, surface, has_parking, has_urban_incorporation', 'numerical', 'integerOnly'=>true),
-			array('catastral', 'length', 'max'=>6),
+			array('id_profile, catastral, is_building, street, number_ext, number_int, neighborhood, zip_code, id_state, id_city, cos, cus, cas, slope, surface, remetimiento_forntal, remetimiento_posterior, remetimiento_izquierdo, remetimiento_derecho, has_parking, parking_description, has_urban_incorporation, urban_incorporation_description, urban_height_limit', 'required'),
+			array('id_profile, id_city, surface', 'numerical', 'integerOnly'=>true),
 			array('street, number_ext, neighborhood', 'length', 'max'=>60),
 			array('number_int', 'length', 'max'=>12),
 			array('zip_code', 'length', 'max'=>10),
@@ -63,8 +62,10 @@ class Properties extends CActiveRecord
 			array('cos, cus, cas, slope, remetimiento_forntal, remetimiento_posterior, remetimiento_izquierdo, remetimiento_derecho, urban_height_limit', 'length', 'max'=>8),
 			array('parking_description', 'length', 'max'=>200),
 			array('id_parking_document', 'length', 'max'=>255),
+
 			array('urban_incorporation_description', 'length', 'max'=>20),
 			array('created_at, updated_at', 'safe'),
+			
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id, id_profile, catastral, is_building, street, number_ext, number_int, neighborhood, zip_code, id_state, id_city, latitude, longitude, cos, cus, cas, slope, surface, remetimiento_forntal, remetimiento_posterior, remetimiento_izquierdo, remetimiento_derecho, has_parking, parking_description, id_parking_document, has_urban_incorporation, urban_incorporation_description, urban_height_limit, created_at, updated_at', 'safe', 'on'=>'search'),
@@ -89,16 +90,16 @@ class Properties extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'id_profile' => 'Id Profile',
+			'id_profile' => 'Cliente',
 			'catastral' => 'Catastral',
-			'is_building' => 'Is Building',
-			'street' => 'Street',
-			'number_ext' => 'Number Ext',
-			'number_int' => 'Number Int',
-			'neighborhood' => 'Neighborhood',
+			'is_building' => 'Construcción',
+			'street' => 'Calle',
+			'number_ext' => 'Numero Ext',
+			'number_int' => 'Numero Int',
+			'neighborhood' => 'Municipio',
 			'zip_code' => 'Zip Code',
-			'id_state' => 'Id State',
-			'id_city' => 'Id City',
+			'id_state' => 'Estado',
+			'id_city' => 'Ciudad',
 			'latitude' => 'Latitude',
 			'longitude' => 'Longitude',
 			'cos' => 'Cos',
@@ -110,9 +111,9 @@ class Properties extends CActiveRecord
 			'remetimiento_posterior' => 'Remetimiento Posterior',
 			'remetimiento_izquierdo' => 'Remetimiento Izquierdo',
 			'remetimiento_derecho' => 'Remetimiento Derecho',
-			'has_parking' => 'Has Parking',
-			'parking_description' => 'Parking Description',
-			'id_parking_document' => 'Id Parking Document',
+			'has_parking' => 'Estacionamiento',
+			'parking_description' => 'Descripción Estacionamiento',
+			'id_parking_document' => 'Documento de Estacionamiento',
 			'has_urban_incorporation' => 'Has Urban Incorporation',
 			'urban_incorporation_description' => 'Urban Incorporation Description',
 			'urban_height_limit' => 'Urban Height Limit',

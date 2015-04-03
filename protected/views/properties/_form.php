@@ -4,6 +4,14 @@
 /* @var $form CActiveForm */
 ?>
 
+<!--Jquery-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<!--Bootstrap-->
+<script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl; ?>/js/bootstrap.min.js"></script>
+
+<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/plugins/toastr/toastr.min.js"></script>
+
 <script type="text/javascript">
     
     function añadir()
@@ -42,6 +50,12 @@
     'htmlOptions' => array('enctype' => 'multipart/form-data'),
 
 )); ?>
+        <?php echo $form->errorSummary($model); ?>
+        <?php echo $form->errorSummary($model_licenses); ?>
+        <?php echo $form->errorSummary($model_identification); ?>
+        <?php echo $form->errorSummary($model_extra_properties); ?>
+
+
         <div class="panel panel-default panel-create">
             <div class="panel-heading">
                 <h2>Nueva propiedad</h2>
@@ -61,7 +75,7 @@
 
                         <div class="col-sm-3">
                             <?php echo $form->dropDownList($model,'id_profile',
-                                CHtml::listData(Usuarios::model()->findAll(),'usuario','nombre'),array('class'=>"chosen-select")
+                                CHtml::listData(Usuarios::model()->findAllByAttributes(array('rol'=>'Cliente')),'id_usuario','nombre'),array('class'=>"chosen-select")
                             ); ?>
                         </div>
 
@@ -82,21 +96,80 @@
 
                         <div class="col-sm-2">
                             <?php echo $form->textField($model,'street',array('size'=>60,'maxlength'=>100,'class'=>"form-control",'placeholder'=>"Calle")); ?>
+                                
+                            <?php if($form->error($model,'street')): ?>
+
+                                <script type="text/javascript">
+                                    
+                                    $(document).ready(function(){
+
+                                        toastr.error('<?php echo $form->error($model,"street"); ?>')
+
+                                    });
+                                    
+                                </script>
+
+                            <?php endif; ?>
+
                         </div>     
 
                         <label for="ext_number" class="col-sm-1 control-label">Num ext.</label>
                         <div class="col-sm-1">
                             <?php echo $form->textField($model,'number_ext',array('size'=>60,'maxlength'=>100,'class'=>"form-control",'placeholder'=>"Num ext.")); ?>
+                            
+                            <?php if($form->error($model,'number_ext')): ?>
+
+                                <script type="text/javascript">
+                                    
+                                    $(document).ready(function(){
+
+                                        toastr.error('<?php echo $form->error($model,"number_ext"); ?>')
+
+                                    });
+                                    
+                                </script>
+
+                            <?php endif; ?>
+
                         </div>
 
                         <label for="int_number" class="col-sm-1 control-label">Num int.</label>
                         <div class="col-sm-1">
                             <?php echo $form->textField($model,'number_int',array('size'=>60,'maxlength'=>100,'class'=>"form-control",'placeholder'=>"Num Int.")); ?>
+                            
+                            <?php if($form->error($model,'number_int')): ?>
+
+                                <script type="text/javascript">
+                                    
+                                    $(document).ready(function(){
+
+                                        toastr.error('<?php echo $form->error($model,"number_int"); ?>')
+
+                                    });
+                                    
+                                </script>
+
+                            <?php endif; ?>
+
                         </div>
 
                         <label for="neighborhood" class="col-sm-1 control-label">Colonia</label>
                         <div class="col-sm-3">
                             <?php echo $form->textField($model,'neighborhood',array('size'=>60,'maxlength'=>100,'class'=>"form-control",'placeholder'=>"Colonia")); ?>
+
+                            <?php if($form->error($model,'neighborhood')): ?>
+
+                                <script type="text/javascript">
+                                    
+                                    $(document).ready(function(){
+
+                                        toastr.error('<?php echo $form->error($model,"neighborhood"); ?>')
+
+                                    });
+                                    
+                                </script>
+
+                            <?php endif; ?>
 
                         </div>
                     </div>
@@ -106,11 +179,40 @@
                         <div class="col-sm-2">
                             <?php echo $form->textField($model,'zip_code',array('size'=>60,'maxlength'=>100,'class'=>"form-control",'placeholder'=>"C.P")); ?>
 
+                            <?php if($form->error($model,'zip_code')): ?>
+
+                                <script type="text/javascript">
+                                    
+                                    $(document).ready(function(){
+
+                                        toastr.error('<?php echo $form->error($model,"zip_code"); ?>')
+
+                                    });
+                                    
+                                </script>
+
+                            <?php endif; ?>
+
                         </div>
 
                         <label for="state" class="col-sm-1 control-label">Estado</label>
                         <div class="col-sm-3">
-                            <?php echo $form->dropDownList($model,'id_state',array('Aguascalientes'=>'Nuevo León'),array('class'=>"form-control")); ?>
+                            <?php echo $form->dropDownList($model,'id_state',array('Nuevo León'=>'Nuevo León'),array('class'=>"form-control")); ?>
+                            
+                            <?php if($form->error($model,'id_state')): ?>
+
+                                <script type="text/javascript">
+                                    
+                                    $(document).ready(function(){
+
+                                        toastr.error('<?php echo $form->error($model,"id_state"); ?>')
+
+                                    });
+                                    
+                                </script>
+
+                            <?php endif; ?>
+
                         </div>
 
                         <script type="text/javascript">
@@ -141,12 +243,33 @@
 
                     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
 
+                    <?php if($model->isNewRecord): ?>
+
                     <body>
                         <div hidden id="panel">
                           <input id="address" type="textbox" value="Monterrey,Mexico">
                         </div>
                         <div id="map-canvas"></div>  
                     </body>
+
+                    <?php endif; ?>
+
+                    <?php if(!$model->isNewRecord): ?>
+
+                    <?php $city_update=City::model()->findAllByAttributes(array('id'=>$model->id_city)) ?>
+
+                    <?php foreach ($city_update as $c): ?>
+                        <?php $city=$c->city; ?>
+                    <?php endforeach ?>
+                    <body>
+                        <div hidden id="panel">
+                          <input id="address" type="textbox" value="Nuevo León,Mexico,<?php echo $city; ?>">
+                        </div>
+                        <div id="map-canvas"></div>  
+                    </body>
+
+                    <?php endif; ?>
+
 
                     <style>
                       html, body {
@@ -243,7 +366,7 @@
                         <div class="col-md-12">
                             <h4>Identificación</h4><hr>
                             <div class="col-sm-2">
-                                <input type="text" class="form-control" name="catastral" data-mask="999-999-999" placeholder="Catastral">
+                                <input type="text" class="form-control" value="<?php echo $model->catastral; ?>" name="catastral" data-mask="999-999-999" placeholder="Catastral">
                             </div>
                             <button class="btn btn-default" type="button" onclick="añadir();">
                             Añadir Nueva Identificación
@@ -253,6 +376,8 @@
                     </div>
                     <br><br>
 
+            <?php if($model->isNewRecord): ?>
+
                 <div id="container_añadir">
 
                     <div id="añadir">
@@ -260,32 +385,22 @@
                         <div class="form-group">
 
                             <label for="uso_suelo" class="col-sm-1 control-label">Uso de suelo</label>
+
                             <div class="col-sm-2">
-                                <select class="chosen-select" name="uso_suelo[]">
-                                    <option value="0">Seleccionar</option>
-                                    <option value="1">Unifamiliar</option>
-                                    <option value="2">Multifamiliar</option>
-                                    <option value="3">Servicios</option>
-                                    <option value="4">Equipamiento privado</option>
-                                    <option value="5">Equipamiento público</option>
-                                    <option value="6">Comercial</option>
-                                    <option value="7">Habitacional</option>
-                                    <option value="8">Industrial</option>
-                                    <option value="9">Agropecuario</option>
-                                    <option value="10">Forestal</option>
-                                    <option value="11">Áreas verdes</option>
-                                    <option value="12">No tiene uso de suelo</option>
-                                </select>
+                                <?php echo $form->dropDownList($model_identification,'id',
+                                    CHtml::listData(UseSoilType::model()->findAll(),'id','use_soil_type'),array('class'=>"chosen-select",'name'=>"use_soil_type[]")
+                                ); ?>
                             </div> 
+                            
 
                             <label for="expedition_date" class="col-sm-1 control-label">Expedición</label>
                             <div class="col-sm-2">
-                                <input class="form-control" type="date" name="expedition_date_identification[]" data-mask="99/99/9999">
+                                <input class="form-control" value="<?php echo $model_identification->soil_date_expedition; ?>" type="date" name="expedition_date_identification[]" data-mask="9999/99/99">
                             </div>
 
                             <label for="expiration_date" class="col-sm-1 control-label">Vencimiento</label>
                             <div class="col-sm-2">
-                                <input class="form-control" type="date" name="expiration_date_identification[]" data-mask="99/99/9999">
+                                <input class="form-control" value="<?php echo $model_identification->soil_date_expiration; ?>" type="date" name="expiration_date_identification[]" data-mask="9999/99/99">
                             </div>
                         </div>
 
@@ -294,17 +409,11 @@
                             <div class="col-sm-3">
                                 <div class="fileinput fileinput-new" data-provides="fileinput">
                                     <div class="input-group">
-                                        <div class="form-control uneditable-input" data-trigger="fileinput">
-                                            <i class="fa fa-file fileinput-exists"></i>&nbsp;<span class="fileinput-filename"></span>
-                                        </div>
+                                        
                                         <span class="input-group-btn">
-                                            <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
                                             <span class="btn btn-default btn-file">
-                                                <span class="fileinput-new">Select file</span>
-                                                <span class="fileinput-exists">Change</span>
-                                                <input type="file" name="identification_document[]">
+                                                <input type="file" name="identification_document[]" value="<?php echo $model_identification->document_identification; ?>">
                                             </span>
-
                                         </span>
                                     </div>
                                 </div>
@@ -314,6 +423,116 @@
                     </div>
 
                 </div>
+
+            <?php endif; ?>
+
+            <?php if(!$model->isNewRecord): ?>
+
+                <div hidden id="container_añadir">
+
+                    <div id="añadir">
+
+                        <div class="form-group">
+
+                            <label for="uso_suelo" class="col-sm-1 control-label">Uso de suelo</label>
+
+                            <?php $model_identification_up=new Identification; ?>
+
+                            <div class="col-sm-2">
+                                <?php echo $form->dropDownList($model_identification_up,'id',
+                                    CHtml::listData(UseSoilType::model()->findAll(),'id','use_soil_type'),array('class'=>"chosen-select",'name'=>"use_soil_type[]")
+                                ); ?>
+                            </div> 
+                            
+
+                            <label for="expedition_date" class="col-sm-1 control-label">Expedición</label>
+                            <div class="col-sm-2">
+                                <input class="form-control" value="<?php echo $model_identification_up->soil_date_expedition; ?>" type="date" name="expedition_date_identification[]" data-mask="9999/99/99">
+                            </div>
+
+                            <label for="expiration_date" class="col-sm-1 control-label">Vencimiento</label>
+                            <div class="col-sm-2">
+                                <input class="form-control" value="<?php echo $model_identification_up->soil_date_expiration; ?>" type="date" name="expiration_date_identification[]" data-mask="9999/99/99">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="identification_documen" class="col-sm-1 control-label">Documentos</label>
+                            <div class="col-sm-3">
+                                <div class="fileinput fileinput-new" data-provides="fileinput">
+                                    <div class="input-group">
+                                        
+                                        <span class="input-group-btn">
+                                            <span class="btn btn-default btn-file">
+                                                <input type="file" name="identification_document[]" value="<?php echo $model_identification_up->document_identification; ?>">
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            <?php endif; ?>
+
+
+
+            <?php if(!$model->isNewRecord): ?>
+
+            <?php foreach ($model_identification as $m): ?>
+                    
+                <div id="container_añadir_update">
+
+                    <div id="añadir_update">
+
+                        <div class="form-group">
+
+                            <label for="uso_suelo" class="col-sm-1 control-label">Uso de suelo</label>
+
+                            <div class="col-sm-2">
+                                <?php echo $form->dropDownList($m,'id',
+                                    CHtml::listData(UseSoilType::model()->findAll(),'id','use_soil_type'),array('class'=>"chosen-select",'name'=>"use_soil_type[]")
+                                ); ?>
+                            </div> 
+                            
+
+                            <label for="expedition_date" class="col-sm-1 control-label">Expedición</label>
+                            <div class="col-sm-2">
+                                <input class="form-control" value="<?php echo $m->soil_date_expedition; ?>" type="date" name="expedition_date_identification[]" data-mask="9999/99/99">
+                            </div>
+
+                            <label for="expiration_date" class="col-sm-1 control-label">Vencimiento</label>
+                            <div class="col-sm-2">
+                                <input class="form-control" value="<?php echo $m->soil_date_expiration; ?>" type="date" name="expiration_date_identification[]" data-mask="9999/99/99">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="identification_documen" class="col-sm-1 control-label">Documentos</label>
+                            <div class="col-sm-3">
+                                <div class="fileinput fileinput-new" data-provides="fileinput">
+                                    <div class="input-group">
+                                        
+                                        <span class="input-group-btn">
+                                            <span class="btn btn-default btn-file">
+                                                <input type="file" name="identification_document[]" value="<?php echo $m->document_identification; ?>">
+                                            </span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <?php endforeach ?>
+
+            <?php endif; ?>
+
 
                     <div id="input_añadidos"></div>
                     <!-- End: Identificación -->
@@ -329,28 +548,26 @@
                         </div>
                     </div>
 
+            <?php if($model->isNewRecord): ?>
+
             <div id="container_license">
                 <div id="license">
                     <div class="form-group">
-                        <!--<label for="type_license" class="col-sm-1 control-label">Tipo de licencia</label>-->
-                        <div class="col-sm-3">
-                            <select name="type_license[]" class="chosen-select">
-                                <option value="0">Tipo de licencia</option>
-                                <option value="1">Uso de suelo</option>
-                                <option value="2">Licencia de construcción</option>
-                                <option value="3">Licencia de uso de edificación</option>
-                                <option value="4">Certificado de libertad de gravámen</option>
-                            </select>
+                        <label for="type_license" class="col-sm-1 control-label">Tipo de licencia</label>
+                        <div class="col-sm-2">
+                            <?php echo $form->dropDownList($model_licenses,'id',
+                                CHtml::listData(LicenseType::model()->findAll(),'id','license_type'),array('class'=>"chosen-select",'name'=>"type_license[]")
+                            ); ?>
                         </div>
 
                         <label for="license_expedition_date" class="col-sm-1 control-label">Expedición</label>
                         <div class="col-sm-2">
-                            <input class="form-control" type="date" name="expedition_date_license[]" data-mask="99/99/9999">
+                            <input class="form-control" value="<?php echo $model_licenses->lic_date_expedition; ?>" type="date" name="expedition_date_license[]" data-mask="9999/99/99">
                         </div>
 
                         <label for="license_expiration_date" class="col-sm-1 control-label">Vencimiento</label>
                         <div class="col-sm-2">
-                            <input class="form-control" type="date" name="expiration_date_license[]" data-mask="99/99/9999">
+                            <input class="form-control" value="<?php echo $model_licenses->lic_date_expiration; ?>" type="date" name="expiration_date_license[]" data-mask="9999/99/99">
                         </div>
                     </div>
 
@@ -359,15 +576,10 @@
                         <div class="col-sm-3">
                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                 <div class="input-group">
-                                    <div class="form-control uneditable-input" data-trigger="fileinput">
-                                        <i class="fa fa-file fileinput-exists"></i>&nbsp;<span class="fileinput-filename"></span>
-                                    </div>
+                                    
                                     <span class="input-group-btn">
-                                        <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
                                         <span class="btn btn-default btn-file">
-                                            <span class="fileinput-new">Select file</span>
-                                            <span class="fileinput-exists">Change</span>
-                                            <input type="file" name="license_documen">
+                                            <input type="file" name="license_document[]" value="<?php echo $model_licenses->id_document; ?>">
                                         </span>
 
                                     </span>
@@ -377,6 +589,106 @@
                     </div>
                 </div>
             </div>
+
+            <?php endif; ?>
+
+            <?php if(!$model->isNewRecord): ?>
+
+            <div hidden id="container_license">
+                <div id="license">
+                    <div class="form-group">
+                        <label for="type_license" class="col-sm-1 control-label">Tipo de licencia</label>
+                        
+                        <?php $model_licenses_up=new Licenses; ?>
+
+                        <div class="col-sm-2">
+                            <?php echo $form->dropDownList($model_licenses_up,'id',
+                                CHtml::listData(LicenseType::model()->findAll(),'id','license_type'),array('class'=>"chosen-select",'name'=>"type_license[]")
+                            ); ?>
+                        </div>
+
+                        <label for="license_expedition_date" class="col-sm-1 control-label">Expedición</label>
+                        <div class="col-sm-2">
+                            <input class="form-control" value="<?php echo $model_licenses_up->lic_date_expedition; ?>" type="date" name="expedition_date_license[]" data-mask="9999/99/99">
+                        </div>
+
+                        <label for="license_expiration_date" class="col-sm-1 control-label">Vencimiento</label>
+                        <div class="col-sm-2">
+                            <input class="form-control" value="<?php echo $model_licenses_up->lic_date_expiration; ?>" type="date" name="expiration_date_license[]" data-mask="9999/99/99">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="license_documen" class="col-sm-1 control-label">Documentos</label>
+                        <div class="col-sm-3">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="input-group">
+                                    
+                                    <span class="input-group-btn">
+                                        <span class="btn btn-default btn-file">
+                                            <input type="file" name="license_document[]" value="<?php echo $model_licenses_up->id_document; ?>">
+                                        </span>
+
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <?php endif; ?>
+
+
+        <?php if(!$model->isNewRecord): ?>
+
+            <?php foreach ($model_licenses as $m): ?>
+                
+            <div id="container_license_update">
+                <div id="license_update">
+                    <div class="form-group">
+                        <label for="type_license" class="col-sm-1 control-label">Tipo de licencia</label>
+                        <div class="col-sm-2">
+                            <?php echo $form->dropDownList($m,'id',
+                                CHtml::listData(LicenseType::model()->findAll(),'id','license_type'),array('class'=>"chosen-select",'name'=>"type_license[]")
+                            ); ?>
+                        </div>
+
+                        <label for="license_expedition_date" class="col-sm-1 control-label">Expedición</label>
+                        <div class="col-sm-2">
+                            <input class="form-control" value="<?php echo $m->lic_date_expedition; ?>" type="date" name="expedition_date_license[]" data-mask="9999/99/99">
+                        </div>
+
+                        <label for="license_expiration_date" class="col-sm-1 control-label">Vencimiento</label>
+                        <div class="col-sm-2">
+                            <input class="form-control" value="<?php echo $m->lic_date_expiration; ?>" type="date" name="expiration_date_license[]" data-mask="9999/99/99">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="license_documen" class="col-sm-1 control-label">Documentos</label>
+                        <div class="col-sm-3">
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="input-group">
+                                    
+                                    <span class="input-group-btn">
+                                        <span class="btn btn-default btn-file">
+                                            <input type="file" name="license_document[]" value="<?php echo $m->id_document; ?>">
+                                        </span>
+
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <?php endforeach; ?> 
+
+        <?php endif; ?>
+
+
 
             <div id="license_adds"></div>
                     <!-- End: Licencias -->
@@ -393,16 +705,61 @@
                         <label for="cos" class="col-sm-2 control-label">COS</label>
                         <div class="col-sm-2">
                             <?php echo $form->textField($model,'cos',array('size'=>60,'maxlength'=>100,'class'=>"form-control",'placeholder'=>"Cos")); ?>
+                            
+                            <?php if($form->error($model,'cos')): ?>
+
+                                <script type="text/javascript">
+                                    
+                                    $(document).ready(function(){
+
+                                        toastr.error('<?php echo $form->error($model,"cos"); ?>')
+
+                                    });
+                                    
+                                </script>
+
+                            <?php endif; ?>
+
                         </div>
 
                         <label for="cus" class="col-sm-2 control-label">CUS</label>
                         <div class="col-sm-2">
                             <?php echo $form->textField($model,'cus',array('size'=>60,'maxlength'=>100,'class'=>"form-control",'placeholder'=>"Cus")); ?>
+                            
+                            <?php if($form->error($model,'cus')): ?>
+
+                                <script type="text/javascript">
+                                    
+                                    $(document).ready(function(){
+
+                                        toastr.error('<?php echo $form->error($model,"cus"); ?>')
+
+                                    });
+                                    
+                                </script>
+
+                            <?php endif; ?>
+
                         </div>
 
                         <label for="cas" class="col-sm-1 control-label">CAS</label>
                         <div class="col-sm-2">
                             <?php echo $form->textField($model,'cas',array('size'=>60,'maxlength'=>100,'class'=>"form-control",'placeholder'=>"Cas")); ?>
+                            
+                            <?php if($form->error($model,'cas')): ?>
+
+                                <script type="text/javascript">
+                                    
+                                    $(document).ready(function(){
+
+                                        toastr.error('<?php echo $form->error($model,"cas"); ?>')
+
+                                    });
+                                    
+                                </script>
+
+                            <?php endif; ?>
+
                         </div>
                     </div>
 
@@ -413,7 +770,7 @@
 
                                 <?php
 
-                                $status = array('Si'=>'Si', 'No'=>'No');
+                                $status = array('Construcción'=>'Construcción', 'Terreno'=>'Terreno');
                                 echo $form->radioButtonList($model,'is_building',$status,
                                 array('separator'=>'',
                                 'labelOptions'=>array('class'=>'control-label'), // add this code
@@ -427,6 +784,21 @@
                             <div class="input-group">
                                 <?php echo $form->textField($model,'surface',array('size'=>60,'maxlength'=>100,'class'=>"form-control",'placeholder'=>"Superficie de Terreno")); ?>
                                 <span class="input-group-addon">m<sup>2</sup></span>
+
+                                <?php if($form->error($model,'surface')): ?>
+
+                                    <script type="text/javascript">
+                                        
+                                        $(document).ready(function(){
+
+                                            toastr.error('<?php echo $form->error($model,"surface"); ?>')
+
+                                        });
+                                        
+                                    </script>
+
+                                <?php endif; ?>
+
                             </div>
                         </div>
 
@@ -435,6 +807,21 @@
                             <div class="input-group">
                                 <?php echo $form->textField($model,'slope',array('size'=>60,'maxlength'=>100,'class'=>"form-control",'placeholder'=>"Pendiente")); ?>
                                 <span class="input-group-addon">%</span>
+
+                                <?php if($form->error($model,'slope')): ?>
+
+                                    <script type="text/javascript">
+                                        
+                                        $(document).ready(function(){
+
+                                            toastr.error('<?php echo $form->error($model,"slope"); ?>')
+
+                                        });
+                                        
+                                    </script>
+
+                                <?php endif; ?>
+
                             </div>
                         </div>
                     </div>
@@ -445,6 +832,21 @@
                             <div class="input-group">
                                 <?php echo $form->textField($model,'remetimiento_forntal',array('size'=>60,'maxlength'=>100,'class'=>"form-control",'placeholder'=>"Remetimiento Frontal")); ?>
                                 <span class="input-group-addon">m</span>
+
+                                <?php if($form->error($model,'remetimiento_frontal')): ?>
+
+                                    <script type="text/javascript">
+                                        
+                                        $(document).ready(function(){
+
+                                            toastr.error('<?php echo $form->error($model,"remetimiento_frontal"); ?>')
+
+                                        });
+                                        
+                                    </script>
+
+                                <?php endif; ?>
+
                             </div>
                         </div> 
 
@@ -453,6 +855,21 @@
                             <div class="input-group">
                                 <?php echo $form->textField($model,'remetimiento_posterior',array('size'=>60,'maxlength'=>100,'class'=>"form-control",'placeholder'=>"Remetimiento Posterior")); ?>
                                 <span class="input-group-addon">m</span>
+
+                                <?php if($form->error($model,'remetimiento_posterior')): ?>
+
+                                    <script type="text/javascript">
+                                        
+                                        $(document).ready(function(){
+
+                                            toastr.error('<?php echo $form->error($model,"remetimiento_posterior"); ?>')
+
+                                        });
+                                        
+                                    </script>
+
+                                <?php endif; ?>
+
                             </div>
                         </div>  
                     </div>
@@ -463,6 +880,21 @@
                             <div class="input-group">
                                 <?php echo $form->textField($model,'remetimiento_derecho',array('size'=>60,'maxlength'=>100,'class'=>"form-control",'placeholder'=>"Remetimiento Derecho")); ?>
                                 <span class="input-group-addon">m</span>
+
+                                <?php if($form->error($model,'remetimiento_derecho')): ?>
+
+                                    <script type="text/javascript">
+                                        
+                                        $(document).ready(function(){
+
+                                            toastr.error('<?php echo $form->error($model,"remetimiento_derecho"); ?>')
+
+                                        });
+                                        
+                                    </script>
+
+                                <?php endif; ?>
+
                             </div>
                         </div>
 
@@ -471,6 +903,21 @@
                             <div class="input-group">
                                 <?php echo $form->textField($model,'remetimiento_izquierdo',array('size'=>60,'maxlength'=>100,'class'=>"form-control",'placeholder'=>"Remetimiento Izquierdo")); ?>
                                 <span class="input-group-addon">m</span>
+
+                                <?php if($form->error($model,'remetimiento_izquierdo')): ?>
+
+                                    <script type="text/javascript">
+                                        
+                                        $(document).ready(function(){
+
+                                            toastr.error('<?php echo $form->error($model,"remetimiento_izquierdo"); ?>')
+
+                                        });
+                                        
+                                    </script>
+
+                                <?php endif; ?>
+
                             </div>
                         </div>  
                     </div>
@@ -486,11 +933,40 @@
                             'labelOptions'=>array('class'=>'control-label'), // add this code
                             ));
                             ?>
+
+                            <?php if($form->error($model,'has_parking')): ?>
+
+                                <script type="text/javascript">
+                                    
+                                    $(document).ready(function(){
+
+                                        toastr.error('<?php echo $form->error($model,"has_parking"); ?>')
+
+                                    });
+                                    
+                                </script>
+
+                            <?php endif; ?>
+
                         </div>
 
                         <label for="parking_description" class="col-sm-1 control-label">Descripción</label>
                         <div class="col-sm-3">
                             <?php echo $form->textArea($model,'parking_description',array('size'=>60,'maxlength'=>100,'class'=>"form-control",'placeholder'=>"Descripción")); ?>
+
+                            <?php if($form->error($model,'parking_description')): ?>
+
+                                <script type="text/javascript">
+                                    
+                                    $(document).ready(function(){
+
+                                        toastr.error('<?php echo $form->error($model,"parking_description"); ?>')
+
+                                    });
+                                    
+                                </script>
+
+                            <?php endif; ?>
 
                         </div> 
                     </div>
@@ -498,7 +974,22 @@
                     <div class="form-group">
                         <label for="parking_matrix" class="col-sm-4 control-label">Matriz de estacionamiento</label>
                         <div class="col-sm-3">
-                            <input type="file" class="form-control" name="parking_matrix">
+                            <?php echo $form->fileField($model,'id_parking_document',array('size'=>60,'maxlength'=>500,'class'=>"form-control")); ?>
+                            
+                            <?php if($form->error($model,'id_parking_document')): ?>
+
+                                <script type="text/javascript">
+                                    
+                                    $(document).ready(function(){
+
+                                        toastr.error('<?php echo $form->error($model,"id_parking_document"); ?>')
+
+                                    });
+                                    
+                                </script>
+
+                            <?php endif; ?>
+
                         </div>
                     </div>
 
@@ -513,11 +1004,40 @@
                             'labelOptions'=>array('class'=>'control-label'), // add this code
                             ));
                             ?>
+
+                            <?php if($form->error($model,'has_urban_incorporation')): ?>
+
+                                <script type="text/javascript">
+                                    
+                                    $(document).ready(function(){
+
+                                        toastr.error('<?php echo $form->error($model,"has_urban_incorporation"); ?>')
+
+                                    });
+                                    
+                                </script>
+
+                            <?php endif; ?>
+
                         </div>
 
                         <label for="parking_matrix" class="col-sm-1 control-label">Descripción</label>
                         <div class="col-sm-3">
                             <?php echo $form->textArea($model,'urban_incorporation_description',array('size'=>60,'maxlength'=>100,'class'=>"form-control",'placeholder'=>"Descripción")); ?>
+
+                            <?php if($form->error($model,'urban_incorporation_description')): ?>
+
+                                <script type="text/javascript">
+                                    
+                                    $(document).ready(function(){
+
+                                        toastr.error('<?php echo $form->error($model,"urban_incorporation_description"); ?>')
+
+                                    });
+                                    
+                                </script>
+
+                            <?php endif; ?>
 
                         </div>
                     </div>
@@ -527,6 +1047,20 @@
                         <div class="col-sm-2">
                             <div class="input-group">
                                 <?php echo $form->textField($model,'urban_height_limit',array('size'=>60,'maxlength'=>100,'class'=>"form-control",'placeholder'=>"Limite de Altura")); ?>
+
+                                <?php if($form->error($model,'urban_height_limit')): ?>
+
+                                    <script type="text/javascript">
+                                        
+                                        $(document).ready(function(){
+
+                                            toastr.error('<?php echo $form->error($model,"urban_height_limit"); ?>')
+
+                                        });
+                                        
+                                    </script>
+
+                                <?php endif; ?>
 
                                 <span class="input-group-addon">m</span>
                             </div>                        
@@ -543,6 +1077,7 @@
                         </div>                
                     </div>
 
+                <?php if($model->isNewRecord): ?>
 
                 <div id="container_extra">
 
@@ -551,18 +1086,75 @@
                         <div class="form-group">
                             <label for="extra_title" class="col-sm-1 control-label"><ins>Título</ins></label>
                             <div class="col-sm-2">
-                                <input type="text" class="form-control" name="extra_title">
+                                <input type="text" class="form-control" name="extra_title[]" value="<?php echo $model_extra_properties->title; ?>">
                             </div>
 
                             <label for="extra_description" class="col-sm-1 control-label">Descripción</label>
                             <div class="col-sm-4">
-                                <input type="text" class="form-control" name="extra_description">
+                                <textarea class="form-control" name="extra_description[]" placeholder="Descripción"><?php echo $model_extra_properties->description; ?></textarea>
                             </div>
                         </div>
 
                     </div>
 
                 </div>
+
+                <?php endif; ?>
+
+                <?php if(!$model->isNewRecord): ?>
+
+                <div hidden id="container_extra">
+
+                    <div id="extra">
+
+                        <?php $extra=new ExtraProperties; ?>
+
+                        <div class="form-group">
+                            <label for="extra_title" class="col-sm-1 control-label"><ins>Título</ins></label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" name="extra_title[]" value="<?php echo $extra->title; ?>">
+                            </div>
+
+                            <label for="extra_description" class="col-sm-1 control-label">Descripción</label>
+                            <div class="col-sm-4">
+                                <textarea class="form-control" name="extra_description[]" placeholder="Descripción"><?php echo $extra->description; ?></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <?php endif; ?>
+
+
+            <?php if(!$model->isNewRecord): ?>
+
+                <?php foreach ($model_extra_properties as $ex): ?>
+                    
+                <div id="container_extra_update">
+
+                    <div id="extra_update">
+
+                        <div class="form-group">
+                            <label for="extra_title" class="col-sm-1 control-label"><ins>Título</ins></label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" name="extra_title[]" value="<?php echo $ex->title; ?>">
+                            </div>
+
+                            <label for="extra_description" class="col-sm-1 control-label">Descripción</label>
+                            <div class="col-sm-4">
+                                <textarea class="form-control" name="extra_description[]" placeholder="Descripción"><?php echo $ex->description; ?></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <?php endforeach; ?>
+
+            <?php endif; ?>
 
                 <div id="extra_añadidos"></div>
                     <!-- End: Lineamientos de contrucción -->

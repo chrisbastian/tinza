@@ -28,7 +28,7 @@ class PropertiesController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','admin','create','update'),
+				'actions'=>array('index','view','admin','create','update','Eliminar'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -60,9 +60,28 @@ class PropertiesController extends Controller
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
+
+	public function actionEliminar($id)
+	{
+		if(Yii::app()->session['rol']!="Administrador" )
+		{
+			$this->redirect(array('login'));
+		}
+
+		$this->loadModel($id)->delete();
+		
+		$this->redirect(array('properties/admin'));
+
+	}
+
 	public function actionCreate()
 	{
 		$model=new Properties;
+		$model_identification=new Identification;
+		$model_licenses=new Licenses;
+		$model_extra_properties=new ExtraProperties;
+
+
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -70,21 +89,185 @@ class PropertiesController extends Controller
 		if(isset($_POST['Properties']))
 		{
 			$model->attributes=$_POST['Properties'];
+			$catastral=$_POST['catastral'];
+			$model->catastral=$catastral;
+			$model->id_parking_document=CUploadedFile::getInstance($model,'id_parking_document');
 
-			var_dump($_POST['expedition_date_identification']);
+			if($model->id_parking_document!=NULL)
+			{
+				$model->id_parking_document->saveAs(dirname(Yii::app()->request->scriptFile).'/files/'.$model->id_parking_document);
+				$model->id_parking_document=$model->id_parking_document;
+			}
 
-			/*
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-			*/
-		}else
-		{
+			$model->save();
+
+			$document_identification= CUploadedFile::getInstancesByName('identification_document');
+			$document_license= CUploadedFile::getInstancesByName('license_document');
+				
+			//License Attributes
+			$type_license=$_POST['type_license'];
+			$expedition_date_license=$_POST['expedition_date_license'];
+			$expiration_date_license=$_POST['expiration_date_license'];
+
+			$count=0;
+
+			if(!empty($type_license))
+			{
+
+				foreach ($document_license as $file_license) {
+					$fileName = $file_license->getName();
+					$file_license->saveAs(dirname(Yii::app()->request->scriptFile).'/files/'.$fileName);
+					$file_document_license[$count]=$fileName;
+					$count++;
+				}
+
+				$count=0;
+
+				$type_license_array=array();
+
+				//License Model
+				foreach ($type_license as $single => $value) {
+					$type_license_array[$count]=$value;
+					$count++;
+				}
+
+				$count=0;
+
+				foreach ($expedition_date_license as $single => $value) {
+					$expedition_date_license_array[$count]=$value;
+					$count++;
+				}
+
+				$count=0;
+
+				foreach ($expiration_date_license as $single => $value) {
+					$expiration_date_license_array[$count]=$value;
+					$count++;
+				}
+
+				//Save Model License
+				for ($i=0; $i<$count; $i++) { 
+
+					$model_licenses=new Licenses;
+					$model_licenses->id_propertie=$model->id;
+					$model_licenses->type_license=$type_license_array[$i];
+					$model_licenses->lic_date_expedition=$expedition_date_license_array[$i];
+					$model_licenses->lic_date_expiration=$expiration_date_license[$i];
+
+					if(empty($file_document_license[$i]))
+					$file_document_license[$i]="";
+
+					$model_licenses->id_document=$file_document_license[$i];
+					$model_licenses->save();
+				}
+
+			}
+
+			/*******End Licenses Model***********/
+			
+			//Identification Attributes
+			$use_soil_type=$_POST['use_soil_type'];
+			$expedition_date_identification=$_POST['expedition_date_identification'];
+			$expiration_date_identification=$_POST['expiration_date_identification'];
+
+			$count=0;
+
+			if(!empty($use_soil_type))
+			{
+
+				foreach ($document_identification as $file) {
+					$fileName = $file->getName();
+					$file->saveAs(dirname(Yii::app()->request->scriptFile).'/files/'.$fileName);
+					$file_document_identification[$count]=$fileName;
+					$count++;
+				}
+
+				$count=0;
+
+				//Identification Model
+				foreach ($use_soil_type as $single => $value) {
+					$use_soil_type_array[$count]=$value;
+					$count++;
+				}
+
+				$count=0;
+
+				foreach ($expedition_date_identification as $single => $value) {
+					$expedition_date_identification_array[$count]=$value;
+					$count++;
+				}
+
+				$count=0;
+
+				foreach ($expiration_date_identification as $single => $value) {
+					$expiration_date_identification_array[$count]=$value;
+					$count++;
+				}
+
+				//Save Model Identification
+				for ($i=0; $i <$count; $i++) {
+
+					$model_identification=new Identification; 
+					$model_identification->id_propertie=$model->id;
+					$model_identification->catastral=$catastral;
+					$model_identification->id_use_ground=$use_soil_type_array[$i];
+					$model_identification->soil_date_expedition=$expedition_date_identification_array[$i];
+					$model_identification->soil_date_expiration=$expiration_date_identification_array[$i];
+					
+					if(empty($file_document_identification[$i]))
+					$file_document_identification[$i]="";
+
+					$model_identification->document_identification=$file_document_identification[$i];
+					$model_identification->save();
+				}
+
+			}
+
+			//Extra Attributes
+			$extra_title=$_POST['extra_title'];
+			$extra_description=$_POST['extra_description'];
+
+			if(!empty($extra_title))
+			{
+			
+				$count=0;
+				//Extra Model
+				foreach ($extra_title as $single => $value) {
+					if(!empty($value))
+					$title_extra_array[$count]=$value;
+
+					$count++;
+					
+				}
+
+				$count=0;
+				foreach ($extra_description as $single => $value) {
+					if(!empty($value))
+					$description_extra_array[$count]=$value;
+
+					$count++;
+				}
+
+				for ($i=0; $i<$count; $i++){
+					$model_extra_properties=new ExtraProperties;
+					$model_extra_properties->id_property=$model->id;
+					$model_extra_properties->title=$title_extra_array[$i];
+					$model_extra_properties->description=$description_extra_array[$i];
+					$model_extra_properties->save();
+
+				}
+
+
+			}
+
+		}
 			$this->render('create',array(
 				'model'=>$model,
+				'model_identification'=>$model_identification,
+				'model_licenses'=>$model_licenses,
+				'model_extra_properties'=>$model_extra_properties
 			));
-		}
-
-		
+			
 	}
 
 	/**
@@ -95,6 +278,9 @@ class PropertiesController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+		$model_licenses=$this->loadModelLicenses($id);
+		$model_identification=$this->loadModelIdentification($id);
+		$model_extra_properties=$this->loadModelExtraProperties($id);
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -102,12 +288,183 @@ class PropertiesController extends Controller
 		if(isset($_POST['Properties']))
 		{
 			$model->attributes=$_POST['Properties'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+			$catastral=$_POST['catastral'];
+			$model->catastral=$catastral;
+			$model->id_parking_document=CUploadedFile::getInstance($model,'id_parking_document');
+
+			if($model->id_parking_document!=NULL)
+			{
+				$model->id_parking_document->saveAs(dirname(Yii::app()->request->scriptFile).'/files/'.$model->id_parking_document);
+				$model->id_parking_document=$model->id_parking_document;
+			}
+
+			$model->save();
+
+			$document_identification= CUploadedFile::getInstancesByName('identification_document');
+			$document_license= CUploadedFile::getInstancesByName('license_document');
+				
+			//License Attributes
+			$type_license=$_POST['type_license'];
+			$expedition_date_license=$_POST['expedition_date_license'];
+			$expiration_date_license=$_POST['expiration_date_license'];
+
+			$count=0;
+
+			if(!empty($type_license))
+			{
+
+				foreach ($document_license as $file_license) {
+					$fileName = $file_license->getName();
+					$file_license->saveAs(dirname(Yii::app()->request->scriptFile).'/files/'.$fileName);
+					$file_document_license[$count]=$fileName;
+					$count++;
+				}
+
+				$count=0;
+
+				$type_license_array=array();
+
+				//License Model
+				foreach ($type_license as $single => $value) {
+					$type_license_array[$count]=$value;
+					$count++;
+				}
+
+				$count=0;
+
+				foreach ($expedition_date_license as $single => $value) {
+					$expedition_date_license_array[$count]=$value;
+					$count++;
+				}
+
+				$count=0;
+
+				foreach ($expiration_date_license as $single => $value) {
+					$expiration_date_license_array[$count]=$value;
+					$count++;
+				}
+
+				//Save Model License
+				for ($i=0; $i<$count; $i++) { 
+
+					$model_licenses=new Licenses;
+					$model_licenses->id_propertie=$model->id;
+					$model_licenses->type_license=$type_license_array[$i];
+					$model_licenses->lic_date_expedition=$expedition_date_license_array[$i];
+					$model_licenses->lic_date_expiration=$expiration_date_license[$i];
+
+					if(empty($file_document_license[$i]))
+					$file_document_license[$i]="";
+
+					$model_licenses->id_document=$file_document_license[$i];
+					$model_licenses->save();
+				}
+
+			}
+
+			/*******End Licenses Model***********/
+			
+			//Identification Attributes
+			$use_soil_type=$_POST['use_soil_type'];
+			$expedition_date_identification=$_POST['expedition_date_identification'];
+			$expiration_date_identification=$_POST['expiration_date_identification'];
+
+			$count=0;
+
+			if(!empty($use_soil_type))
+			{
+
+				foreach ($document_identification as $file) {
+					$fileName = $file->getName();
+					$file->saveAs(dirname(Yii::app()->request->scriptFile).'/files/'.$fileName);
+					$file_document_identification[$count]=$fileName;
+					$count++;
+				}
+
+				$count=0;
+
+				//Identification Model
+				foreach ($use_soil_type as $single => $value) {
+					$use_soil_type_array[$count]=$value;
+					$count++;
+				}
+
+				$count=0;
+
+				foreach ($expedition_date_identification as $single => $value) {
+					$expedition_date_identification_array[$count]=$value;
+					$count++;
+				}
+
+				$count=0;
+
+				foreach ($expiration_date_identification as $single => $value) {
+					$expiration_date_identification_array[$count]=$value;
+					$count++;
+				}
+
+				//Save Model Identification
+				for ($i=0; $i <$count; $i++) {
+
+					$model_identification=new Identification; 
+					$model_identification->id_propertie=$model->id;
+					$model_identification->catastral=$catastral;
+					$model_identification->id_use_ground=$use_soil_type_array[$i];
+					$model_identification->soil_date_expedition=$expedition_date_identification_array[$i];
+					$model_identification->soil_date_expiration=$expiration_date_identification_array[$i];
+					
+					if(empty($file_document_identification[$i]))
+					$file_document_identification[$i]="";
+
+					$model_identification->document_identification=$file_document_identification[$i];
+					$model_identification->save();
+				}
+
+			}
+
+			//Extra Attributes
+			$extra_title=$_POST['extra_title'];
+			$extra_description=$_POST['extra_description'];
+
+			if(!empty($extra_title))
+			{
+			
+				$count=0;
+				//Extra Model
+				foreach ($extra_title as $single => $value) {
+					if(!empty($value))
+					$title_extra_array[$count]=$value;
+
+					$count++;
+					
+				}
+
+				$count=0;
+				foreach ($extra_description as $single => $value) {
+					if(!empty($value))
+					$description_extra_array[$count]=$value;
+
+					$count++;
+				}
+
+				for ($i=0; $i<$count; $i++){
+					$model_extra_properties=new ExtraProperties;
+					$model_extra_properties->id_property=$model->id;
+					$model_extra_properties->title=$title_extra_array[$i];
+					$model_extra_properties->description=$description_extra_array[$i];
+					$model_extra_properties->save();
+
+				}
+
+
+			}
 		}
 
-		$this->render('update',array(
+		$this->render('create',array(
 			'model'=>$model,
+			'model_identification'=>$model_identification,
+			'model_licenses'=>$model_licenses,
+			'model_extra_properties'=>$model_extra_properties
 		));
 	}
 
@@ -165,6 +522,32 @@ class PropertiesController extends Controller
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
+
+	public function loadModelLicenses($id)
+	{
+		$model=Licenses::model()->findAllByAttributes(array('id_propertie'=>$id));
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+
+	public function loadModelIdentification($id)
+	{
+		$model=Identification::model()->findAllByAttributes(array('id_propertie'=>$id));
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+
+	public function loadModelExtraProperties($id)
+	{
+		$model=ExtraProperties::model()->findAllByAttributes(array('id_property'=>$id));
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+
+
 
 	/**
 	 * Performs the AJAX validation.
