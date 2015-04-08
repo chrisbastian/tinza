@@ -64,11 +64,32 @@ class CorreosController extends Controller
 		$descripcion_mensaje=$_POST['descripcion_mensaje'];
 		$id_checkboxes_usuarios=$_POST['id_checkboxes_usuarios'];
 
+		$validador=0;
+
 		foreach ($id_checkboxes_usuarios as $id_us => $value) {
-			
+			$validador=1;
 		}
 
+		if($validador==0)
+		{
+			echo "error";
+		}else{
+			
+			foreach ($id_checkboxes_usuarios as $id_us => $value) {
 
+				$model=new Correos;
+				$model->id_user=$value;
+				$model->de=$de_mensaje;
+				$model->bcc=$bcc_mensaje;
+				$model->titulo=$titulo_mensaje;
+				$model->descripcion=$descripcion_mensaje;
+				$model->save();
+
+			}
+
+			echo "success";
+		}
+		
 
 	}
 

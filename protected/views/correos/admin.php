@@ -12,6 +12,7 @@
 <script src="<?php echo $base_url; ?>/js/plugins/dataTables/jquery.dataTables.js"></script>
 <script src="<?php echo $base_url; ?>/js/plugins/dataTables/dataTables.bootstrap.js"></script>
 <script src="<?php echo $base_url; ?>/js/plugins/dataTables/dataTables.responsive.js"></script>
+<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/plugins/toastr/toastr.min.js"></script>
 
 <style type="text/css">
 
@@ -160,19 +161,43 @@ $('#network').on('hidden', function() {
            id_checkboxes[+i-1]=$(this).val();
            i++;
         });
-            
-            $.ajax({
-            type:"POST",
-            url: $("#mensaje").attr("action"),
-            data: {de_mensaje:de_mensaje,bcc_mensaje:bcc_mensaje,titulo_mensaje:titulo_mensaje,descripcion_mensaje:descripcion_mensaje,id_checkboxes:id_checkboxes},
-            beforeSend: function (){
-            },
-            success: function(resp)
+
+            if(de_mensaje=="" || bcc_mensaje=="" || titulo_mensaje=="" || descripcion_mensaje=="" || id_checkboxes=="")
             {
-                    $('body').attr('disabled',false).html(resp);
+                $('#error_mensaje').fadeIn();
+                setTimeout( "$('#error_mensaje').fadeOut('slow');", 4000 );
+            }else
+            {
+                   $.ajax({
+                   type:"POST",
+                   url: $("#mensaje").attr("action"),
+                   data: {de_mensaje:de_mensaje,bcc_mensaje:bcc_mensaje,titulo_mensaje:titulo_mensaje,descripcion_mensaje:descripcion_mensaje,id_checkboxes_usuarios:id_checkboxes},
+                   beforeSend: function (){
+                   },
+                   success: function(resp)
+                   {
+                          if(resp=="error")
+                          {
+                            $('#error_mensaje').fadeIn();
+                            setTimeout( "$('#error_mensaje').fadeOut('slow');", 4000 );
+                          }
+
+                          if(resp=="success")
+                          {
+                            $('#success_mensaje').fadeIn();
+                            setTimeout( "$('#success_mensaje').fadeOut('slow');", 4000 );
+
+                            $('#de_mensaje').val("");
+                            $('#bcc_mensaje').val("");
+                            $('#titulo_mensaje').val("");
+                            $('#descripcion_mensaje').val("");
+                          }  
+                   }
+
+               }); 
             }
 
-        });
+            
 
 
     }
@@ -184,7 +209,22 @@ $('#network').on('hidden', function() {
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="exampleModalLabel">NUEVO MENSAJE</h4>
+        <h4 class="modal-title" id="exampleModalLabel"><i class="fa fa-envelope"></i> NUEVO MENSAJE</h4>
+        <br>
+        <div class="alert alert-danger" role="alert" id="error_mensaje" hidden>
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+          <span class="sr-only">Error:</span>
+          Por favor rellena los campos y asegurate de haber seleccionado uno o mas destinatarios...
+        </div>
+
+        <div class="alert alert-success" role="alert" id="success_mensaje" hidden>
+          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          <span class="sr-only">Exito:</span>
+          Su mensaje ha sido enviado exitosamente.
+        </div>
+
+        
+
       </div>
       <div class="modal-body">
         <form id="mensaje" action="../../correos/enviarMensaje">
