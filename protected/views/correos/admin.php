@@ -12,7 +12,6 @@
 <script src="<?php echo $base_url; ?>/js/plugins/dataTables/jquery.dataTables.js"></script>
 <script src="<?php echo $base_url; ?>/js/plugins/dataTables/dataTables.bootstrap.js"></script>
 <script src="<?php echo $base_url; ?>/js/plugins/dataTables/dataTables.responsive.js"></script>
-<script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/plugins/toastr/toastr.min.js"></script>
 
 <style type="text/css">
 
@@ -175,7 +174,7 @@ $('#network').on('hidden', function() {
                    beforeSend: function (){
                    },
                    success: function(resp)
-                   {
+                   {                            
                           if(resp=="error")
                           {
                             $('#error_mensaje').fadeIn();

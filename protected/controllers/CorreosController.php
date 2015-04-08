@@ -74,7 +74,9 @@ class CorreosController extends Controller
 		{
 			echo "error";
 		}else{
-			
+
+			Yii::import('application.extensions.phpmailer.JPhpMailer');
+
 			foreach ($id_checkboxes_usuarios as $id_us => $value) {
 
 				$model=new Correos;
@@ -85,6 +87,25 @@ class CorreosController extends Controller
 				$model->descripcion=$descripcion_mensaje;
 				$model->save();
 
+				$model_destinatarios=Usuarios::model()->findByPk($value);
+
+				$mail = new JPhpMailer;
+				$mail->IsSMTP();
+				$mail->SMTPSecure = "ssl";
+				$mail->Host = 'smtp.gmail.com'; 
+				$mail->Port = '465'; 
+				$mail->Username = 'chcampos@alumnos.ubiobio.cl';
+				$mail->Password = 'sovino123';
+				$mail->Mailer = "smtp"; 
+				$mail->SMTPAuth = true;
+				$mail->CharSet = 'utf-8';  
+				$mail->SMTPDebug = 1;
+				$mail->SetFrom('tinza@gmail.mx', $de_mensaje);
+				$mail->Subject = $titulo_mensaje;
+				$mail->AltBody = '';
+				$mail->MsgHTML('<h2>BCC: '.$bcc_mensaje.'</h2> <br> <h4>'.$descripcion_mensaje.'</h4> ');
+				$mail->AddAddress($model_destinatarios->email, 'Usuarios Tinza');
+				$mail->Send();
 			}
 
 			echo "success";
