@@ -30,7 +30,7 @@ class UsuariosController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','Registro','Registro_empresa','Login','Logout','admin','update','Home','create','IngresoEmpresa','Password','Curriculum','admin','Eliminar','Land','Autorespondedor','EnvioMail','Recovery','Ver','Publicar','BuscarTerrenos','validarUsuario'),
+				'actions'=>array('index','view','Registro','Registro_empresa','Login','Logout','admin','update','Home','create','IngresoEmpresa','Password','Curriculum','admin','Eliminar','Land','Autorespondedor','EnvioMail','Recovery','Ver','Publicar','BuscarTerrenos','validarUsuario','Desactivar','Activar'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -45,6 +45,24 @@ class UsuariosController extends Controller
 				'users'=>array('*'),
 			),
 		);
+	}
+
+	public function actionDesactivar($id)
+	{
+		$model=$this->loadModel($id);
+		$model->status="Inactivo";
+		$model->save();
+
+		$this->redirect(array('admin'));
+	}
+
+	public function actionActivar($id)
+	{
+		$model=$this->loadModel($id);
+		$model->status="Activo";
+		$model->save();
+
+		$this->redirect(array('admin'));
 	}
 
 	public function actionRecovery()
@@ -73,7 +91,7 @@ class UsuariosController extends Controller
 				if($model_usuario->save())
 				{
 					Yii::import('application.extensions.phpmailer.JPhpMailer');
-
+					
 					$mail = new JPhpMailer;
 					$mail->IsSMTP();
 					$mail->SMTPSecure = "ssl";

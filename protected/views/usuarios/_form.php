@@ -28,10 +28,10 @@
     {
         if($('#rol').val()=="Cliente")
         {
-            $('.fuente_user').show();        
+            $('#fuente_user').show();        
         }else
         {
-            $('.fuente_user').hide();        
+            $('#fuente_user').hide();        
 
         }
 
@@ -41,11 +41,25 @@
 
     <?php echo $form->errorSummary($model); ?>
     
-    <div class="row">
-        <div class="col-md-12">
-            <h4 class="text-center">Usuario</h4>
+    <?php if($model->isNewRecord):  ?>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="text-center">Usuario</h4>
+            </div>
         </div>
-    </div>
+
+    <?php endif; ?>
+
+    <?php if(!$model->isNewRecord):  ?>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="text-center"><?php echo $model->nombre; ?>: <?php echo $model->fecha_registro; ?></h4>
+            </div>
+        </div>
+
+    <?php endif; ?>
 
     <div class="form-group">   
         <label for="id_user_type" class="col-sm-2 control-label">Tipo de Usuario</label>
@@ -53,15 +67,7 @@
             <?php echo $form->dropDownList($model,'rol',array('Cliente'=>'Cliente','Empleado'=>'Empleado','Administrador'=>'Administrador'),array('class'=>"form-control",'placeholder'=>"Llene Este Campo...",'onchange'=>"showFuente()",'id'=>"rol")); ?>
         </div>
 
-        <div class="col-sm-2">
-            <div class="fuente_user">
-                <?php echo $form->dropDownList($model,'id_fuente',
-                    CHtml::listData(Usuarios::model()->findAll(),'id_usuario','nombre'),array('class'=>"chosen-select")
-                ); ?>            
-            </div>
-        </div>
-
-        <label for="company" class="col-sm-2 control-label">Empresa</label>
+        <label for="company" class="col-sm-4 control-label">Empresa</label>
         <div class="col-sm-4">
             <?php echo $form->textField($model,'empresa',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'placeholder'=>"Llene Este Campo...")); ?>
             <?php if($form->error($model,'empresa')): ?>
@@ -77,6 +83,18 @@
                 </script>
 
             <?php endif; ?>
+        </div>
+
+    </div>
+
+    <div class="form-group" id="fuente_user">
+        <label for="id_fuente" class="col-sm-2 control-label">Fuente</label>
+        <div class="col-sm-2">
+            <div >
+                <?php echo $form->dropDownList($model,'id_fuente',
+                    CHtml::listData(Usuarios::model()->findAllByAttributes(array('rol'=>'Empleado')),'id_usuario','nombre'),array('class'=>"chosen-select")
+                ); ?>            
+            </div>
         </div>
 
     </div>
@@ -178,7 +196,7 @@
 
         <label for="phone" class="col-sm-2 control-label">Teléfonos</label>
         <div class="col-sm-2">
-            <?php echo $form->textField($model,'telefono',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'placeholder'=>"Llene Este Campo...")); ?>
+            <?php echo $form->textField($model,'telefono',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'placeholder'=>"Telefono")); ?>
             <?php if($form->error($model,'telefono')): ?>
 
                 <script type="text/javascript">
@@ -195,7 +213,7 @@
         </div>
 
         <div class="col-sm-2">
-            <?php echo $form->textField($model,'celular',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'placeholder'=>"Llene Este Campo...")); ?>
+            <?php echo $form->textField($model,'celular',array('size'=>60,'maxlength'=>500,'class'=>"form-control",'placeholder'=>"Celular")); ?>
             <?php if($form->error($model,'celular')): ?>
 
                 <script type="text/javascript">
@@ -479,14 +497,16 @@
             </div>
         </div>
 
+        
         <div class="form-group">
 
-            <label for="id_user_type" class="col-sm-2 control-label">Status</label>
+            <label for="id_user_type" class="col-sm-2 control-label">Fecha de Registro</label>
             <div class="col-sm-2">
-                <?php echo $form->dropDownList($model,'status',array('Activo'=>'Activo','Inactivo'=>'Inactivo'),array('class'=>"form-control",'placeholder'=>"Llene Este Campo...",'onchange'=>"showFuente()",'id'=>"rol")); ?>
-            </div>
-
+                <?php echo $form->dateField($model,'fecha_registro',array('class'=>"form-control")); ?>
+            </div>            
+            
         </div>
+            
     </div>
 
     <div class="panel-footer">

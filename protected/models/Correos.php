@@ -1,26 +1,24 @@
 <?php
 
 /**
- * This is the model class for table "licenses".
+ * This is the model class for table "correos".
  *
- * The followings are the available columns in table 'licenses':
- * @property string $id
- * @property string $id_propertie
- * @property string $type_license
- * @property string $lic_date_expedition
- * @property string $lic_date_expiration
- * @property string $id_document
- * @property string $created_at
- * @property string $updated_at
+ * The followings are the available columns in table 'correos':
+ * @property integer $id_correo
+ * @property integer $id_user
+ * @property string $de
+ * @property string $bcc
+ * @property string $titulo
+ * @property string $descripcion
  */
-class Licenses extends CActiveRecord
+class Correos extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'licenses';
+		return 'correos';
 	}
 
 	/**
@@ -31,14 +29,12 @@ class Licenses extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('id_propertie, type_license, lic_date_expedition, lic_date_expiration', 'required'),
-			array('id_propertie', 'length', 'max'=>10),
-			array('type_license', 'length', 'max'=>100),
-			array('id_document', 'length', 'max'=>500),
-			array('created_at, updated_at', 'safe'),
+			array('id_user, de, bcc, titulo, descripcion', 'required'),
+			array('id_user', 'numerical', 'integerOnly'=>true),
+			array('de, bcc, titulo, descripcion', 'length', 'max'=>1000),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, id_propertie, type_license, lic_date_expedition, lic_date_expiration, id_document, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id_correo, id_user, de, bcc, titulo, descripcion', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,14 +55,12 @@ class Licenses extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'id_propertie' => 'Propiedad',
-			'type_license' => 'Type License',
-			'lic_date_expedition' => 'Fecha de Expedición de Licensia',
-			'lic_date_expiration' => 'Fecha de Expiración de Licensia',
-			'id_document' => 'Id Document',
-			'created_at' => 'Created At',
-			'updated_at' => 'Updated At',
+			'id_correo' => 'Id Correo',
+			'id_user' => 'Id User',
+			'de' => 'De',
+			'bcc' => 'Bcc',
+			'titulo' => 'Titulo',
+			'descripcion' => 'Descripcion',
 		);
 	}
 
@@ -88,14 +82,12 @@ class Licenses extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id,true);
-		$criteria->compare('id_propertie',$this->id_propertie,true);
-		$criteria->compare('type_license',$this->type_license,true);
-		$criteria->compare('lic_date_expedition',$this->lic_date_expedition,true);
-		$criteria->compare('lic_date_expiration',$this->lic_date_expiration,true);
-		$criteria->compare('id_document',$this->id_document,true);
-		$criteria->compare('created_at',$this->created_at,true);
-		$criteria->compare('updated_at',$this->updated_at,true);
+		$criteria->compare('id_correo',$this->id_correo);
+		$criteria->compare('id_user',$this->id_user);
+		$criteria->compare('de',$this->de,true);
+		$criteria->compare('bcc',$this->bcc,true);
+		$criteria->compare('titulo',$this->titulo,true);
+		$criteria->compare('descripcion',$this->descripcion,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -106,7 +98,7 @@ class Licenses extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Licenses the static model class
+	 * @return Correos the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

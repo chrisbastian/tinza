@@ -46,8 +46,25 @@
     width: 100%;
 }
 
+#id_table_length{
+  display: none;
+}
+
+#id_table_info{
+  display: none;
+}
+
+#id_table_filter{
+  display: none;
+}
+
+
 .note-editable{
     height: 200px;
+}
+
+label{
+  font-family: "Times New Roman", Georgia, Serif !important;
 }
 
 </style>
@@ -280,7 +297,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
             <ul class="nav navbar-nav" style="background-color:#f1840f">
-              <li><a href="#"><i class="fa fa-home"></i> Inicio</a></li>
+              <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/properties/inicio');?>"><i class="fa fa-home"></i> Inicio</a></li>
 
               <?php if(Yii::app()->session['rol']!="Cliente"): ?>
                 <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/usuarios/admin');?>"><i class="fa fa-user"></i> Usuarios</a></li>
@@ -288,8 +305,8 @@
 
 
               <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/properties/admin');?>"><i class="fa fa-key"></i> Propiedades</a></li>
-              <li><a href="#"><i class="fa fa-search"></i> Búsqueda avanzada</a></li>
-              <li><a href="#"><i class="fa fa-envelope-o"></i> Correos masivos</a></li>
+              <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/properties/busquedaAvanzada');?>"><i class="fa fa-search"></i> Búsqueda avanzada</a></li>
+              <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/correos/admin');?>"><i class="fa fa-envelope-o"></i> Correos masivos</a></li>
             </ul>
          
         </li>

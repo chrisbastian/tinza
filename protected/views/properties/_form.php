@@ -5,35 +5,39 @@
 ?>
 
 <!--Jquery-->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
 <!--Bootstrap-->
 <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl; ?>/js/bootstrap.min.js"></script>
 
 <script src="<?php echo Yii::app()->theme->baseUrl; ?>/js/plugins/toastr/toastr.min.js"></script>
 
 <script type="text/javascript">
-    
+
     function añadir()
     {
         $('#container_añadir > #añadir').each(function(i,e){
-          $(this).clone().appendTo('#input_añadidos');
+          $(this).clone(true).appendTo('#input_añadidos');
         });
+
     }
 
     function añadir_licensia()
     {
         $('#container_license > #license').each(function(i,e){
-          $(this).clone().appendTo('#license_adds');
+          $(this).clone(true).appendTo('#license_adds');
         });
     }
 
     function añadir_extra()
     {
         $('#container_extra > #extra').each(function(i,e){
-          $(this).clone().appendTo('#extra_añadidos');
+          $(this).clone(true).appendTo('#extra_añadidos');
         });
 
+    }
+
+    function validar_form()
+    {
+        alert("Hola");
     }
 
 </script>
@@ -54,7 +58,6 @@
         <?php echo $form->errorSummary($model_licenses); ?>
         <?php echo $form->errorSummary($model_identification); ?>
         <?php echo $form->errorSummary($model_extra_properties); ?>
-
 
         <div class="panel panel-default panel-create">
             <div class="panel-heading">
@@ -273,14 +276,14 @@
 
                     <style>
                       html, body {
-                        height: 100%;
+                        height: 100px;
                         margin: 0px;
                         padding: 0px
                       }
 
                       #map-canvas{
                         margin: 0px;
-                        padding: 350px
+                        padding: 200px
                       }
                       #panel {
                         position: absolute;
@@ -375,7 +378,15 @@
 
                     </div>
                     <br><br>
+            <script type="text/javascript">
 
+                function remove_clon(element)
+                {
+                    $('#'+element).remove();
+                }         
+
+            </script>
+        
             <?php if($model->isNewRecord): ?>
 
                 <div id="container_añadir">
@@ -388,7 +399,7 @@
 
                             <div class="col-sm-2">
                                 <?php echo $form->dropDownList($model_identification,'id',
-                                    CHtml::listData(UseSoilType::model()->findAll(),'id','use_soil_type'),array('class'=>"chosen-select",'name'=>"use_soil_type[]")
+                                    CHtml::listData(UseSoilType::model()->findAll(),'id','use_soil_type'),array('class'=>"form-control",'name'=>"use_soil_type[]")
                                 ); ?>
                             </div> 
                             
@@ -418,7 +429,13 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-sm-3">
+                                <a onclick="remove_clon('añadir:last')" style="cursor:pointer"><i class="fa fa-times"></i> Eliminar Elemento</a>
+                            </div>
+
                         </div>
+
 
                     </div>
 
@@ -440,7 +457,7 @@
 
                             <div class="col-sm-2">
                                 <?php echo $form->dropDownList($model_identification_up,'id',
-                                    CHtml::listData(UseSoilType::model()->findAll(),'id','use_soil_type'),array('class'=>"chosen-select",'name'=>"use_soil_type[]")
+                                    CHtml::listData(UseSoilType::model()->findAll(),'id','use_soil_type'),array('class'=>"form-control",'name'=>"use_soil_type[]")
                                 ); ?>
                             </div> 
                             
@@ -478,13 +495,23 @@
 
             <?php endif; ?>
 
+            <script type="text/javascript">
+                function remove_item(id)
+                {
+                    var validador=confirm("¿Estas seguro de eliminar este Item?");
 
+                    if(validador==true)
+                    {
+                        $('.'+id).remove();
+                    }
+                }
+            </script>
 
             <?php if(!$model->isNewRecord): ?>
 
             <?php foreach ($model_identification as $m): ?>
                     
-                <div id="container_añadir_update">
+                <div id="container_añadir_update" class="<?php echo "i_".$m->id; ?>">
 
                     <div id="añadir_update">
 
@@ -493,8 +520,8 @@
                             <label for="uso_suelo" class="col-sm-1 control-label">Uso de suelo</label>
 
                             <div class="col-sm-2">
-                                <?php echo $form->dropDownList($m,'id',
-                                    CHtml::listData(UseSoilType::model()->findAll(),'id','use_soil_type'),array('class'=>"chosen-select",'name'=>"use_soil_type[]")
+                                <?php echo $form->dropDownList($m,'id_use_ground',
+                                    CHtml::listData(UseSoilType::model()->findAll(),'id','use_soil_type'),array('class'=>"form-control",'name'=>"use_soil_type[]")
                                 ); ?>
                             </div> 
                             
@@ -524,7 +551,13 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-sm-3">
+                                <span style="cursor:pointer" onclick="remove_item('<?php echo "i_".$m->id ?>')"><i class="fa fa-times"> Eliminar Elemento</i></span>
+                            </div>
+
                         </div>
+
 
                     </div>
 
@@ -556,7 +589,7 @@
                         <label for="type_license" class="col-sm-1 control-label">Tipo de licencia</label>
                         <div class="col-sm-2">
                             <?php echo $form->dropDownList($model_licenses,'id',
-                                CHtml::listData(LicenseType::model()->findAll(),'id','license_type'),array('class'=>"chosen-select",'name'=>"type_license[]")
+                                CHtml::listData(LicenseType::model()->findAll(),'id','license_type'),array('class'=>"form-control",'name'=>"type_license[]")
                             ); ?>
                         </div>
 
@@ -586,6 +619,10 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-sm-3">
+                            <a onclick="remove_clon('license:last')" style="cursor:pointer"><i class="fa fa-times"></i> Eliminar Elemento</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -603,7 +640,7 @@
 
                         <div class="col-sm-2">
                             <?php echo $form->dropDownList($model_licenses_up,'id',
-                                CHtml::listData(LicenseType::model()->findAll(),'id','license_type'),array('class'=>"chosen-select",'name'=>"type_license[]")
+                                CHtml::listData(LicenseType::model()->findAll(),'id','license_type'),array('class'=>"form-control",'name'=>"type_license[]")
                             ); ?>
                         </div>
 
@@ -644,13 +681,13 @@
 
             <?php foreach ($model_licenses as $m): ?>
                 
-            <div id="container_license_update">
+            <div id="container_license_update" class="<?php echo "l_".$m->id; ?>">
                 <div id="license_update">
                     <div class="form-group">
                         <label for="type_license" class="col-sm-1 control-label">Tipo de licencia</label>
                         <div class="col-sm-2">
-                            <?php echo $form->dropDownList($m,'id',
-                                CHtml::listData(LicenseType::model()->findAll(),'id','license_type'),array('class'=>"chosen-select",'name'=>"type_license[]")
+                            <?php echo $form->dropDownList($m,'type_license',
+                                CHtml::listData(LicenseType::model()->findAll(),'id','license_type'),array('class'=>"form-control",'name'=>"type_license[]")
                             ); ?>
                         </div>
 
@@ -680,6 +717,11 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-sm-3">
+                            <span style="cursor:pointer" onclick="remove_item('<?php echo "l_".$m->id ?>')"><i class="fa fa-times"> Eliminar Elemento</i></span>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -802,10 +844,27 @@
                             </div>
                         </div>
 
+                        <script type="text/javascript">
+
+                            function validar_pendiente()
+                            {
+                                if($('#pendiente').val()>=45)
+                                {
+                                    $('#error_pendiente').fadeIn();
+                                    setTimeout( "$('#error_pendiente').fadeOut('slow');", 4000 );
+                                }
+
+                            }
+
+                        </script>
+
                          <label for="slope" class="col-sm-1 control-label">Pendiente</label>
                         <div class="col-sm-2">
                             <div class="input-group">
-                                <?php echo $form->textField($model,'slope',array('size'=>60,'maxlength'=>100,'class'=>"form-control",'placeholder'=>"Pendiente")); ?>
+                                <?php echo $form->textField($model,'slope',array('size'=>60,'maxlength'=>100,'class'=>"form-control",'placeholder'=>"Pendiente",'onkeyup'=>"validar_pendiente()",'id'=>"pendiente")); ?>
+
+                                <span id="error_pendiente" hidden> <i class="fa fa-warning"></i> No Urbanizable...</span>
+
                                 <span class="input-group-addon">%</span>
 
                                 <?php if($form->error($model,'slope')): ?>
@@ -994,7 +1053,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="urban_incorporation" class="col-sm-2 control-label">Incorporación urbana</label>
+                        <label for="urban_incorporation" class="col-sm-2 control-label">¿Incorporación Urbana?</label>
                         <div class="col-sm-2" style="margin-top: -7px;">
                             <?php
 
@@ -1093,6 +1152,10 @@
                             <div class="col-sm-4">
                                 <textarea class="form-control" name="extra_description[]" placeholder="Descripción"><?php echo $model_extra_properties->description; ?></textarea>
                             </div>
+
+                            <div class="col-sm-3">
+                                <a onclick="remove_clon('añadir:last')" style="cursor:pointer"><i class="fa fa-times"></i> Eliminar Elemento</a>
+                            </div>
                         </div>
 
                     </div>
@@ -1103,7 +1166,7 @@
 
                 <?php if(!$model->isNewRecord): ?>
 
-                <div hidden id="container_extra">
+                <div id="container_extra" hidden>
 
                     <div id="extra">
 
@@ -1132,7 +1195,7 @@
 
                 <?php foreach ($model_extra_properties as $ex): ?>
                     
-                <div id="container_extra_update">
+                <div id="container_extra_update" class="<?php echo "e_".$ex->id_extra; ?>">
 
                     <div id="extra_update">
 
@@ -1145,6 +1208,10 @@
                             <label for="extra_description" class="col-sm-1 control-label">Descripción</label>
                             <div class="col-sm-4">
                                 <textarea class="form-control" name="extra_description[]" placeholder="Descripción"><?php echo $ex->description; ?></textarea>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <span style="cursor:pointer" onclick="remove_item('<?php echo "e_".$ex->id_extra ?>')"><i class="fa fa-times"> Eliminar Elemento</i></span>
                             </div>
                         </div>
 
@@ -1176,7 +1243,7 @@
                     -->
 
                     <div class="panel-footer">
-                                <?php echo CHtml::submitButton($model->isNewRecord ? 'Ingresar' : 'Guardar',array('class'=>'btn btn-primary')); ?>
+                            <?php echo CHtml::submitButton($model->isNewRecord ? 'Ingresar' : 'Guardar',array('class'=>'btn btn-primary')); ?>
                     </div>
                 </form>
             </div>

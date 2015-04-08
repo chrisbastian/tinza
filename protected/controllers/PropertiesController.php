@@ -28,7 +28,7 @@ class PropertiesController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','admin','create','update','Eliminar'),
+				'actions'=>array('index','view','admin','create','update','Eliminar','BusquedaAvanzada','Inicio'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -56,10 +56,22 @@ class PropertiesController extends Controller
 		));
 	}
 
+	public function actionInicio()
+	{
+		$this->render('home');
+	}
+
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
+
+	public function actionBusquedaAvanzada()
+	{
+		$model=new Properties('search');
+		$model->unsetAttributes();  // clear any default values
+		$this->render('busquedaAvanzada',array('model'=>$model));
+	}
 
 	public function actionEliminar($id)
 	{
@@ -124,7 +136,7 @@ class PropertiesController extends Controller
 				$count=0;
 
 				$type_license_array=array();
-
+				
 				//License Model
 				foreach ($type_license as $single => $value) {
 					$type_license_array[$count]=$value;
@@ -227,22 +239,24 @@ class PropertiesController extends Controller
 			$extra_title=$_POST['extra_title'];
 			$extra_description=$_POST['extra_description'];
 
-			if(!empty($extra_title))
+			foreach ($extra_title as $single => $value) {
+
+				 $validador=$value;
+			}
+
+			if($validador!="")
 			{
 			
 				$count=0;
 				//Extra Model
 				foreach ($extra_title as $single => $value) {
-					if(!empty($value))
 					$title_extra_array[$count]=$value;
-
 					$count++;
 					
 				}
 
 				$count=0;
 				foreach ($extra_description as $single => $value) {
-					if(!empty($value))
 					$description_extra_array[$count]=$value;
 
 					$count++;
@@ -254,10 +268,12 @@ class PropertiesController extends Controller
 					$model_extra_properties->title=$title_extra_array[$i];
 					$model_extra_properties->description=$description_extra_array[$i];
 					$model_extra_properties->save();
-
 				}
+			}
 
-
+			if($model->save())
+			{
+				$this->redirect(array('admin'));
 			}
 
 		}
@@ -287,6 +303,23 @@ class PropertiesController extends Controller
 
 		if(isset($_POST['Properties']))
 		{
+	
+			if($model_licenses!=NULL)
+			{
+				Licenses::model()->deleteAll("id_propertie ='".$id."'");
+			}
+
+			
+			if($model_extra_properties!=NULL)
+			{
+				ExtraProperties::model()->deleteAll("id_property ='".$id."'");
+			}
+
+			if($model_identification!=NULL)
+			{
+				Identification::model()->deleteAll("id_propertie ='".$id."'");
+			}
+			
 			$model->attributes=$_POST['Properties'];
 			$catastral=$_POST['catastral'];
 			$model->catastral=$catastral;
@@ -426,24 +459,27 @@ class PropertiesController extends Controller
 			$extra_title=$_POST['extra_title'];
 			$extra_description=$_POST['extra_description'];
 
-			if(!empty($extra_title))
+			foreach ($extra_title as $single => $value) {
+
+				 $validador=$value;
+			}
+
+			if($validador!="")
 			{
 			
 				$count=0;
 				//Extra Model
 				foreach ($extra_title as $single => $value) {
-					if(!empty($value))
-					$title_extra_array[$count]=$value;
 
+					$title_extra_array[$count]=$value;
 					$count++;
 					
 				}
 
 				$count=0;
 				foreach ($extra_description as $single => $value) {
-					if(!empty($value))
-					$description_extra_array[$count]=$value;
 
+					$description_extra_array[$count]=$value;
 					$count++;
 				}
 
@@ -458,9 +494,14 @@ class PropertiesController extends Controller
 
 
 			}
+
+			if($model->save())
+			{
+				$this->redirect(array('admin'));
+			}
 		}
 
-		$this->render('create',array(
+		$this->render('update',array(
 			'model'=>$model,
 			'model_identification'=>$model_identification,
 			'model_licenses'=>$model_licenses,

@@ -48,11 +48,11 @@ class Usuarios extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('status,nombre, email, password, empresa, apellido_paterno, apellido_materno, rfc, telefono, celular, calle_domicilio, num_ext_domicilio, num_int_domicilio, colonia_domicilio, estado_domicilio, municipio_domicilio, cp_domicilio', 'required'),
+			array('nombre, email, password, empresa, apellido_paterno, apellido_materno, rfc, telefono, celular, calle_domicilio, num_ext_domicilio, num_int_domicilio, colonia_domicilio, estado_domicilio, municipio_domicilio, cp_domicilio', 'required'),
 
 			array('id_fuente', 'numerical', 'integerOnly'=>true),
 			array('email','email'),
-			array('nombre email, password, rol, empresa, apellido_paterno, apellido_materno, rfc, telefono, celular, calle_domicilio, num_ext_domicilio, num_int_domicilio, colonia_domicilio, estado_domicilio, municipio_domicilio, cp_domicilio, calle_fiscal, num_ext_fiscal, num_int_fiscal, colonia_fiscal, estado_fiscal, municipio_fiscal, cp_fiscal', 'length', 'max'=>500),
+			array('nombre email, fecha_registro,password,status, rol, empresa, apellido_paterno, apellido_materno, rfc, telefono, celular, calle_domicilio, num_ext_domicilio, num_int_domicilio, colonia_domicilio, estado_domicilio, municipio_domicilio, cp_domicilio, calle_fiscal, num_ext_fiscal, num_int_fiscal, colonia_fiscal, estado_fiscal, municipio_fiscal, cp_fiscal', 'length', 'max'=>500),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('id_usuario, fecha_registro, nombre, email, password, rol, empresa, apellido_paterno, apellido_materno, rfc, telefono, celular, calle_domicilio, num_ext_domicilio, num_int_domicilio, colonia_domicilio, estado_domicilio, municipio_domicilio, cp_domicilio, calle_fiscal, num_ext_fiscal, num_int_fiscal, colonia_fiscal, estado_fiscal, municipio_fiscal, cp_fiscal', 'safe', 'on'=>'search'),

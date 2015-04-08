@@ -79,19 +79,19 @@ $('#network').on('hidden', function() {
                     </th>
 
                     <th>
-                        <input type="text" class="form-control" placeholder="CORREO ELECTRONICO" />
+                        <input type="text" class="form-control" placeholder="CORREO ELECTRÓNICO" />
                     </th>
 
-                   <th>
-                    <input type="text" class="form-control" placeholder="FECHA DE REGISTRO" />
-                   </th>
-
                     <th>
-                        <input type="text" class="form-control" placeholder="STATUS" />
+                        <input type="text" class="form-control" placeholder="ROL" />
                     </th>
 
                     <th>
                         <input type="text" class="form-control" placeholder="FUENTE" />
+                    </th>
+
+                    <th>
+                        <input type="text" class="form-control" placeholder="ESTATUS" />
                     </th>
 
                     <?php if(Yii::app()->session['rol']=="Administrador"): ?>
@@ -107,10 +107,10 @@ $('#network').on('hidden', function() {
                 <tr>
                     <th data-class="expand">CONTACTO ADMIN O CLIENTE</th>
 
-                    <th data-class="expand">CORREO ELECTRONICO</th>
-                    <th>FECHA DE REGISTRO</th>
-                    <th data-hide="phone,tablet">STATUS</th>
+                    <th data-class="expand">CORREO ELECTRÓNICO</th>
+                    <th data-hide="phone,tablet">ROL</th>
                     <th data-hide="phone,tablet">FUENTE</th>
+                    <th data-hide="phone,tablet">ESTATUS</th>
 
                     <?php if(Yii::app()->session['rol']=="Administrador"): ?>
                         <th data-hide="phone,tablet">Acciones</th>
@@ -125,8 +125,7 @@ $('#network').on('hidden', function() {
                     <tr>
                         <td><?php echo $usuarios->nombre; ?></td>
                         <td><?php echo $usuarios->email; ?></td>
-                        <td><?php echo $usuarios->fecha_registro; ?></td>
-                        <td><?php echo $usuarios->status; ?></td>
+                        <td><?php echo $usuarios->rol; ?></td>
 
                         <?php $model=Usuarios::model()->findAllByAttributes(array('id_usuario'=>$usuarios->id_fuente)); ?>
 
@@ -138,6 +137,7 @@ $('#network').on('hidden', function() {
                             <td>No Registra</td>
                         <?php endif; ?>
 
+                        <td><?php echo $usuarios->status; ?></td>
 
                         <?php if(Yii::app()->session['rol']=="Administrador"): ?>
                         <td>
@@ -151,6 +151,31 @@ $('#network').on('hidden', function() {
                             }
 
                             "><i class="fa fa-times text-navy"></i></a>
+
+                            <?php if($usuarios->status=="Activo"): ?>
+                                <a 
+                                onclick="
+                                var r=confirm('¿Estas seguro de Desactivar este usuario?');
+                                if(r==true)
+                                {
+                                    window.location.href='<?php echo Yii::app()->createAbsoluteUrl('/usuarios/desactivar/'.$usuarios->id_usuario);?>'
+                                }
+
+                                "><i class="fa fa-stop text-navy"></i></a>
+                            <?php endif; ?>
+
+                            <?php if($usuarios->status=="Inactivo"): ?>
+                                <a 
+                                onclick="
+                                var r=confirm('¿Estas seguro de Activar este usuario?');
+                                if(r==true)
+                                {
+                                    window.location.href='<?php echo Yii::app()->createAbsoluteUrl('/usuarios/activar/'.$usuarios->id_usuario);?>'
+                                }
+
+                                "><i class="fa fa-check text-navy"></i></a>
+                            <?php endif; ?>
+
 
                             <a>   
                         </td>                            

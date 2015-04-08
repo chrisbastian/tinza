@@ -62,10 +62,10 @@ class Identification extends CActiveRecord
 			'id' => 'ID',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
-			'id_propertie' => 'Id Propertie',
+			'id_propertie' => 'Propiedad',
 			'id_use_ground' => 'Id Use Ground',
-			'soil_date_expedition' => 'Soil Date Expedition',
-			'soil_date_expiration' => 'Soil Date Expiration',
+			'soil_date_expedition' => 'Fecha de Expedición de Uso de Suelo',
+			'soil_date_expiration' => 'Fecha de Expiración de Uso de Suelo',
 			'document_identification' => 'Document Identification',
 		);
 	}
