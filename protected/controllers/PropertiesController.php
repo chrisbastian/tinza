@@ -28,7 +28,7 @@ class PropertiesController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','admin','create','update','Eliminar','BusquedaAvanzada','Inicio'),
+				'actions'=>array('index','view','admin','create','update','Eliminar','BusquedaAvanzada','Inicio','Cliente'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -545,6 +545,18 @@ class PropertiesController extends Controller
 			$model->attributes=$_GET['Properties'];
 
 		$this->render('admin',array(
+			'model'=>$model,
+		));
+	}
+
+	public function actionCliente()
+	{
+		$model=new Properties('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['Properties']))
+			$model->attributes=$_GET['Properties'];
+
+		$this->render('cliente',array(
 			'model'=>$model,
 		));
 	}

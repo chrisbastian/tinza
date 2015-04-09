@@ -60,6 +60,12 @@ $('#network').on('hidden', function() {
     <button style="float:right" type="button" onclick= " window.location='<?php echo Yii::app()->createAbsoluteUrl('/properties/create');?>' " class="btn btn-default"><i class="fa fa-key"></i>  Agregar Propiedad</button>
 
 <?php endif; ?>
+
+<?php if(Yii::app()->session['rol']=="Cliente"): ?>
+    <button style="float:right" type="button" onclick= " window.location='<?php echo Yii::app()->createAbsoluteUrl('/properties/create');?>' " class="btn btn-default"><i class="fa fa-key"></i>  Agregar Propiedad</button>
+    <button style="float:right" type="button" class="btn btn-default" data-toggle="modal" data-target="#modal"><i class="fa fa-envelope"></i>  Enviar Correo</button>
+<?php endif; ?>
+
 <br><br>
 
 <div class="wrapper wrapper-content animated fadeInRight">
@@ -75,10 +81,6 @@ $('#network').on('hidden', function() {
 
             <thead>
                 <tr>
-                    <th>
-                        <input type="text" class="form-control" placeholder="EMPRESA O CLIENTE" />
-                    </th>
-
                     <th>
                         <input type="text" class="form-control" placeholder="CATASTRAL" />
                     </th>
@@ -123,8 +125,6 @@ $('#network').on('hidden', function() {
                     
                 </tr>
                 <tr>
-                    <th data-class="expand">EMPRESA O CLIENTE</th>
-
                     <th data-class="expand">CATASTRAL</th>
                     <th>DIRECCIÓN</th>
                     <th data-hide="phone,tablet">ESTADO</th>
@@ -169,12 +169,6 @@ $('#network').on('hidden', function() {
                     
                     <?php foreach ($model as $properties):?>
                     <tr>
-                        <?php $model_usuario=Usuarios::model()->findAllByAttributes(array('id_usuario'=>$properties->id_profile)); ?>
-
-                        <?php foreach ($model_usuario as $usuario): ?>
-                            <td><?php echo $usuario->nombre; ?></td>
-                        <?php endforeach ?>
-
                         <td><?php echo $properties->catastral; ?></td>
                         <td><?php echo $properties->street; ?></td>
                         <td>Nueva León</td>
@@ -262,7 +256,116 @@ $('#network').on('hidden', function() {
       </section>
     </div>
 
+        <div class="alert alert-success" role="alert" id="success_mensaje_solicitud" hidden>
+          <center><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          <span class="sr-only">Exito:</span>
+          ¡Gracias por contactarnos! Nos pondremos en contacto contigo lo antes posible.</center>
+        </div>
+
+    <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title" id="panel-title"><center>Requiero agregar una nueva propiedad. Favor de contactarme para darle seguimiento a mi solicitud.</center><a class="anchorjs-link" href="#panel-title"><span class="anchorjs-icon"></span></a></h3>
+          </div>
+          <div class="panel-body">
+            <center><button type="button" onclick=" var r=confirm('¿Estas seguro de enviar la solicitud?'); if(r==true){window.location='../../solictudes/ingresarSolicitud'}" class="btn btn-default">SOLICITUD DE NUEVO INGRESO</button></center>
+          </div>
+        </div>
 </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        <?php if(Yii::app()->user->hasFlash('successSolicitud')):?>
+            $('#success_mensaje_solicitud').fadeIn();
+            setTimeout( "$('#success_mensaje_solicitud').fadeOut('slow');", 4000 );
+        <?php endif; ?>
+    });
+
+    function enviar_mensaje()
+    {
+        var titulo_mensaje = $('#titulo_mensaje').val()
+        var descripcion_mensaje = $('#descripcion_mensaje').val()
+
+            if(titulo_mensaje=="" || descripcion_mensaje=="")
+            {
+                $('#error_mensaje').fadeIn();
+                setTimeout( "$('#error_mensaje').fadeOut('slow');", 4000 );
+            }else
+            {
+                   $.ajax({
+                   type:"POST",
+                   url: $("#mensaje").attr("action"),
+                   data: {titulo_mensaje:titulo_mensaje,descripcion_mensaje:descripcion_mensaje},
+                   beforeSend: function (){
+                   },
+                   success: function(resp)
+                   {                            
+                          if(resp=="error")
+                          {
+                            $('#error_mensaje').fadeIn();
+                            setTimeout( "$('#error_mensaje').fadeOut('slow');", 4000 );
+                          }
+
+                          if(resp=="success")
+                          {
+                            $('#success_mensaje').fadeIn();
+                            setTimeout( "$('#success_mensaje').fadeOut('slow');", 4000 );
+
+                            $('#titulo_mensaje').val("");
+                            $('#descripcion_mensaje').val("");
+                          }  
+                   }
+
+               }); 
+            }
+
+            
+
+
+    }
+
+</script>
+
+
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel"><i class="fa fa-envelope"></i> NUEVO MENSAJE</h4>
+        <br>
+        <div class="alert alert-danger" role="alert" id="error_mensaje" hidden>
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+          <span class="sr-only">Error:</span>
+          Por favor rellena los campos...
+        </div>
+
+        <div class="alert alert-success" role="alert" id="success_mensaje" hidden>
+          <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+          <span class="sr-only">Exito:</span>
+          ¡Gracias por contactarnos! Nos pondremos en contacto contigo lo antes posible.
+        </div>
+
+      </div>
+      <div class="modal-body">
+        <form id="mensaje" action="../../correos/enviarMensajeCliente">
+          <div class="form-group">
+            <label for="message-text" class="control-label">TITULO:</label>
+            <input type="text" class="form-control" id="titulo_mensaje" required>
+          </div>
+
+          <div class="form-group">
+            <label for="message-text" class="control-label">DESCRIPCIÓN:</label>
+            <textarea class="form-control" id="descripcion_mensaje" required></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" onclick="enviar_mensaje()" class="btn btn-primary">Enviar mensaje</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 

@@ -153,19 +153,20 @@ function show_permisos()
                         <?php if(Yii::app()->session['rol']=="Cliente"): ?>
 
                            <?php $model = Yii::app()->db->createCommand()
-                               ->select('p.*,l.*,i.*')
-                               ->from('licenses l,identification i,properties p')
-                               ->where('l.id_propertie=p.id OR i.id_propertie=p.id') 
+                               ->select('p.*,i.*')
+                               ->from('identification i,properties p')
+                               ->where('i.id_propertie=p.id AND p.id_profile="'.Yii::app()->session['id_usuario'].'" ') 
                                ->queryAll(); ?>
-                           <?php endif; ?>
+
+                        <?php endif; ?>
 
 
                         <?php if(Yii::app()->session['rol']=="Empleado"): ?>
 
                            <?php $model = Yii::app()->db->createCommand()
-                               ->select('p.*,l.id as id_license,i.id as id_identification')
-                               ->from('licenses l,identification i,properties p')
-                               ->where('l.id_propertie=p.id OR i.id_propertie=p.id') 
+                               ->select('p.*,i.*')
+                               ->from('identification i,properties p')
+                               ->where('i.id_propertie=p.id') 
                                ->queryAll(); ?>
 
                         <?php endif; ?>
@@ -305,9 +306,9 @@ function show_permisos()
           <?php if(Yii::app()->session['rol']=="Cliente"): ?>
 
              <?php $model = Yii::app()->db->createCommand()
-                 ->select('p.*,l.*,i.*')
-                 ->from('licenses l,identification i,properties p')
-                 ->where('l.id_propertie=p.id OR i.id_propertie=p.id') 
+                 ->select('p.*,l.*')
+                 ->from('licenses l,properties p')
+                 ->where('l.id_propertie=p.id AND p.id_profile="'.Yii::app()->session['id_usuario'].'"') 
                  ->queryAll(); ?>
              <?php endif; ?>
 
@@ -492,6 +493,8 @@ function show_permisos()
           </tbody>
       </table>
 
+          <?php if(Yii::app()->session['rol']=="Administrador"): ?>
+
           <h4>CLIENTES SOLICITANDO REGISTRO DE NUEVA PROPIEDAD</h4><hr>
 
           <script type="text/javascript">
@@ -550,7 +553,7 @@ function show_permisos()
                   </th>                  
               </tr>
               <tr>
-                  <th data-class="expand">CATASTRAL</th>
+                  <th data-class="expand">EMPRESA</th>
                   <th>CONTACTO ADMINISTRATIVO</th>
                   <th data-hide="phone,tablet">CORREO ELECTRÓNICO</th>
                   <th data-hide="phone,tablet">TELÉFONO</th>
@@ -561,7 +564,7 @@ function show_permisos()
 
           <?php if(Yii::app()->session['rol']=="Administrador"): ?>
 
-              <?php $model=Properties::model()->findAll(); ?>
+              <?php $model=Solictudes::model()->findAll(); ?>
 
           <?php endif; ?>
 
@@ -569,7 +572,7 @@ function show_permisos()
 
               <?php 
 
-              $model=Properties::model()->findAllByAttributes(array('id_profile'=>Yii::app()->session['id_usuario'])); 
+                     $model=Solictudes::model()->findAllByAttributes(array('id_usuario'=>Yii::app()->session['id_usuario'])); 
               ?>
 
           <?php endif; ?>
@@ -577,22 +580,29 @@ function show_permisos()
           <?php if(Yii::app()->session['rol']=="Empleado"): ?>
 
               <?php 
-                  $model=Properties::model()->findAllByAttributes(array('id_profile'=>Yii::app()->session['id_usuario'])); 
+                      $model=Solictudes::model()->findAllByAttributes(array('id_profile'=>Yii::app()->session['id_usuario'])); 
               ?>
 
           <?php endif; ?>
                   
-                  <?php foreach ($model as $properties):?>
-                  <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                  <?php foreach ($model as $solicitudes):?>
 
-                  </tr>
-               <?php endforeach; ?>
+                      <?php $model_usuario=Usuarios::model()->findAllByAttributes(array('id_usuario'=>$solicitudes->id_usuario)); ?>
+                      
+                      <?php foreach ($model_usuario as $us): ?>
+                          <tr>
+                              <td><?php echo $us->empresa; ?></td>
+                              <td><?php echo $us->nombre; ?></td>
+                              <td><?php echo $us->email; ?></td>
+                              <td><i class="fa fa-phone"></i> <?php echo $us->telefono; ?></td>
+                          </tr>
+                      <?php endforeach; ?>
+
+                  <?php endforeach; ?>
           </tbody>
       </table>
+
+      <?php endif; ?>
 </div>
 </div>
 

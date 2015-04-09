@@ -348,7 +348,15 @@ class UsuariosController extends Controller
 
 				}
 
-				$this->redirect(array('properties/admin'));
+				if($u['rol']=="Administrador")
+				{
+					$this->redirect(array('properties/admin'));
+				}
+
+				if($u['rol']=="Cliente" or $u['rol'])
+				{
+					$this->redirect(array('properties/cliente'));
+				}
 
 			}
 
@@ -446,7 +454,7 @@ class UsuariosController extends Controller
 
 		if($rol=="Other")
 		{
-			$this->redirect(array('login'));
+			$this->redirect(array('ingreso/'));
 
 		}
 	}

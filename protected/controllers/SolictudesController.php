@@ -1,6 +1,6 @@
 <?php
 
-class CorreosController extends Controller
+class SolictudesController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -28,7 +28,7 @@ class CorreosController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view','create','update','admin','EnviarMensaje','enviarMensajeCliente'),
+				'actions'=>array('index','view','IngresarSolicitud'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -56,88 +56,15 @@ class CorreosController extends Controller
 		));
 	}
 
-	public function enviarMensajeCliente()
+	public function actionIngresarSolicitud()
 	{
-		$titulo_mensaje=$_POST['titulo_mensaje'];
-		$descripcion_mensaje=$_POST['descripcion_mensaje'];
+		$model=new Solictudes;
+		$model->id_usuario=Yii::app()->session['id_usuario'];
+		$model->save();
 
-		$mail = new JPhpMailer;
-		$mail->IsSMTP();
-		$mail->SMTPSecure = "ssl";
-		$mail->Host = 'smtp.gmail.com'; 
-		$mail->Port = '465'; 
-		$mail->Username = 'chcampos@alumnos.ubiobio.cl';
-		$mail->Password = 'sovino123';
-		$mail->Mailer = "smtp"; 
-		$mail->SMTPAuth = true;
-		$mail->CharSet = 'utf-8';  
-		$mail->SMTPDebug = 1;
-		$mail->SetFrom(Yii::app()->session['email'], Yii::app()->session['email']);
-		$mail->Subject = $titulo_mensaje;
-		$mail->AltBody = '';
-		$mail->MsgHTML('<h4>'.$descripcion_mensaje.'</h4> ');
-		$mail->AddAddress("tinza@gmail.com", 'Mensaje de Usuario: "'.Yii::app()->session['nombre'].'"');
-		$mail->Send();
-		
-		echo "success";
-	}
+		Yii::app()->user->setFlash('successSolicitud', "Success");
 
-	public function actionEnviarMensaje()
-	{
-		$de_mensaje=$_POST['de_mensaje'];
-		$bcc_mensaje=$_POST['bcc_mensaje'];
-		$titulo_mensaje=$_POST['titulo_mensaje'];
-		$descripcion_mensaje=$_POST['descripcion_mensaje'];
-		$id_checkboxes_usuarios=$_POST['id_checkboxes_usuarios'];
-
-		$validador=0;
-
-		foreach ($id_checkboxes_usuarios as $id_us => $value) {
-			$validador=1;
-		}
-
-		if($validador==0)
-		{
-			echo "error";
-		}else{
-
-			Yii::import('application.extensions.phpmailer.JPhpMailer');
-
-			foreach ($id_checkboxes_usuarios as $id_us => $value) {
-
-				$model=new Correos;
-				$model->id_user=$value;
-				$model->de=$de_mensaje;
-				$model->bcc=$bcc_mensaje;
-				$model->titulo=$titulo_mensaje;
-				$model->descripcion=$descripcion_mensaje;
-				$model->save();
-
-				$model_destinatarios=Usuarios::model()->findByPk($value);
-
-				$mail = new JPhpMailer;
-				$mail->IsSMTP();
-				$mail->SMTPSecure = "ssl";
-				$mail->Host = 'smtp.gmail.com'; 
-				$mail->Port = '465'; 
-				$mail->Username = 'chcampos@alumnos.ubiobio.cl';
-				$mail->Password = 'sovino123';
-				$mail->Mailer = "smtp"; 
-				$mail->SMTPAuth = true;
-				$mail->CharSet = 'utf-8';  
-				$mail->SMTPDebug = 1;
-				$mail->SetFrom('tinza@gmail.mx', $de_mensaje);
-				$mail->Subject = $titulo_mensaje;
-				$mail->AltBody = '';
-				$mail->MsgHTML('<h2>BCC: '.$bcc_mensaje.'</h2> <br> <h4>'.$descripcion_mensaje.'</h4> ');
-				$mail->AddAddress($model_destinatarios->email, 'Usuarios Tinza');
-				$mail->Send();
-			}
-
-			echo "success";
-		}
-		
-
+		$this->redirect(array('properties/cliente'));
 	}
 
 	/**
@@ -146,16 +73,16 @@ class CorreosController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Correos;
+		$model=new Solictudes;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Correos']))
+		if(isset($_POST['Solictudes']))
 		{
-			$model->attributes=$_POST['Correos'];
+			$model->attributes=$_POST['Solictudes'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_correo));
+				$this->redirect(array('view','id'=>$model->id_solicitud));
 		}
 
 		$this->render('create',array(
@@ -175,11 +102,11 @@ class CorreosController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Correos']))
+		if(isset($_POST['Solictudes']))
 		{
-			$model->attributes=$_POST['Correos'];
+			$model->attributes=$_POST['Solictudes'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id_correo));
+				$this->redirect(array('view','id'=>$model->id_solicitud));
 		}
 
 		$this->render('update',array(
@@ -206,7 +133,7 @@ class CorreosController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Correos');
+		$dataProvider=new CActiveDataProvider('Solictudes');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -217,10 +144,10 @@ class CorreosController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new Correos('search');
+		$model=new Solictudes('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Correos']))
-			$model->attributes=$_GET['Correos'];
+		if(isset($_GET['Solictudes']))
+			$model->attributes=$_GET['Solictudes'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -231,12 +158,12 @@ class CorreosController extends Controller
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Correos the loaded model
+	 * @return Solictudes the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=Correos::model()->findByPk($id);
+		$model=Solictudes::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -244,11 +171,11 @@ class CorreosController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param Correos $model the model to be validated
+	 * @param Solictudes $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='correos-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='solictudes-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

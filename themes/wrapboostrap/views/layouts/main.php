@@ -303,10 +303,19 @@ label{
                 <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/usuarios/admin');?>"><i class="fa fa-user"></i> Usuarios</a></li>
               <?php endif; ?>
 
+              <?php if(Yii::app()->session['rol']=="Administrador"): ?>
+                <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/properties/admin');?>"><i class="fa fa-key"></i> Propiedades</a></li>
+              <?php endif; ?>
 
-              <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/properties/admin');?>"><i class="fa fa-key"></i> Propiedades</a></li>
+              <?php if(Yii::app()->session['rol']!="Administrador"): ?>
+                <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/properties/cliente');?>"><i class="fa fa-key"></i> Propiedades</a></li>
+              <?php endif; ?>
+
               <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/properties/busquedaAvanzada');?>"><i class="fa fa-search"></i> Búsqueda avanzada</a></li>
-              <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/correos/admin');?>"><i class="fa fa-envelope-o"></i> Correos masivos</a></li>
+              
+              <?php if(Yii::app()->session['rol']=="Administrador"): ?>
+                <li><a href="<?php echo Yii::app()->createAbsoluteUrl('/correos/admin');?>"><i class="fa fa-envelope-o"></i> Correos masivos</a></li>
+              <?php endif; ?>
             </ul>
          
         </li>
