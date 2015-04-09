@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 03-04-2015 a las 20:32:28
+-- Tiempo de generación: 09-04-2015 a las 04:01:35
 -- Versión del servidor: 5.6.21
 -- Versión de PHP: 5.6.3
 
@@ -91,6 +91,46 @@ INSERT INTO `city` (`id`, `city`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `correos`
+--
+
+CREATE TABLE IF NOT EXISTS `correos` (
+`id_correo` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `de` varchar(1000) NOT NULL,
+  `bcc` varchar(1000) NOT NULL,
+  `titulo` varchar(1000) NOT NULL,
+  `descripcion` varchar(1000) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `correos`
+--
+
+INSERT INTO `correos` (`id_correo`, `id_user`, `de`, `bcc`, `titulo`, `descripcion`) VALUES
+(33, 16, 'Administrador', 'BCC DEL MENSAJE', 'TITULO', 'DESCRIPCION'),
+(34, 26, 'Administrador', 'BCC DEL MENSAJE', 'TITULO', 'DESCRIPCION'),
+(35, 16, 'asd', 'ASD', 'ASD', 'ASD'),
+(36, 26, 'asd', 'ASD', 'ASD', 'ASD'),
+(37, 16, 'ASD', 'ASD', 'ASD', 'ASD'),
+(38, 26, 'ASD', 'ASD', 'ASD', 'ASD'),
+(39, 16, 'ASD', 'ASD', 'ASD', 'ASD'),
+(40, 26, 'ASD', 'ASD', 'ASD', 'ASD'),
+(41, 16, 'ASD', 'ASD', 'ASD', 'ASD'),
+(42, 26, 'ASD', 'ASD', 'ASD', 'ASD'),
+(43, 16, 'ASD', 'ASD', 'ASD', 'ASD'),
+(44, 16, 'ASD', 'ASD', 'ASD', 'ASD'),
+(45, 16, 'ASD', 'ASD', 'ASD', 'ASD'),
+(46, 16, 'ASD', 'ASD', 'ASD', 'ASD'),
+(47, 16, 'ASD', 'ASD', 'ASD', 'ASD'),
+(48, 16, 'ASD', 'ASD', 'ASD', 'ASD'),
+(49, 26, 'ASD', 'ASD', 'ASD', 'ASD'),
+(50, 16, 'asd', 'ASD', 'ASD', 'ASD'),
+(51, 26, 'asd', 'ASD', 'ASD', 'ASD');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `extra_properties`
 --
 
@@ -99,14 +139,16 @@ CREATE TABLE IF NOT EXISTS `extra_properties` (
   `title` varchar(250) NOT NULL,
   `description` varchar(500) NOT NULL,
   `id_property` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=141 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `extra_properties`
 --
 
 INSERT INTO `extra_properties` (`id_extra`, `title`, `description`, `id_property`) VALUES
-(52, 'jejej3', 'jejeje3d', 50);
+(138, 'jej', 'jeje', 50),
+(139, 'jej', 'jeje', 50),
+(140, '123', '123', 50);
 
 -- --------------------------------------------------------
 
@@ -124,15 +166,15 @@ CREATE TABLE IF NOT EXISTS `identification` (
   `soil_date_expiration` date NOT NULL,
   `document_identification` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
   `catastral` varchar(100) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=236 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `identification`
 --
 
 INSERT INTO `identification` (`id`, `created_at`, `updated_at`, `id_propertie`, `id_use_ground`, `soil_date_expedition`, `soil_date_expiration`, `document_identification`, `catastral`) VALUES
-(51, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 50, 1, '1991-12-27', '1991-12-27', '16_PromoEmprenderOnline4.jpg', '123-123-123'),
-(52, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 50, 1, '1991-12-27', '1991-12-27', '1912_223347757810079_552525007_n.jpg', '123-123-123');
+(234, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 50, 1, '1991-12-12', '1991-12-12', '', '123-123-126'),
+(235, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 50, 2, '1991-12-13', '1991-12-12', '', '123-123-126');
 
 -- --------------------------------------------------------
 
@@ -149,15 +191,14 @@ CREATE TABLE IF NOT EXISTS `licenses` (
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
 `id` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=182 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `licenses`
 --
 
 INSERT INTO `licenses` (`id_propertie`, `type_license`, `lic_date_expedition`, `lic_date_expiration`, `id_document`, `created_at`, `updated_at`, `id`) VALUES
-(50, '1', '1991-12-28', '1991-12-28', '3080_1155516446917_4227558_n-2.jpg', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 18),
-(50, '1', '1991-12-28', '1991-12-28', '3080_1155516446917_4227558_n.jpg', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 19);
+(50, '2', '1991-12-12', '1991-12-12', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 181);
 
 -- --------------------------------------------------------
 
@@ -225,7 +266,31 @@ CREATE TABLE IF NOT EXISTS `properties` (
 --
 
 INSERT INTO `properties` (`id`, `id_profile`, `catastral`, `is_building`, `street`, `number_ext`, `number_int`, `neighborhood`, `zip_code`, `id_state`, `id_city`, `latitude`, `longitude`, `cos`, `cus`, `cas`, `slope`, `surface`, `remetimiento_forntal`, `remetimiento_posterior`, `remetimiento_izquierdo`, `remetimiento_derecho`, `has_parking`, `parking_description`, `id_parking_document`, `has_urban_incorporation`, `urban_incorporation_description`, `urban_height_limit`, `created_at`, `updated_at`, `building`) VALUES
-(50, 18, '123-123-123', 'Construcción', 'Calle 2', '123', '123', 'Colonia', 'C.P', 'Aguascalientes', 11, '', '', '13.00', '13.00', '13.00', '12.00', 10, '12.00', '12.00', '12.00', '12.00', 'Si', 'jejjee', '10805634_10205697855664486_5606781561864417845_n.jpg', 'Si', '12', '12.00', '2015-04-03 14:04:54', '0000-00-00 00:00:00', '');
+(50, 26, '123-123-126', 'Construcción', 'Calle 2', '123', '123', 'Colonia', 'C.P', 'Nuevo León', 11, '', '', '13.00', '13.00', '13.00', '12.00', 10, '12.00', '12.00', '12.00', '12.00', 'Si', 'jejjee', '', 'Si', '12', '12.00', '2015-04-03 14:04:54', '0000-00-00 00:00:00', '');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `solictudes`
+--
+
+CREATE TABLE IF NOT EXISTS `solictudes` (
+`id_solicitud` int(11) NOT NULL,
+  `id_usuario` int(10) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `solictudes`
+--
+
+INSERT INTO `solictudes` (`id_solicitud`, `id_usuario`) VALUES
+(1, 26),
+(2, 26),
+(3, 26),
+(4, 26),
+(5, 26),
+(6, 26),
+(7, 26);
 
 -- --------------------------------------------------------
 
@@ -290,7 +355,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `cp_fiscal` varchar(500) NOT NULL,
   `id_fuente` int(10) NOT NULL,
   `fecha_registro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `status` varchar(100) NOT NULL
+  `status` varchar(100) NOT NULL DEFAULT 'Activo'
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 
 --
@@ -298,9 +363,8 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `nombre`, `email`, `password`, `rol`, `empresa`, `apellido_paterno`, `apellido_materno`, `rfc`, `telefono`, `celular`, `calle_domicilio`, `num_ext_domicilio`, `num_int_domicilio`, `colonia_domicilio`, `estado_domicilio`, `municipio_domicilio`, `cp_domicilio`, `calle_fiscal`, `num_ext_fiscal`, `num_int_fiscal`, `colonia_fiscal`, `estado_fiscal`, `municipio_fiscal`, `cp_fiscal`, `id_fuente`, `fecha_registro`, `status`) VALUES
-(16, 'Christopher Campos', 'chris.bastian@hotmail.es', '3c6e6c7db470ea1f84292991a6591501', 'Administrador', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '2015-04-03 16:52:06', 'Activo'),
-(18, 'Christopher Campos', 'chcris@gmail.com', '3c6e6c7db470ea1f84292991a6591501', 'Cliente', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, '2015-04-03 16:52:06', 'Inactivo'),
-(26, 'TINZA', 'tinza@gmail.com', '3c6e6c7db470ea1f84292991a6591501', 'Cliente', 'TINZA', 'TINZA', 'TINZA', 'TINZA', 'TINZA', 'TINZA', 'TINZA', 'TINZA', 'TINZA', 'TINZA', 'Nuevo León', '1', 'TINZA', 'TINZA', 'TINZA', 'TINZA', 'TINZA', 'Nuevo León', '1', 'TINZA', 16, '2015-04-03 17:57:58', 'Activo');
+(16, 'Christopher Campos', 'chris.bastian@hotmail.es', '3c6e6c7db470ea1f84292991a6591501', 'Administrador', '', '', '', '', '', '', '', '', '', '', 'Nuevo León', '1', '', '', '', '', '', '', '', '', 0, '2015-04-03 16:52:06', 'Activo'),
+(26, 'TINZA', 'tinza@gmail.com', '3c6e6c7db470ea1f84292991a6591501', 'Cliente', 'TINZA EMPRESA', 'APELLIDO', 'APELLIDO MATERNO', 'TINZA', '90175059', '412123422', 'TINZA', 'TINZA', 'TINZA', 'TINZA', 'Nuevo León', '1', 'TINZA', 'TINZA', 'TINZA', 'TINZA', 'TINZA', 'Nuevo León', '1', 'TINZA', 16, '2015-04-03 17:57:58', 'Activo');
 
 --
 -- Índices para tablas volcadas
@@ -311,6 +375,12 @@ INSERT INTO `usuarios` (`id_usuario`, `nombre`, `email`, `password`, `rol`, `emp
 --
 ALTER TABLE `city`
  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `correos`
+--
+ALTER TABLE `correos`
+ ADD PRIMARY KEY (`id_correo`);
 
 --
 -- Indices de la tabla `extra_properties`
@@ -343,6 +413,12 @@ ALTER TABLE `properties`
  ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `solictudes`
+--
+ALTER TABLE `solictudes`
+ ADD PRIMARY KEY (`id_solicitud`);
+
+--
 -- Indices de la tabla `use_soil_type`
 --
 ALTER TABLE `use_soil_type`
@@ -359,25 +435,35 @@ ALTER TABLE `usuarios`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `correos`
+--
+ALTER TABLE `correos`
+MODIFY `id_correo` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=52;
+--
 -- AUTO_INCREMENT de la tabla `extra_properties`
 --
 ALTER TABLE `extra_properties`
-MODIFY `id_extra` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=53;
+MODIFY `id_extra` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=141;
 --
 -- AUTO_INCREMENT de la tabla `identification`
 --
 ALTER TABLE `identification`
-MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=53;
+MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=236;
 --
 -- AUTO_INCREMENT de la tabla `licenses`
 --
 ALTER TABLE `licenses`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=20;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=182;
 --
 -- AUTO_INCREMENT de la tabla `properties`
 --
 ALTER TABLE `properties`
 MODIFY `id` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=51;
+--
+-- AUTO_INCREMENT de la tabla `solictudes`
+--
+ALTER TABLE `solictudes`
+MODIFY `id_solicitud` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
